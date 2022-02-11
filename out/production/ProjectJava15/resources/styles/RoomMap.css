@@ -1,0 +1,39 @@
+.search-btn{
+    -fx-background-color:
+            /*linear-gradient(#16314f, #a9ff00),*/
+            radial-gradient(center 50% -40%, radius 200%, #16314f 45%, #245260 50%);
+    -fx-background-radius: 6;
+    /*-fx-background-insets: 0, 1;*/
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: white;
+}
+.combo-box-search{
+    -fx-font-size: 14;
+}
+.tab{
+    /*-fx-background-color: #00699C;*/
+
+}
+.tab-label{
+    -fx-font-size: 15;
+    -fx-font-weight: 400;
+    -fx-cursor: hand;
+}
+.tab:selected .tab-label{
+    -fx-text-fill: #F3F386;
+    -fx-font-weight: 700;
+}
+.tab-header-background{
+    -fx-background-color: #00699C;
+    -fx-background-radius: 6 6 0 0;
+}
+.scroll-pane {
+    -fx-background-color: white;
+    -fx-background: white;
+    -fx-background-radius: 0 0 8 8;
+}
+.tab-parent{
+    -fx-background-color: white;
+    -fx-background-radius: 0 0 8 8;
+    -fx-padding: 0 0 5 0;
+}

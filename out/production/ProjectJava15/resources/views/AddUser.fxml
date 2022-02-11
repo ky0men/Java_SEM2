@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="532.0" prefWidth="576.0" styleClass="main-pane" stylesheets="@../styles/BookingRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUserController">
+   <children>
+      <HBox alignment="CENTER" focusTraversable="true" layoutX="-2.0" layoutY="1.0" prefHeight="26.0" prefWidth="576.0" styleClass="title-name">
+         <children>
+            <Label alignment="CENTER" prefHeight="26.0" prefWidth="446.0" text="Add Employee" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <GridPane layoutX="11.0" layoutY="53.0" prefHeight="419.0" prefWidth="555.0" styleClass="information-box">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.20001220703125" minWidth="10.0" prefWidth="190.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="338.4000244140625" minWidth="10.0" prefWidth="318.8" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="TOP_LEFT" prefWidth="97.0" text="Full name:" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtFullName" prefHeight="26.0" prefWidth="366.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXTextField>
+            <Label alignment="CENTER_RIGHT" text="User name:" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtUserName" prefHeight="26.0" prefWidth="366.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXTextField>
+            <Label alignment="CENTER_RIGHT" text="Password:" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXPasswordField fx:id="txtPassword" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXPasswordField>
+            <Label alignment="CENTER_RIGHT" text="Re-enter password:" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXPasswordField fx:id="txtReEnterPassword" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXPasswordField>
+            <Label alignment="CENTER_RIGHT" text="ID Number:" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtNoID" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXTextField>
+            <Label alignment="CENTER_RIGHT" text="Birthday:" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" text="Email:" GridPane.rowIndex="7">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXTextField>
+            <Label alignment="CENTER_RIGHT" text="Phone number:" GridPane.rowIndex="8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXTextField>
+            <Label alignment="CENTER_RIGHT" text="Address:" GridPane.rowIndex="9">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtAddress" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXTextField>
+            <Label alignment="CENTER_RIGHT" text="Position:" GridPane.rowIndex="10">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cbPosition" prefHeight="26.0" prefWidth="326.0" stylesheets="@../styles/Employee.css" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <Label fx:id="lbWarning" prefHeight="26.0" prefWidth="366.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <graphic>
+                  <FontIcon fx:id="iconWarning" iconColor="#f80606" iconLiteral="gmi-warning" iconSize="15" visible="false" wrappingWidth="20.79998779296875" />
+               </graphic>
+            </Label>
+            <JFXDatePicker fx:id="dpBirthday" prefHeight="30.0" prefWidth="448.0" stylesheets="@../styles/Employee.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+         </padding>
+      </GridPane>
+      <ButtonBar layoutX="345.0" layoutY="483.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddUser" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#CancelAction" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </buttons>
+      </ButtonBar>
+      <HBox layoutX="18.0" layoutY="32.0" prefHeight="40.0" prefWidth="538.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="174.0" style="-fx-background-color: white;" text="Employee Information" textFill="#00699c">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

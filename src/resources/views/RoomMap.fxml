@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="roomMapContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="700.0" stylesheets="@../styles/RoomMap.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RoomMapController">
+   <children>
+      <JFXTabPane fx:id="allRoomTabPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="700.0" style="-fx-background-radius: 6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <tabs>
+            <Tab text="All Room">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="tab-parent">
+                     <children>
+                        <AnchorPane cacheShape="false" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" style="-fx-background-color: white;">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label text="Search by ">
+                                       <font>
+                                          <Font name="Ubuntu Regular" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXComboBox fx:id="comboBoxSearchRoom" prefHeight="30.0" prefWidth="176.0" promptText="Select type to search" styleClass="combo-box-search" />
+                                    <JFXTextField prefHeight="25.0" prefWidth="191.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextField>
+                                    <JFXButton fx:id="searchRoomBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Search" textFill="WHITE">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <ScrollPane fx:id="allRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0" VBox.vgrow="ALWAYS">
+                           <content>
+                              <HBox fx:id="allRoomHBoxGrid">
+                                 <children>
+                                    <GridPane fx:id="gridAllRoom" style="-fx-background-radius: 0 0 8 8;" HBox.hgrow="ALWAYS">
+                                 
+                              </GridPane>
+                                 </children>
+                              </HBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab text="Available Room">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="tab-parent">
+                     <children>
+                        <ScrollPane fx:id="availableRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0">
+                           <content>
+                              <HBox fx:id="availableRoomHBox">
+                                 <children>
+                                    <GridPane fx:id="gridAvailableRoom" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+            <Tab text="Rented Room">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="tab-parent">
+                     <children>
+                        <ScrollPane fx:id="rentedRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0">
+                           <content>
+                              <HBox fx:id="rentedRoomHBox">
+                                 <children>
+                                    <GridPane fx:id="gridRentedRoom" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+            <Tab text="Dirty Room">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="tab-parent">
+                     <children>
+                        <ScrollPane fx:id="dirtyRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0">
+                           <content>
+                              <HBox fx:id="dirtyRoomHBox">
+                                 <children>
+                                    <GridPane fx:id="gridDirtyRoom" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,51 @@
+.set-btn{
+    -fx-padding: 6 15 12 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.set-btn:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.set-btn:pressed{
+    -fx-padding: 8 15 10 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+
+/*Button type 2*/
+.set-type2-btn{
+    -fx-padding: 6 8 12 8;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2e88c5 0%, #2979af 100%),
+            #3498db,
+            #70b6e5,
+            radial-gradient(center 50% 50%, radius 100%, #70b6e5, #48a2de);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.set-type2-btn:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2e88c5 0%, #2979af 100%),
+            #3498db,
+            #70b6e5,
+            radial-gradient(center 50% 50%, radius 100%, #add5f0, #48a2de);
+    -fx-text-fill: BLACK;
+}
+.set-type2-btn:pressed{
+    -fx-padding: 8 8 10 8;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}

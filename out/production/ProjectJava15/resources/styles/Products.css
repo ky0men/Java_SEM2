@@ -1,0 +1,32 @@
+
+
+/*.tab-pane *.tab-header-background {
+  -fx-background-color:transparent;
+}
+.tab-pane {
+  -fx-tab-min-width:120px;
+  -fx-tab-max-width:120px;
+  -fx-tab-min-height:20px;
+  -fx-tab-max-height:20px;
+  -fx-background-color: white;
+}
+
+.tab {
+  -fx-background-color:white;
+
+}
+
+.tab:selected {
+    -fx-background-color:blue ;
+}*/
+.tab-pane{
+    -fx-tab-min-width:120px;
+    -fx-tab-max-width:120px;
+    -fx-tab-min-height:20px;
+    -fx-tab-max-height:20px;
+
+}
+.tab{
+    /*-fx-border-style: solid;*/
+    /*-fx-border-width: 0 1 0 0;*/
+}

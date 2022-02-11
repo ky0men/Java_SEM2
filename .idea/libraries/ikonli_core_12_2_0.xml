@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="ikonli-core-12.2.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../JavaFX Tool/ikonli-core-12.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../JavaFX Tool/ikonli-javafx-12.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../JavaFX Tool/ikonli-material-pack-12.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
+  </library>
+</component>
