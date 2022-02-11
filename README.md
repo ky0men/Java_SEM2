@@ -1,5 +1,6 @@
 # Java_SEM2
 This project use IDE IntelliJ and framework JavaFX, tool SceneBuilder 15, JDK 15.0.1
+
 How to run project:
   1. Import project to IDE
   2. Run SQL file to setup database to Sql Server on your computer
