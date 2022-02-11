@@ -5,6 +5,7 @@ How to run project:
   2. Run SQL file to setup database to Sql Server on your computer
   3. Add libary in the folder lib
   4. Add VM Option:
+  
     --module-path  $PATH_TO_YOUR_JAVAFX_SDK$
     --add-modules
     javafx.controls,javafx.fxml
