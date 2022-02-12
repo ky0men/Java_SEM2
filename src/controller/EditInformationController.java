@@ -138,6 +138,7 @@ public class EditInformationController implements Initializable {
                         iconWarning.setVisible(false);
                         lbWarning.setText("");
                         flag = true;
+                        System.out.println("Test");
                     }
                 }
             } catch (SQLException throwables) {
