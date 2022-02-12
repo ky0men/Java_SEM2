@@ -4,10 +4,15 @@ import com.jfoenix.controls.*;
 import dao.DBConnect;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.*;
+import javafx.util.Duration;
 import models.EmployeeList;
 import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
@@ -20,8 +25,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static controller.LoginController.stage;
+
 public class AddUserController implements Initializable {
     ObservableList<String> positionList = FXCollections.observableArrayList( "Manager","Front Office");
+
+    @FXML
+    private HBox titleBar;
 
     @FXML
     private JFXTextField txtFullName;
@@ -59,9 +69,26 @@ public class AddUserController implements Initializable {
     @FXML
     private FontIcon iconWarning;
 
+    private double x, y;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Window move action
+        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            }
+        });
+        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
+            }
+        });
         cbPosition.setValue("Manager");
         cbPosition.setItems(positionList);
     }
@@ -80,9 +107,12 @@ public class AddUserController implements Initializable {
             String fullNameText = txtFullName.getText();
             String title = "Successfully added employee";
             String mess = "Employee "+ fullNameText +" has been successfully added";
-            TrayNotification cancel = new TrayNotification(title, mess, NotificationType.SUCCESS);
-            cancel.setAnimationType(AnimationType.POPUP);
-            cancel.showAndWait();
+            TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+            tray.setAnimationType(AnimationType.POPUP);
+            tray.showAndDismiss(Duration.seconds(3));
+            tray.showAndWait();
+            GaussianBlur blur = new GaussianBlur(0);
+            LoginController.stage.getScene().getRoot().setEffect(blur);
         }
     }
 
@@ -93,6 +123,8 @@ public class AddUserController implements Initializable {
         Node node = (Node)event.getSource();
         Stage stage = (Stage)node.getScene().getWindow();
         stage.close();
+        GaussianBlur blur = new GaussianBlur(0);
+        LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
     private boolean checkPassword(){
