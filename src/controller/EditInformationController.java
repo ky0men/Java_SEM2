@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditInformationController implements Initializable {
 
@@ -80,7 +82,7 @@ public class EditInformationController implements Initializable {
     @FXML
     void SaveUser(ActionEvent event) {
         formNotNull();
-        if(formNotNull()){
+        if(formNotNull() && checkEmail() && checkPhoneNumber()){
             UpdateTableAccount();
             UpdateTableProfile();
         }
@@ -106,6 +108,92 @@ public class EditInformationController implements Initializable {
             return true;
         }
     }
+
+    public static boolean emailIsValid(final String email) {
+        String EMAIL_PATTERN =
+                "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean checkEmail(){
+        boolean flag = false;
+        String email = txtEmail.getText();
+        if(emailIsValid(email)){
+            String query = "Select userEmail from EmployeeInformation";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()){
+                    if(email.equals(rs.getString("userEmail"))){
+                        iconWarning.setVisible(true);
+                        lbWarning.setText("Email already exists");
+                        flag = false;
+                    }else{
+                        iconWarning.setVisible(false);
+                        lbWarning.setText("");
+                        flag = true;
+                        System.out.println("Test");
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }else{
+            iconWarning.setVisible(true);
+            lbWarning.setText("Email invalid");
+            flag = false;
+        }
+        return flag;
+    }
+
+    public static boolean phoneIsValid(final String phone) {
+        String PHONE_PATTERN =
+                "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
+        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+        Matcher matcher = pattern.matcher(phone);
+        return matcher.matches();
+    }
+
+    private boolean checkPhoneNumber(){
+        boolean flag = false;
+        String phoneNumber = txtPhoneNumber.getText();
+        if(phoneIsValid(phoneNumber)){
+            String query = "Select userPhone from EmployeeInformation";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()){
+                    if(phoneNumber.equals(rs.getString("userPhone"))){
+                        iconWarning.setVisible(true);
+                        lbWarning.setText("Phone Number already exists");
+                        flag = false;
+                    }else{
+                        iconWarning.setVisible(false);
+                        lbWarning.setText("");
+                        flag = true;
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }else {
+            iconWarning.setVisible(true);
+            lbWarning.setText("Phone Number invalid");
+            flag = false;
+        }
+
+        return flag;
+    }
+
     private void UpdateTableAccount(){
         String position = cbPosition.getSelectionModel().getSelectedItem();
         String query = "UPDATE Account SET position = '"+ position +"' WHERE id = "+ id +"";

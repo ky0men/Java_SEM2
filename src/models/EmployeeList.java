@@ -2,6 +2,7 @@ package models;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.image.Image;
@@ -33,6 +34,7 @@ public class EmployeeList {
         this.buttonBar = buttonBar;
         this.buttonBar.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         this.buttonBar.setButtonMinWidth(30);
+        this.buttonBar.setPrefWidth(100);
 
         ImageView editImg = new ImageView("/resources/images/edit.png");
         editImg.setFitHeight(16);
