@@ -342,9 +342,17 @@ public class EmployeeController implements Initializable {
     @FXML
     void AddUserAction(ActionEvent event) {
         openScene("/resources/views/AddUser.fxml", 600, 100);
+        System.out.println("ADD");
     }
 
     public void setCellValue(){
+        tableEmployee.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
+        columnName.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
+        columnPosition.setMaxWidth( 1f * Integer.MAX_VALUE * 16  );
+        columnEmail.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
+        columnPhoneNumber.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
+        columnAction.setMaxWidth( 1f * Integer.MAX_VALUE * 18 );
+
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));

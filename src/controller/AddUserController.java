@@ -17,6 +17,8 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddUserController implements Initializable {
     ObservableList<String> positionList = FXCollections.observableArrayList( "Manager","Front Office");
@@ -69,7 +71,7 @@ public class AddUserController implements Initializable {
         formNotNull();
         checkUserName();
         checkPassword();
-        if(formNotNull() && checkUserName() && checkPassword()){
+        if(formNotNull() && checkUserName() && checkPassword() && checkEmail() && checkPhoneNumber()){
             AddTableAccount();
             AddTableProfile();
             Node node = (Node)event.getSource();
@@ -133,57 +135,87 @@ public class AddUserController implements Initializable {
         return flag;
     }
 
+    public static boolean emailIsValid(final String email) {
+        String EMAIL_PATTERN =
+                "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
     private boolean checkEmail(){
-        String email = txtEmail.getText();
         boolean flag = false;
-        String query = "Select userEmail from EmployeeInformation";
-        DBConnect dbConnect = new DBConnect();
-        dbConnect.readProperties();
-        Connection conn = dbConnect.getDBConnection();
-        try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
-                if(email.equals(rs.getString("userEmail"))){
-                    iconWarning.setVisible(true);
-                    lbWarning.setText("Email already exists");
-                    flag = false;
-                }else{
-                    iconWarning.setVisible(false);
-                    lbWarning.setText("");
-                    flag = true;
+        String email = txtEmail.getText();
+        if(emailIsValid(email)){
+            String query = "Select userEmail from EmployeeInformation";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()){
+                    if(email.equals(rs.getString("userEmail"))){
+                        iconWarning.setVisible(true);
+                        lbWarning.setText("Email already exists");
+                        flag = false;
+                    }else{
+                        iconWarning.setVisible(false);
+                        lbWarning.setText("");
+                        flag = true;
+                    }
                 }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        }else{
+            iconWarning.setVisible(true);
+            lbWarning.setText("Email invalid");
+            flag = false;
         }
         return flag;
     }
 
+    public static boolean phoneIsValid(final String phone) {
+        String PHONE_PATTERN =
+                "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
+        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+        Matcher matcher = pattern.matcher(phone);
+        return matcher.matches();
+    }
+
     private boolean checkPhoneNumber(){
-        String phoneNumber = txtPhoneNumber.getText();
         boolean flag = false;
-        String query = "Select userPhone from EmployeeInformation";
-        DBConnect dbConnect = new DBConnect();
-        dbConnect.readProperties();
-        Connection conn = dbConnect.getDBConnection();
-        try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
-                if(phoneNumber.equals(rs.getString("userPhone"))){
-                    iconWarning.setVisible(true);
-                    lbWarning.setText("Phone Number already exists");
-                    flag = false;
-                }else{
-                    iconWarning.setVisible(false);
-                    lbWarning.setText("");
-                    flag = true;
+        String phoneNumber = txtPhoneNumber.getText();
+        if(phoneIsValid(phoneNumber)){
+            String query = "Select userPhone from EmployeeInformation";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()){
+                    if(phoneNumber.equals(rs.getString("userPhone"))){
+                        iconWarning.setVisible(true);
+                        lbWarning.setText("Phone Number already exists");
+                        flag = false;
+                    }else{
+                        iconWarning.setVisible(false);
+                        lbWarning.setText("");
+                        flag = true;
+                    }
                 }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        }else {
+            iconWarning.setVisible(true);
+            lbWarning.setText("Phone Number invalid");
+            flag = false;
         }
+
         return flag;
     }
 

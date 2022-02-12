@@ -12,11 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="740.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeController">
    <children>
-      <AnchorPane prefHeight="74.0" prefWidth="740.0">
+      <AnchorPane prefHeight="74.0" prefWidth="740.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="btnAddUser" layoutX="403.0" layoutY="22.0" mnemonicParsing="false" onAction="#AddUserAction" prefHeight="38.0" prefWidth="155.0" style="-fx-background-color: #15074E; -fx-background-radius: 12;" text="Add new employee" textFill="WHITE">
+            <Button fx:id="btnAddUser" layoutX="403.0" layoutY="22.0" mnemonicParsing="false" onAction="#AddUserAction" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new employee" textFill="WHITE" AnchorPane.rightAnchor="200.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
                </graphic>
@@ -24,14 +24,9 @@
                   <Font name="Calibri" size="13.0" />
                </font>
             </Button>
-            <Label contentDisplay="CENTER" layoutX="14.0" prefHeight="83.0" prefWidth="266.0" text="EMPLOYEE" textAlignment="CENTER" textFill="#474787">
-               <font>
-                  <Font name="Calibri Bold" size="34.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnRefresh" layoutX="570.0" layoutY="22.0" mnemonicParsing="false" onAction="#RefreshAction" prefHeight="38.0" prefWidth="155.0" style="-fx-background-color: #15074E; -fx-background-radius: 12;" text="Refresh" textFill="WHITE">
+            <Button fx:id="btnRefresh" layoutX="570.0" layoutY="22.0" mnemonicParsing="false" onAction="#RefreshAction" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0">
                <graphic>
-                  <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
+                  <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
                </graphic>
                <font>
                   <Font name="Calibri" size="13.0" />
@@ -39,36 +34,36 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="85.0" prefHeight="550.0" prefWidth="740.0">
+      <AnchorPane layoutY="85.0" prefHeight="532.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <children>
-            <TextField fx:id="txtSearch" layoutX="415.0" layoutY="20.0" prefHeight="38.0" prefWidth="308.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <TextField fx:id="txtSearch" layoutX="415.0" layoutY="20.0" prefHeight="38.0" prefWidth="348.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="20.0">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </TextField>
-            <TableView fx:id="tableEmployee" layoutY="86.0" prefHeight="436.0" prefWidth="740.0" stylesheets="@../styles/Employee.css">
+            <TableView fx:id="tableEmployee" layoutX="14.0" layoutY="84.0" prefHeight="419.0" prefWidth="710.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="150.39995956420898" text="Name" />
                 <TableColumn fx:id="columnPosition" prefWidth="108.80006408691406" text="Position" />
-                  <TableColumn fx:id="columnEmail" prefWidth="174.39996337890625" text="Email" />
-                  <TableColumn fx:id="columnPhoneNumber" minWidth="0.0" prefWidth="147.99996948242188" text="Phone Number" />
-                  <TableColumn fx:id="columnAction" prefWidth="154.40008544921875" text="Action" />
+                  <TableColumn fx:id="columnEmail" prefWidth="145.60003662109375" text="Email" />
+                  <TableColumn fx:id="columnPhoneNumber" minWidth="0.0" prefWidth="146.39999389648438" text="Phone Number" />
+                  <TableColumn fx:id="columnAction" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="146.39996337890625" sortable="false" text="Action" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="2.0" prefHeight="74.0" prefWidth="190.0" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-color: #dfe6e9; -fx-background-radius: 10;">
+            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="2.0" prefHeight="74.0" prefWidth="190.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" AnchorPane.leftAnchor="20.0">
                <children>
-                  <FontIcon iconColor="#474787" iconLiteral="gmi-supervised-user-circle" iconSize="42" text="" wrappingWidth="50.39999008178711" />
+                  <FontIcon iconColor="#2980b9" iconLiteral="gmi-supervised-user-circle" iconSize="40" text="" wrappingWidth="50.39999008178711" />
                   <VBox prefHeight="74.0" prefWidth="114.0">
                      <children>
-                        <Label prefHeight="30.0" prefWidth="90.0" text="Total User" textFill="#474787">
+                        <Label prefHeight="35.0" prefWidth="90.0" text="Total User" textFill="#474787">
                            <font>
-                              <Font name="Calibri Bold" size="12.0" />
+                              <Font name="System Bold" size="12.0" />
                            </font>
                            <padding>
                               <Insets top="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="lbTotalEmployee" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="90.0" text="120" textFill="#15074e">
+                        <Label fx:id="lbTotalEmployee" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="90.0" text="120" textFill="#2c3e50">
                            <font>
                               <Font name="Calibri Bold" size="24.0" />
                            </font>
