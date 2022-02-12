@@ -51,6 +51,16 @@ CREATE TABLE RoomBooking(
     prepaid MONEY NOT NULL
 )
 
+CREATE TABLE Checkin(
+    checkinID INT IDENTITY (1,1) PRIMARY KEY,
+    cusIdentityNumber VARCHAR(20) FOREIGN KEY REFERENCES Customer(cusIdentityNumber),
+    roomNumber VARCHAR(15) FOREIGN KEY REFERENCES Room(roomName),
+    checkinDate DATETIME,
+    checkoutDate DATE,
+    prepaid MONEY,
+    discount MONEY,
+)
+
 --Phuc
 CREATE TABLE EmployeeInformation(
 	userID int foreign key references Account(id),
@@ -95,6 +105,7 @@ INSERT INTO Customer VALUES ('8889991110', N'Lý Kim Thoa', 'Female', '09/22/199
 
 
 
+
 --Procedure check account
 CREATE PROC checkLogin @username VARCHAR(15), @pass VARCHAR(60) AS 
     SELECT * FROM Account AD WHERE AD.username = @username AND AD.passwordHash = HASHBYTES('SHA2_512', @pass)
@@ -109,14 +120,38 @@ UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 101
 UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 104
 UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 202
 UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 304
-
+GO
 
 -- Procudure confirm cleaned and change status room
 CREATE PROC confirmCleanedRoom @roomName VARCHAR(15) AS
     UPDATE Room SET roomStatus = 'Available' WHERE roomName = @roomName
-
+GO
 -- Procedure check and get customer name from customer Identiry number
 CREATE PROC getCusNameFromIDNumber @idNum VARCHAR(20) AS
     SELECT CUS.cusName FROM Customer CUS WHERE CUS.cusIdentityNumber = @idNum
+GO
 
-SELECT Room.roomName FROM Room     
+--Procedure get room type from room name
+CREATE PROC getRoomType @roomName VARCHAR(15) AS
+    SELECT RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomName = @roomName
+GO
+
+-- Procudure add checkin
+CREATE PROC addCheckin @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15), @checkinDate DATETIME, @checkoutDate DATE, @prepaid MONEY, @discount MONEY AS
+    INSERT INTO Checkin VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount)
+GO
+
+--Procudure add customer (only name and id)
+CREATE PROC addNameAndIDCustomer @cusIdentityNumber VARCHAR(20), @cusName NVARCHAR(200) AS
+    INSERT INTO Customer(cusIdentityNumber, cusName) VALUES (@cusIdentityNumber, @cusName)
+
+
+SELECT Room.roomName FROM Room       
+
+cusID INT IDENTITY (1,1) PRIMARY KEY,
+    cusIdentityNumber VARCHAR (20) UNIQUE NOT NULL, 
+    cusName NVARCHAR (200) NOT NULL,
+    cusGender VARCHAR(10),
+    cusDOB DATE,
+    cusPhone VARCHAR (12),
+    cusAddress NVARCHAR (250),

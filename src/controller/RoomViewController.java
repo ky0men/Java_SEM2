@@ -82,6 +82,10 @@ public class RoomViewController implements Initializable {
                     //Blur primary stage
                     GaussianBlur blurEffect = new GaussianBlur(10);
                     stage.getScene().getRoot().setEffect(blurEffect);
+                    //Get column and row of gridpane
+                    col = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-column");
+                    row = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-row");
+                    gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getId();
                     //Show booking room stage
                     showAction("/resources/views/BookingRoom.fxml");
                 } else if (actionBtn.getText().equals("Check Out")) {

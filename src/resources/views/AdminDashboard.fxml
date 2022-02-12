@@ -46,7 +46,7 @@
                <children>
                   <HBox fx:id="hboxHome" prefWidth="200.0" styleClass="hbox-button">
                      <children>
-                        <JFXButton fx:id="roomMapBtn" alignment="TOP_LEFT" prefHeight="28.0" prefWidth="210.0" ripplerFill="#16314f" style="-fx-background-color: #E9E9E9; -fx-text-fill: #16314f; -fx-background-radius: 20 0 0 20;" text=" Room Map" textFill="WHITE">
+                        <JFXButton fx:id="roomMapBtn" alignment="TOP_LEFT" prefHeight="28.0" prefWidth="210.0" ripplerFill="#15304d" style="-fx-background-color: #E9E9E9; -fx-text-fill: #16314f; -fx-background-radius: 20 0 0 20;" text=" Room Map" textFill="WHITE">
                            <graphic>
                               <FontIcon fx:id="roomMapIcon" iconColor="#16314f" iconLiteral="gmi-table-chart" iconSize="20" styleClass="home-btn-icon" />
                            </graphic>
@@ -242,7 +242,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="titleBar" layoutX="215.0" layoutY="-52.0" prefHeight="24.0" prefWidth="200.0" style="-fx-border-width: 0 0 1 0;" styleClass="title-pane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="titleBar" layoutX="215.0" layoutY="-52.0" prefHeight="24.0" prefWidth="200.0" style="-fx-border-width: 0 0 0 0;" styleClass="title-pane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -305,7 +305,7 @@
                </children>
             </HBox>
          </children></AnchorPane>
-      <AnchorPane fx:id="contentPane" layoutX="463.0" layoutY="173.0" prefHeight="200.0" prefWidth="200.0" styleClass="content-pane" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="34.0">
+      <AnchorPane fx:id="contentPane" layoutX="255.0" layoutY="39.0" prefHeight="200.0" prefWidth="200.0" styleClass="content-pane" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="39.0">
          <effect>
             <DropShadow height="15.0" offsetX="2.0" offsetY="2.0" radius="7.0" width="15.0" />
          </effect>

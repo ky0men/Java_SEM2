@@ -5,6 +5,7 @@
     -fx-background-color: #E9E9E9;
     -fx-border-width: 1;
     -fx-border-color: #03506F;
+    /*-fx-border-color: red;*/
     -fx-border-radius: 12;
 }
 /*TITLE PANE*/
@@ -43,12 +44,14 @@
 /*    -fx-background-color: linear-gradient(to right bottom, #070537, #003c74, #0074a6, #00afc8, #12ebd8);*/
 /*}*/
 .left-pane{
-    -fx-background-color: #E9E9E9;
-    /*-fx-background-color: #297bff;*/
+    /*-fx-background-color: #E9E9E9;*/
+    -fx-background-color: transparent;
     -fx-background-radius: 0 0 0 10;
 }
 .hbox-button{
     -fx-background-color: #00699C;
+    -fx-border-color: red;
+    -fx-border-width: 0;
 }
 .left-pane-vbox{
     -fx-background-radius: 0 0 0 10;

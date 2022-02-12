@@ -142,7 +142,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker editable="false" prefHeight="26.0" prefWidth="245.0">
+                              <DatePicker fx:id="checkinDate" editable="false" prefHeight="26.0" prefWidth="245.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -166,7 +166,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
+                              <JFXTextField fx:id="roomType" editable="false" focusColor="#00699c" prefHeight="30.0" prefWidth="206.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -186,7 +186,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker editable="false" prefHeight="26.0" prefWidth="245.0">
+                              <DatePicker fx:id="checkoutDate" editable="false" prefHeight="26.0" prefWidth="245.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -207,7 +207,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="151.0">
+                              <JFXTextField fx:id="prepaidField" focusColor="#00699c" prefHeight="30.0" prefWidth="151.0" text="0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -232,7 +232,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="194.0">
+                              <JFXTextField fx:id="discountField" focusColor="#00699c" prefHeight="30.0" prefWidth="194.0" text="0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
