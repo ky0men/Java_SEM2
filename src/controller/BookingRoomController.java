@@ -177,7 +177,6 @@ public class BookingRoomController implements Initializable {
                 setDisable(empty || date.compareTo(today) < 0);
                 if (date.compareTo(today) < 0) {
                     setStyle("-fx-background-color: #ffc0cb;");
-                    System.out.println("Testing");
                 }
             }
         });
