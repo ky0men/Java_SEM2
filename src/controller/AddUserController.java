@@ -1,6 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
@@ -269,7 +270,7 @@ public class AddUserController implements Initializable {
         String username = txtUserName.getText();
         String password = txtPassword.getText();
         String position = cbPosition.getSelectionModel().getSelectedItem();
-        String query = "INSERT INTO Account VALUES ('" + username +"', HASHBYTES('SHA2_512', '"+ password +"'), '" + position +"');";
+        String query = "INSERT INTO Account VALUES ('" + username +"', HASHBYTES('SHA2_512', '"+ password +"'), '" + position +"', 0);";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();

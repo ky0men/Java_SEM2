@@ -278,7 +278,7 @@
                   </ImageView>
                   <Label text="Hotel Management" textFill="WHITE">
                      <font>
-                        <Font name="Roboto" size="16.0" />
+                        <Font name="Roboto" size="14.0" />
                      </font>
                   </Label>
                </children>
@@ -341,6 +341,42 @@
          <effect>
             <DropShadow height="15.0" offsetX="2.0" offsetY="2.0" radius="7.0" width="15.0" />
          </effect>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="accountPosition" text="Manager: " textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="nameEmployee" layoutX="26.0" layoutY="15.0" text="Admin" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="16.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <padding>
+                  <Insets right="16.0" />
+               </padding>
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="281.0" text="Hotel Management EProject SEM 2 |" textFill="WHITE">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="aboutUsBtn" text="About Us" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
       </AnchorPane>
    </children>
 </AnchorPane>
