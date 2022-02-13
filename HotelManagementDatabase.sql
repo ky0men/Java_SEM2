@@ -9,7 +9,8 @@ CREATE TABLE Account (
     id INT IDENTITY (1, 1) PRIMARY KEY,
     username VARCHAR(15) NOT NULL UNIQUE,
     passwordHash BINARY(64) NOT NULL,
-    position VARCHAR(30)
+    position VARCHAR(30),
+    accountStatus INT
 )
 
 CREATE TABLE RoomType(
@@ -76,9 +77,9 @@ CREATE TABLE EmployeeInformation(
 )
 
 
-INSERT INTO Account VALUES ('admin', HASHBYTES('SHA2_512', '123456'), 'Manager');
-INSERT INTO Account VALUES ('ppdien', HASHBYTES('SHA2_512', '123'), 'Employee');
-INSERT INTO Account VALUES ('nsan', HASHBYTES('SHA2_512', '456'), 'Employee');
+INSERT INTO Account VALUES ('admin', HASHBYTES('SHA2_512', '123456'), 'Manager', 0);
+INSERT INTO Account VALUES ('ppdien', HASHBYTES('SHA2_512', '123'), 'Employee', 0);
+INSERT INTO Account VALUES ('nsan', HASHBYTES('SHA2_512', '456'), 'Employee', 0);
 
 INSERT INTO RoomType VALUES ('Single')
 INSERT INTO RoomType VALUES ('Double')

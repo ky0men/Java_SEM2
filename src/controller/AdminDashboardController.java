@@ -57,6 +57,15 @@ public class AdminDashboardController implements Initializable {
     private FontIcon roomSettingIcon;
 
     @FXML
+    private HBox hboxBookingManage;
+
+    @FXML
+    private JFXButton bookingManageBtn;
+
+    @FXML
+    private FontIcon bookingManageIcon;
+
+    @FXML
     private HBox hboxEmployee;
 
     @FXML
@@ -114,6 +123,9 @@ public class AdminDashboardController implements Initializable {
     private VBox vboxFooterLeft;
 
     @FXML
+    private JFXButton logoutBtn;
+
+    @FXML
     private AnchorPane titleBar;
 
     @FXML
@@ -127,9 +139,6 @@ public class AdminDashboardController implements Initializable {
 
     @FXML
     private AnchorPane contentPane;
-
-    @FXML
-    private JFXButton logoutBtn;
 
 
     private double x, y;
@@ -242,20 +251,18 @@ public class AdminDashboardController implements Initializable {
             }
         });
 
-
-
         //Change content tab button
         roomMapBtnClick();
 
-        changeSceneWhenClickButton(roomSettingBtn, roomSettingIcon, hboxHome, hboxEmployee, "RoomSetting.fxml");
-        changeSceneWhenClickButton(employeeBtn, employeeIcon, hboxProducts, hboxOrder, "Employee.fxml");
+        changeSceneWhenClickButton(roomSettingBtn, roomSettingIcon, hboxHome, hboxBookingManage, "RoomSetting.fxml");
+        changeSceneWhenClickButton(bookingManageBtn, bookingManageIcon, hboxProducts, hboxEmployee, "RoomSetting.fxml");
+        changeSceneWhenClickButton(employeeBtn, employeeIcon, hboxBookingManage, hboxOrder, "Employee.fxml");
         changeSceneWhenClickButton(servicesBtn, serviceIcon, hboxEmployee, hboxCustomer, "Services.fxml");
         changeSceneWhenClickButton(customerBtn, customersIcon, hboxOrder, hboxRevenue, "Customers.fxml");
         changeSceneWhenClickButton(revenueBtn, revenueIcon, hboxCustomer, hboxPromotions, "Revenue.fxml");
         changeSceneWhenClickButton(stockManagerBtn, stockManagerIcon, hboxRevenue, hboxHistory, "StockManage.fxml");
 
         historyBtnClick();
-
 
     }
     public void roomMapBtnClick(){
@@ -320,6 +327,7 @@ public class AdminDashboardController implements Initializable {
     private void resetButton() {
         roomMapBtn.setFocusTraversable(false);
         roomSettingBtn.setFocusTraversable(false);
+        bookingManageBtn.setFocusTraversable(false);
         employeeBtn.setFocusTraversable(false);
         servicesBtn.setFocusTraversable(false);
         customerBtn.setFocusTraversable(false);
@@ -337,6 +345,9 @@ public class AdminDashboardController implements Initializable {
         roomSettingBtn.setStyle("");
         hboxProducts.setStyle("-fx-background-radius: 0;");
         roomSettingIcon.setIconColor(Color.WHITE);
+        bookingManageBtn.setStyle("");
+        hboxBookingManage.setStyle("-fx-background-radius: 0;");
+        bookingManageIcon.setIconColor(Color.WHITE);
         employeeBtn.setStyle("");
         hboxEmployee.setStyle("-fx-background-radius: 0;");
         employeeIcon.setIconColor(Color.WHITE);
