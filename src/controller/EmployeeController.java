@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -32,6 +34,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import static controller.LoginController.stage;
 
 public class EmployeeController implements Initializable {
     ObservableList<String> positionList = FXCollections.observableArrayList( "Manager","Front Office");
@@ -154,9 +158,14 @@ public class EmployeeController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        GaussianBlur blurEffect = new GaussianBlur(10);
+        stage.getScene().getRoot().setEffect(blurEffect);
         Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(parent);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setX(x);
         stage.setY(y);
@@ -222,9 +231,13 @@ public class EmployeeController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        GaussianBlur blurEffect = new GaussianBlur(10);
+        stage.getScene().getRoot().setEffect(blurEffect);
         Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(parent);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setX(600);
         stage.setY(200);
@@ -330,19 +343,24 @@ public class EmployeeController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        GaussianBlur blurEffect = new GaussianBlur(10);
+        stage.getScene().getRoot().setEffect(blurEffect);
         Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(parent);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setX(600);
         stage.setY(300);
-        stage.show();
+        stage.showAndWait();
 
     }
 
     @FXML
     void AddUserAction(ActionEvent event) {
         openScene("/resources/views/AddUser.fxml", 600, 100);
-        System.out.println("ADD");
+//        System.out.println("ADD");
     }
 
     public void setCellValue(){

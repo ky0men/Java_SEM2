@@ -19,7 +19,7 @@
 
 <AnchorPane prefHeight="532.0" prefWidth="576.0" styleClass="main-pane" stylesheets="@../styles/BookingRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUserController">
    <children>
-      <HBox alignment="CENTER" focusTraversable="true" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="574.0" styleClass="title-name" AnchorPane.bottomAnchor="511.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+      <HBox fx:id="titleBar" alignment="CENTER" focusTraversable="true" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="574.0" styleClass="title-name" AnchorPane.bottomAnchor="511.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
          <children>
             <Label alignment="CENTER" prefHeight="26.0" prefWidth="446.0" text="Add Employee" textFill="WHITE">
                <font>

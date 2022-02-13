@@ -3,18 +3,33 @@ package controller;
 import com.jfoenix.controls.*;
 import dao.DBConnect;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
+import java.net.URL;
 import java.sql.*;
+import java.util.ResourceBundle;
 
-public class ChangePasswordController {
+public class ChangePasswordController implements Initializable {
+
+    @FXML
+    private AnchorPane titleBar;
+
+    private double x, y;
+
     @FXML
     private JFXPasswordField txtPassword;
 
@@ -87,13 +102,17 @@ public class ChangePasswordController {
             String fullNameText = fullName;
             String title = "Change password successfully";
             String mess = "Employee "+ fullName +" has changed his password";
-            TrayNotification cancel = new TrayNotification(title, mess, NotificationType.SUCCESS);
-            cancel.setAnimationType(AnimationType.POPUP);
-            cancel.showAndWait();
+            TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+            tray.setAnimationType(AnimationType.POPUP);
+            tray.showAndDismiss(Duration.seconds(3));
+            tray.showAndWait();
+            Node node = (Node)event.getSource();
+            Stage stage = (Stage)node.getScene().getWindow();
+            stage.close();
+            GaussianBlur blur = new GaussianBlur(0);
+            LoginController.stage.getScene().getRoot().setEffect(blur);
         }
-        Node node = (Node)event.getSource();
-        Stage stage = (Stage)node.getScene().getWindow();
-        stage.close();
+
     }
 
     private String getUsername(){
@@ -121,6 +140,26 @@ public class ChangePasswordController {
         Node node = (Node)event.getSource();
         Stage stage = (Stage)node.getScene().getWindow();
         stage.close();
+        GaussianBlur blur = new GaussianBlur(0);
+        LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Window move action
+        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            }
+        });
+        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
+            }
+        });
+    }
 }

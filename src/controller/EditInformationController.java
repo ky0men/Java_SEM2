@@ -3,11 +3,17 @@ package controller;
 import dao.DBConnect;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
@@ -26,6 +32,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EditInformationController implements Initializable {
+
+    @FXML
+    private AnchorPane titleBar;
+
+    private double x, y;
 
     @FXML
     public TextField txtFullName;
@@ -67,16 +78,30 @@ public class EditInformationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //Window move action
+        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            }
+        });
+        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
+            }
+        });
     }
-
-
 
     @FXML
     void CancelAction(ActionEvent event) {
         Node node = (Node)event.getSource();
         Stage stage = (Stage)node.getScene().getWindow();
         stage.close();
+        GaussianBlur blur = new GaussianBlur(0);
+        LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
     @FXML
@@ -91,9 +116,12 @@ public class EditInformationController implements Initializable {
         stage.close();
         String title = "Successfully changed information";
         String mess = "Employee "+ txtFullName.getText() +" has successfully changed information";
-        TrayNotification cancel = new TrayNotification(title, mess, NotificationType.SUCCESS);
-        cancel.setAnimationType(AnimationType.POPUP);
-        cancel.showAndWait();
+        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+        tray.setAnimationType(AnimationType.POPUP);
+        tray.showAndDismiss(Duration.seconds(3));
+        tray.showAndWait();
+        GaussianBlur blur = new GaussianBlur(0);
+        LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
     private boolean formNotNull(){
@@ -138,7 +166,6 @@ public class EditInformationController implements Initializable {
                         iconWarning.setVisible(false);
                         lbWarning.setText("");
                         flag = true;
-                        System.out.println("Test");
                     }
                 }
             } catch (SQLException throwables) {

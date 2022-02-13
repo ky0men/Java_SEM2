@@ -17,7 +17,7 @@
 
 <AnchorPane prefHeight="447.0" prefWidth="574.0" styleClass="main-pane" stylesheets="@../styles/BookingRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditInformationController">
    <children>
-      <AnchorPane layoutY="-3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="566.0">
+      <AnchorPane fx:id="titleBar" layoutY="-3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="566.0">
          <children>
             <Label alignment="CENTER" layoutY="3.0" prefHeight="26.0" prefWidth="574.0" styleClass="title-name" stylesheets="@../styles/BookingRoom.css" text="Edit Information" textFill="WHITE">
                <font>
