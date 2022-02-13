@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -167,14 +169,45 @@ public class AdminDashboardController implements Initializable {
             }
         });
 
+        //Maximize action
         maximizeBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 stage = (Stage) adminMainPane.getScene().getWindow();
-                if (stage.isMaximized()) {
-                    stage.setMaximized(false);
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                if (stage.getX() == 0 && stage.getY() == 0) {
+                    stage.setWidth(1000);
+                    stage.setHeight(700);
+                    stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                    stage.setY((bounds.getHeight() - stage.getHeight())/2);
                 } else {
-                    stage.setMaximized(true);
+                    stage.setX(bounds.getMinX());
+                    stage.setY(bounds.getMinY());
+                    stage.setWidth(bounds.getWidth());
+                    stage.setHeight(bounds.getHeight());
+                }
+            }
+        });
+
+        titleBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                stage = (Stage) adminMainPane.getScene().getWindow();
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                if(mouseEvent.getClickCount() == 2){
+                    if (stage.getX() == 0 && stage.getY() == 0) {
+                        stage.setWidth(1000);
+                        stage.setHeight(700);
+                        stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                        stage.setY((bounds.getHeight() - stage.getHeight())/2);
+                    } else {
+                        stage.setX(bounds.getMinX());
+                        stage.setY(bounds.getMinY());
+                        stage.setWidth(bounds.getWidth());
+                        stage.setHeight(bounds.getHeight());
+                    }
                 }
             }
         });
