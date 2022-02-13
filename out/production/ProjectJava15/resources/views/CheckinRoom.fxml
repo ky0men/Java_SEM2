@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/BookingRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingRoomController">
+<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CheckinRoomController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fx:id="titleBar" alignment="CENTER" prefHeight="30.0" prefWidth="200.0" styleClass="title-name">
                <children>
-                  <Label text="Booking Room" textFill="WHITE">
+                  <Label text="Check in Room" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -263,11 +263,6 @@
             <HBox alignment="CENTER_RIGHT" spacing="20.0">
                <children>
                   <JFXButton fx:id="checkinBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Check in" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="bookingBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Booking" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

@@ -54,7 +54,7 @@
             </HBox>
             <HBox fx:id="hBoxBtn" alignment="CENTER" prefHeight="57.0" prefWidth="225.0" spacing="6.0" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="actionBtn" buttonType="RAISED" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Booking" textFill="WHITE">
+                  <JFXButton fx:id="actionBtn" buttonType="RAISED" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Check in" textFill="WHITE">
                      <font>
                         <Font name="Ubuntu Regular" size="14.0" />
                      </font>

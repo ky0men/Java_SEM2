@@ -43,7 +43,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class BookingRoomController implements Initializable {
+public class CheckinRoomController implements Initializable {
     @FXML
     private HBox titleBar;
 
@@ -75,9 +75,6 @@ public class BookingRoomController implements Initializable {
     private JFXButton checkinBtn;
 
     @FXML
-    private JFXButton bookingBtn;
-
-    @FXML
     private JFXButton cancelBtn;
 
     private double x, y;
@@ -105,8 +102,7 @@ public class BookingRoomController implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 stage = (Stage) titleBar.getScene().getWindow();
                 stage.close();
-                GaussianBlur blur = new GaussianBlur(0);
-                LoginController.stage.getScene().getRoot().setEffect(blur);
+                showAdminDashboard();
             }
         });
 
@@ -160,7 +156,6 @@ public class BookingRoomController implements Initializable {
 
         //Set local date for checkin date
         checkinDate.setValue(LocalDate.now());
-        System.out.println(LocalDateTime.now());
 
         //Set checkout date default is one date after checkin
         checkoutDate.setValue(LocalDate.now().plusDays(1));
@@ -199,8 +194,6 @@ public class BookingRoomController implements Initializable {
         });
 
         checkinBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-
             @Override
             public void handle(ActionEvent actionEvent) {
                 String roomName = (String) roomNameComboBox.getValue();
@@ -220,7 +213,7 @@ public class BookingRoomController implements Initializable {
                     validator.setMessage("Customer name is required!");
                     customerName.validate();
                 }else if (checkinDay.equals(today)) {
-                    System.out.println("Checkin Done");
+//                    System.out.println("Checkin Done");
 //                    System.out.println(todayTime);
 //                    System.out.println(checkinDay);
                     changeStatusRentedRoom(roomName);
@@ -267,7 +260,7 @@ public class BookingRoomController implements Initializable {
         ObservableList<String> listRoomName = FXCollections.observableArrayList();
         try {
             stm = conn.createStatement();
-            rs = stm.executeQuery("SELECT * FROM Room");
+            rs = stm.executeQuery("SELECT * FROM Room R WHERE R.roomStatus = 'Available'");
             while (rs.next()) {
                 listRoomName.add(rs.getString("roomName"));
             }
@@ -295,7 +288,6 @@ public class BookingRoomController implements Initializable {
     }
 
     public String getRoomName() {
-
         //Get column and row index from roomview
         FXMLLoader roomViewLoader = new FXMLLoader(getClass().getResource("/resources/views/RoomView.fxml"));
         try {
@@ -324,8 +316,8 @@ public class BookingRoomController implements Initializable {
         if (gridRoomType.equals("gridAllRoom")) {
             rooms = roomMapController.getListAllRoom();
 
-        } else if (gridRoomType.equals("gridDirtyRoom")) {
-            rooms = roomMapController.getListDirtyRoom();
+        } else if (gridRoomType.equals("gridAvailableRoom")) {
+            rooms = roomMapController.getListAvailableRoom();
 
         }
 
@@ -409,8 +401,9 @@ public class BookingRoomController implements Initializable {
         Connection conn = dbConnect.getDBConnection();
         CallableStatement cstm = null;
         try {
-            cstm = conn.prepareCall("{call checkinAndChangeStatus (?)}");
+            cstm = conn.prepareCall("{call changeStatusRoom (?, ?)}");
             cstm.setString(1, roomName);
+            cstm.setString(2, "Rented");
             cstm.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -465,4 +458,5 @@ public class BookingRoomController implements Initializable {
         stage.setTitle("Hotel Management Application");
         stage.show();
     }
+
 }

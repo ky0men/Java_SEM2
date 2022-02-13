@@ -15,11 +15,11 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="447.0" prefWidth="574.0" styleClass="main-pane" stylesheets="@../styles/BookingRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditInformationController">
+<AnchorPane prefHeight="447.0" prefWidth="574.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditInformationController">
    <children>
       <AnchorPane fx:id="titleBar" layoutY="-3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="566.0">
          <children>
-            <Label alignment="CENTER" layoutY="3.0" prefHeight="26.0" prefWidth="574.0" styleClass="title-name" stylesheets="@../styles/BookingRoom.css" text="Edit Information" textFill="WHITE">
+            <Label alignment="CENTER" layoutY="3.0" prefHeight="26.0" prefWidth="574.0" styleClass="title-name" stylesheets="@../styles/CheckinRoom.css" text="Edit Information" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

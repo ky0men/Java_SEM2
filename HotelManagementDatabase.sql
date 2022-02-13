@@ -23,7 +23,8 @@ CREATE TABLE Room (
     roomName VARCHAR(15) NOT NULL,
     roomTypeID INT FOREIGN KEY REFERENCES RoomType(roomTypeID),
     --Room static Available, Rented, Dirty
-    roomStatus VARCHAR(120)
+    roomStatus VARCHAR(120),
+    roomPrice MONEY,
 )
 
 CREATE TABLE Customer (
@@ -40,15 +41,15 @@ CREATE TABLE Customer (
 
 CREATE TABLE RoomBooking(
     roomBookingID INT IDENTITY (1, 1) PRIMARY KEY,
-    roomID INT FOREIGN KEY REFERENCES Room(roomID),
-    employeeName VARCHAR(120) NOT NULL,
+    roomNumber VARCHAR(15),
+    employeeName VARCHAR(120),
     customerName VARCHAR(120) NOT NULL,
     customerIdentityNumber VARCHAR(20) NOT NULL,
-    customerPhoneNumber VARCHAR(14) NOT NULL,
-    customerQuantity INT NOT NULL,
+    customerPhoneNumber VARCHAR(14),
     checkinTime DATETIME NOT NULL,
-    checkoutTime DATETIME NOT NULL,
-    prepaid MONEY NOT NULL
+    checkoutTime DATE NOT NULL,
+    prepaid MONEY NOT NULL,
+    discount MONEY NOT NULL
 )
 
 CREATE TABLE Checkin(
@@ -84,18 +85,18 @@ INSERT INTO RoomType VALUES ('Double')
 INSERT INTO RoomType VALUES ('Single VIP')
 INSERT INTO RoomType VALUES ('Double VIP')
 
-INSERT INTO Room VALUES ('101', 1, 'Available')
-INSERT INTO Room VALUES ('102', 2, 'Rented')
-INSERT INTO Room VALUES ('103', 3, 'Dirty')
-INSERT INTO Room VALUES ('104', 4, 'Available')
-INSERT INTO Room VALUES ('201', 1, 'Available')
-INSERT INTO Room VALUES ('202', 2, 'Rented')
-INSERT INTO Room VALUES ('203', 3, 'Available')
-INSERT INTO Room VALUES ('204', 4, 'Available')
-INSERT INTO Room VALUES ('301', 1, 'Available')
-INSERT INTO Room VALUES ('302', 2, 'Rented')
-INSERT INTO Room VALUES ('303', 3, 'Dirty')
-INSERT INTO Room VALUES ('304', 4, 'Available')
+INSERT INTO Room VALUES ('101', 1, 'Available', 250000)
+INSERT INTO Room VALUES ('102', 2, 'Rented', 300000)
+INSERT INTO Room VALUES ('103', 3, 'Dirty', 350000)
+INSERT INTO Room VALUES ('104', 4, 'Available', 400000)
+INSERT INTO Room VALUES ('201', 1, 'Available', 250000)
+INSERT INTO Room VALUES ('202', 2, 'Rented', 300000)
+INSERT INTO Room VALUES ('203', 3, 'Available', 350000)
+INSERT INTO Room VALUES ('204', 4, 'Available', 400000)
+INSERT INTO Room VALUES ('301', 1, 'Available', 250000)
+INSERT INTO Room VALUES ('302', 2, 'Rented', 300000)
+INSERT INTO Room VALUES ('303', 3, 'Dirty', 350000)
+INSERT INTO Room VALUES ('304', 4, 'Available', 400000)
 
 INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng');
 INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng');
@@ -123,9 +124,9 @@ UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 304
 GO
 
 -- Procudure confirm cleaned and change status room
-CREATE PROC confirmCleanedRoom @roomName VARCHAR(15) AS
-    UPDATE Room SET roomStatus = 'Available' WHERE roomName = @roomName
-GO
+--CREATE PROC confirmCleanedRoom @roomName VARCHAR(15) AS
+--    UPDATE Room SET roomStatus = 'Available' WHERE roomName = @roomName
+--GO
 -- Procedure check and get customer name from customer Identiry number
 CREATE PROC getCusNameFromIDNumber @idNum VARCHAR(20) AS
     SELECT CUS.cusName FROM Customer CUS WHERE CUS.cusIdentityNumber = @idNum
@@ -142,14 +143,24 @@ CREATE PROC addCheckin @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15),
 GO
 
 -- Procudure was checkin and change status room
-CREATE PROC checkinAndChangeStatus @roomName VARCHAR(15) AS
-    UPDATE Room SET roomStatus = 'Rented' WHERE roomName = @roomName
+--CREATE PROC checkinAndChangeStatus @roomName VARCHAR(15) AS
+ --   UPDATE Room SET roomStatus = 'Rented' WHERE roomName = @roomName
+--GO
+
+-- Procudure change status room
+CREATE PROC changeStatusRoom @roomName VARCHAR(15), @status VARCHAR(120) AS
+    UPDATE Room SET roomStatus = @status WHERE roomName = @roomName
 GO
 
 --Procudure add customer (only name and id)
 CREATE PROC addNameAndIDCustomer @cusIdentityNumber VARCHAR(20), @cusName NVARCHAR(200) AS
     INSERT INTO Customer(cusIdentityNumber, cusName) VALUES (@cusIdentityNumber, @cusName)
 
+
+-- Procudure add booking
+CREATE PROC addBooking @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15), @checkinDate DATETIME, @checkoutDate DATE, @prepaid MONEY, @discount MONEY AS
+    INSERT INTO RoomBooking (customerIdentityNumber, roomNumber, checkinTime, checkoutTime, prepaid, discount) VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount)
+GO
 
 SELECT Room.roomName FROM Room       
 

@@ -10,11 +10,9 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -77,11 +75,8 @@ public class RoomViewController implements Initializable {
         actionBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (actionBtn.getText().equals("Booking")) {
+                if (actionBtn.getText().equals("Check in")) {
                     System.out.println("Book Room");
-                    //Blur primary stage
-                    GaussianBlur blurEffect = new GaussianBlur(10);
-                    stage.getScene().getRoot().setEffect(blurEffect);
                     //Get column and row of gridpane
                     col = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-column");
                     row = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-row");
@@ -90,7 +85,7 @@ public class RoomViewController implements Initializable {
                     stage = (Stage) actionBtn.getScene().getWindow();
                     stage.close();
                     //Show booking room stage
-                    showAction("/resources/views/BookingRoom.fxml");
+                    showAction("/resources/views/CheckinRoom.fxml");
                 } else if (actionBtn.getText().equals("Check Out")) {
                     System.out.println("Check out");
                 } else if (actionBtn.getText().equals("Cleaned")) {

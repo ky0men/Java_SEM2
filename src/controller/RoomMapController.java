@@ -219,6 +219,11 @@ public class RoomMapController implements Initializable {
         rooms = getData(rooms, allRoomSql);
         return rooms;
     }
+    public List<Room> getListAvailableRoom() {
+        rooms = getData(rooms, availableRoomSql);
+        return rooms;
+    }
+
 
     public List<Room> getListDirtyRoom() {
         rooms = getData(rooms, dirtyRoomSql);

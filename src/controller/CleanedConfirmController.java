@@ -147,8 +147,9 @@ public class CleanedConfirmController implements Initializable {
         Connection conn = dbConnect.getDBConnection();
         CallableStatement cstm = null;
         try {
-            cstm = conn.prepareCall("{call confirmCleanedRoom (?)}");
+            cstm = conn.prepareCall("{call changeStatusRoom (?, ?)}");
             cstm.setString(1, roomName);
+            cstm.setString(2, "Available");
             cstm.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
