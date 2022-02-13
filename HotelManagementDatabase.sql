@@ -54,7 +54,7 @@ CREATE TABLE RoomBooking(
 CREATE TABLE Checkin(
     checkinID INT IDENTITY (1,1) PRIMARY KEY,
     cusIdentityNumber VARCHAR(20) FOREIGN KEY REFERENCES Customer(cusIdentityNumber),
-    roomNumber VARCHAR(15) FOREIGN KEY REFERENCES Room(roomName),
+    roomNumber VARCHAR(15),
     checkinDate DATETIME,
     checkoutDate DATE,
     prepaid MONEY,
@@ -141,6 +141,11 @@ CREATE PROC addCheckin @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15),
     INSERT INTO Checkin VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount)
 GO
 
+-- Procudure was checkin and change status room
+CREATE PROC checkinAndChangeStatus @roomName VARCHAR(15) AS
+    UPDATE Room SET roomStatus = 'Rented' WHERE roomName = @roomName
+GO
+
 --Procudure add customer (only name and id)
 CREATE PROC addNameAndIDCustomer @cusIdentityNumber VARCHAR(20), @cusName NVARCHAR(200) AS
     INSERT INTO Customer(cusIdentityNumber, cusName) VALUES (@cusIdentityNumber, @cusName)
@@ -148,10 +153,3 @@ CREATE PROC addNameAndIDCustomer @cusIdentityNumber VARCHAR(20), @cusName NVARCH
 
 SELECT Room.roomName FROM Room       
 
-cusID INT IDENTITY (1,1) PRIMARY KEY,
-    cusIdentityNumber VARCHAR (20) UNIQUE NOT NULL, 
-    cusName NVARCHAR (200) NOT NULL,
-    cusGender VARCHAR(10),
-    cusDOB DATE,
-    cusPhone VARCHAR (12),
-    cusAddress NVARCHAR (250),

@@ -15,11 +15,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -31,6 +34,8 @@ import tray.notification.TrayNotification;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -193,16 +198,48 @@ public class BookingRoomController implements Initializable {
             }
         });
 
-//        checkinBtn.setOnAction(new EventHandler<ActionEvent>() {
-//            String roomName = (String) roomNameComboBox.getValue();
-//            String today = String.valueOf(LocalDate.now());
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                if (checkinDate.getValue() == LocalDate.now()) {
-//                    addCheckin(conn, identityNumber.getText(), roomName), LocalDate.now(), checkoutDate.getValue(), prepaidField.getText(), discountField.getText());
-//                }
-//            }
-//        });
+        checkinBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String roomName = (String) roomNameComboBox.getValue();
+                String today = String.valueOf(LocalDate.now());
+                String todayTime = getDateTimeString();
+                String checkinDay = String.valueOf(checkinDate.getValue());
+                String checkoutDay = String.valueOf(checkoutDate.getValue());
+                if(identityNumber.getText().equals("") && customerName.getText() == null){
+                    validator.setMessage("Customer ID is required!");
+                    identityNumber.validate();
+                    validator.setMessage("Customer name is required!");
+                    customerName.validate();
+                }else if(identityNumber.getText().equals("")){
+                    validator.setMessage("Customer ID is required!");
+                    identityNumber.validate();
+                } else if(customerName.getText() == null){
+                    validator.setMessage("Customer name is required!");
+                    customerName.validate();
+                }else if (checkinDay.equals(today)) {
+                    System.out.println("Checkin Done");
+//                    System.out.println(todayTime);
+//                    System.out.println(checkinDay);
+                    changeStatusRentedRoom(roomName);
+                    if (getCustomerNameFromID(identityNumber.getText(), conn) == null) {
+                        addNameAndIdCustomer(identityNumber.getText(), customerName.getText());
+//                        System.out.println("Add Cus Done");
+                    }
+                    addCheckin(conn, identityNumber.getText(), roomName, todayTime, checkoutDay, prepaidField.getText(), discountField.getText());
+                    showAdminDashboard();
+                } else {
+                    TrayNotification tray = new TrayNotification();
+                    tray.setTitle("Checkin date is not today");
+                    tray.setMessage("Please booking if checkin is not today.");
+                    tray.setNotificationType(NotificationType.ERROR);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                }
+            }
+        });
     }
 
     public String getCustomerNameFromID(String id, Connection conn) {
@@ -328,7 +365,7 @@ public class BookingRoomController implements Initializable {
         return roomType;
     }
 
-    public void addCheckin(Connection conn, String cusIdNum, String roomName, String checkinDate, String checkOutDate, int prepaid, int discount) {
+    public void addCheckin(Connection conn, String cusIdNum, String roomName, String checkinDate, String checkOutDate, String prepaid, String discount) {
         CallableStatement cstm = null;
         try {
             cstm = conn.prepareCall("{call addCheckin(?, ?, ?, ?, ?, ?)}");
@@ -336,8 +373,8 @@ public class BookingRoomController implements Initializable {
             cstm.setString(2, roomName);
             cstm.setString(3, checkinDate);
             cstm.setString(4, checkOutDate);
-            cstm.setInt(5, prepaid);
-            cstm.setInt(6, discount);
+            cstm.setString(5, prepaid);
+            cstm.setString(6, discount);
             int effectedRow = cstm.executeUpdate();
             if (effectedRow > 0) {
                 TrayNotification tray = new TrayNotification();
@@ -356,7 +393,76 @@ public class BookingRoomController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
 
+    public String getDateTimeString() {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
 
+    //Change status rented room
+    public void changeStatusRentedRoom(String roomName) {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        CallableStatement cstm = null;
+        try {
+            cstm = conn.prepareCall("{call checkinAndChangeStatus (?)}");
+            cstm.setString(1, roomName);
+            cstm.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            if (cstm != null) {
+                try {
+                    cstm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void addNameAndIdCustomer(String cusID, String cusName) {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        CallableStatement cstm = null;
+        try {
+            cstm = conn.prepareCall("{call addNameAndIDCustomer (?, ?)}");
+            cstm.setString(1, cusID);
+            cstm.setString(2, cusName);
+            cstm.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            if (cstm != null) {
+                try {
+                    cstm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void showAdminDashboard() {
+        Parent adminParent = null;
+        FXMLLoader adminLoader = new FXMLLoader(getClass().getResource("/resources/views/AdminDashboard.fxml"));
+        try {
+            adminParent = adminLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene adminScene = new Scene(adminParent);
+        adminScene.setFill(Color.TRANSPARENT);
+        stage = (Stage) checkinBtn.getScene().getWindow();
+        stage.close();
+        stage.setScene(adminScene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
+        stage.setTitle("Hotel Management Application");
+        stage.show();
     }
 }

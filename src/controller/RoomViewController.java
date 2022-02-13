@@ -86,6 +86,9 @@ public class RoomViewController implements Initializable {
                     col = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-column");
                     row = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-row");
                     gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getId();
+
+                    stage = (Stage) actionBtn.getScene().getWindow();
+                    stage.close();
                     //Show booking room stage
                     showAction("/resources/views/BookingRoom.fxml");
                 } else if (actionBtn.getText().equals("Check Out")) {
