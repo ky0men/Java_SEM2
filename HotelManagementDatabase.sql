@@ -76,7 +76,48 @@ CREATE TABLE EmployeeInformation(
 	userAddress varchar(50),
 	deleted char(1)
 )
+--DUC DATABASE
+CREATE TABLE ServiceType(
+ServiceType varchar(100) PRIMARY KEY
+)
 
+CREATE TABLE Service(
+ID int PRIMARY KEY,
+ServiceName varchar(100),
+ServiceType varchar(100) FOREIGN KEY REFERENCES ServiceType,
+Price int,
+Unit varchar(20),
+Volume int
+)
+--drop table Service
+
+INSERT INTO ServiceType VALUES ('Food Service')
+INSERT INTO ServiceType VALUES ('Sport - Entertainment Service')
+INSERT INTO ServiceType VALUES ('Traveling Service')
+INSERT INTO ServiceType VALUES ('Relaxing Service')
+INSERT INTO ServiceType VALUES ('Others Service')
+
+INSERT INTO Service VALUES (1,'Beverage - Coca','Food Service',20000,'bottle',400)
+INSERT INTO Service VALUES (2,'Beverage - Beer Heiniken','Food Service',25000,'bottle',500)
+INSERT INTO Service VALUES (3,'Beverage - Aqua','Food Service',15000,'bottle',600)
+INSERT INTO Service VALUES (4,'Beverage - Snack','Food Service',10000,'can',500)
+INSERT INTO Service VALUES (5,'Buffet - 4 Stars European Restaurant','Food Service',899000,'person',100)
+INSERT INTO Service VALUES (6,'Morning Service','Food Service',100000,'person',500)
+INSERT INTO Service VALUES (7,'Bar Service','Food Service',200000,'person',100)
+INSERT INTO Service VALUES (8,'Motobike Rental Service','Traveling Service',20000,'date',20)
+INSERT INTO Service VALUES (9,'Car Rental Service','Traveling Service',100000,'date',10)
+INSERT INTO Service VALUES (10,'Swimming Pool Service','Relaxing Service',100000,'person',100)
+INSERT INTO Service VALUES (11,'Massage Service','Relaxing Service',100000,'person',100)
+INSERT INTO Service VALUES (12,'Spa Service','Relaxing Service',100000,'person',100)
+INSERT INTO Service VALUES (13,'Fitness & Yoga Service','Sport - Entertainment Service',50000,'person',100)
+INSERT INTO Service VALUES (14,'Tennis Service','Sport - Entertainment Service',500000,'person',10)
+INSERT INTO Service VALUES (15,'Goft Service','Sport - Entertainment Service',1499000,'bottle',10)
+INSERT INTO Service VALUES (16,'Laundry Service','Others Service',100000,'time',100)
+UPDATE Service SET Unit = 'person' WHERE ID = 15
+GO
+SELECT * FROM ServiceType
+SELECT * FROM Service
+--END DUC
 
 INSERT INTO Account VALUES ('admin', HASHBYTES('SHA2_512', '123456'), 'Manager', 0);
 INSERT INTO Account VALUES ('ppdien', HASHBYTES('SHA2_512', '123'), 'Employee', 0);
