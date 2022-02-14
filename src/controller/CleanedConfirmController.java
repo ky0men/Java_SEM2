@@ -27,10 +27,7 @@ import tray.notification.TrayNotification;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -76,7 +73,12 @@ public class CleanedConfirmController implements Initializable {
         cancelBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                showAdminDashboard();
+                String position = getAccountPosition();
+                if (position.equals("Employee")) {
+                    showStaffDashboard();
+                } else {
+                    showAdminDashboard();
+                }
             }
         });
 
@@ -94,9 +96,13 @@ public class CleanedConfirmController implements Initializable {
                 tray.setAnimationType(AnimationType.POPUP);
                 tray.showAndDismiss(Duration.seconds(3));
 
-                //show admin dashboard again
-                showAdminDashboard();
+                String position = getAccountPosition();
 
+                if (position.equals("Employee")) {
+                    showStaffDashboard();
+                } else {
+                    showAdminDashboard();
+                }
 
             }
         });
@@ -164,6 +170,24 @@ public class CleanedConfirmController implements Initializable {
         }
     }
 
+    public void showStaffDashboard() {
+        Parent staffParent = null;
+        FXMLLoader staffLoader = new FXMLLoader(getClass().getResource("/resources/views/StaffDashboard.fxml"));
+        try {
+            staffParent = staffLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene staffScene = new Scene(staffParent);
+        staffScene.setFill(Color.TRANSPARENT);
+        stage = (Stage) confirmBtn.getScene().getWindow();
+        stage.close();
+        stage.setScene(staffScene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
+        stage.setTitle("Hotel Management Application");
+        stage.show();
+    }
+
     public void showAdminDashboard() {
         Parent adminParent = null;
         FXMLLoader adminLoader = new FXMLLoader(getClass().getResource("/resources/views/AdminDashboard.fxml"));
@@ -180,6 +204,29 @@ public class CleanedConfirmController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
         stage.setTitle("Hotel Management Application");
         stage.show();
+    }
+
+    //Check account position
+    public String getAccountPosition() {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+        String result = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID \n" +
+                    "    WHERE AC.accountStatus = '1'");
+            while (rs.next()) {
+                result = rs.getString("position");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return result;
     }
 
 }

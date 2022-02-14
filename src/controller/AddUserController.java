@@ -99,6 +99,7 @@ public class AddUserController implements Initializable {
         formNotNull();
         checkUserName();
         checkPassword();
+        System.out.println("Add");
         if(formNotNull() && checkUserName() && checkPassword() && checkEmail() && checkPhoneNumber()){
             AddTableAccount();
             AddTableProfile();

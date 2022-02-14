@@ -102,7 +102,12 @@ public class CheckinRoomController implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 stage = (Stage) titleBar.getScene().getWindow();
                 stage.close();
-                showAdminDashboard();
+                String position = getAccountPosition();
+                if (position.equals("Employee")) {
+                    showStaffDashboard();
+                } else {
+                    showAdminDashboard();
+                }
             }
         });
 
@@ -201,18 +206,18 @@ public class CheckinRoomController implements Initializable {
                 String todayTime = getDateTimeString();
                 String checkinDay = String.valueOf(checkinDate.getValue());
                 String checkoutDay = String.valueOf(checkoutDate.getValue());
-                if(identityNumber.getText().equals("") && customerName.getText() == null){
+                if (identityNumber.getText().equals("") && customerName.getText() == null) {
                     validator.setMessage("Customer ID is required!");
                     identityNumber.validate();
                     validator.setMessage("Customer name is required!");
                     customerName.validate();
-                }else if(identityNumber.getText().equals("")){
+                } else if (identityNumber.getText().equals("")) {
                     validator.setMessage("Customer ID is required!");
                     identityNumber.validate();
-                } else if(customerName.getText() == null){
+                } else if (customerName.getText() == null) {
                     validator.setMessage("Customer name is required!");
                     customerName.validate();
-                }else if (checkinDay.equals(today)) {
+                } else if (checkinDay.equals(today)) {
 //                    System.out.println("Checkin Done");
 //                    System.out.println(todayTime);
 //                    System.out.println(checkinDay);
@@ -222,7 +227,13 @@ public class CheckinRoomController implements Initializable {
 //                        System.out.println("Add Cus Done");
                     }
                     addCheckin(conn, identityNumber.getText(), roomName, todayTime, checkoutDay, prepaidField.getText(), discountField.getText());
-                    showAdminDashboard();
+
+                    String position = getAccountPosition();
+                    if (position.equals("Employee")) {
+                        showStaffDashboard();
+                    } else {
+                        showAdminDashboard();
+                    }
                 } else {
                     TrayNotification tray = new TrayNotification();
                     tray.setTitle("Checkin date is not today");
@@ -441,6 +452,24 @@ public class CheckinRoomController implements Initializable {
         }
     }
 
+    public void showStaffDashboard() {
+        Parent staffParent = null;
+        FXMLLoader staffLoader = new FXMLLoader(getClass().getResource("/resources/views/StaffDashboard.fxml"));
+        try {
+            staffParent = staffLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene staffScene = new Scene(staffParent);
+        staffScene.setFill(Color.TRANSPARENT);
+        stage = (Stage) checkinBtn.getScene().getWindow();
+        stage.close();
+        stage.setScene(staffScene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
+        stage.setTitle("Hotel Management Application");
+        stage.show();
+    }
+
     public void showAdminDashboard() {
         Parent adminParent = null;
         FXMLLoader adminLoader = new FXMLLoader(getClass().getResource("/resources/views/AdminDashboard.fxml"));
@@ -457,6 +486,29 @@ public class CheckinRoomController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
         stage.setTitle("Hotel Management Application");
         stage.show();
+    }
+
+    //Check account position
+    public String getAccountPosition() {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+        String result = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID \n" +
+                    "    WHERE AC.accountStatus = '1'");
+            while (rs.next()) {
+                result = rs.getString("position");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return result;
     }
 
 }

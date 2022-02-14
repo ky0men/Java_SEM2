@@ -3,6 +3,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.sun.nio.sctp.Notification;
+import dao.DBConnect;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -28,6 +30,10 @@ import tray.notification.TrayNotification;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class AdminDashboardController implements Initializable {
@@ -140,6 +146,15 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private AnchorPane contentPane;
 
+    @FXML
+    private Label accountPosition;
+
+    @FXML
+    private Label nameEmployee;
+
+    @FXML
+    private JFXButton aboutUsBtn;
+
 
     private double x, y;
     Stage stage;
@@ -199,6 +214,7 @@ public class AdminDashboardController implements Initializable {
             }
         });
 
+        //Double click to maximize
         titleBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -263,6 +279,9 @@ public class AdminDashboardController implements Initializable {
         changeSceneWhenClickButton(stockManagerBtn, stockManagerIcon, hboxRevenue, hboxHistory, "StockManage.fxml");
 
         historyBtnClick();
+
+        //Get Account information in use
+        getAccountInformationInUse();
 
     }
     public void roomMapBtnClick(){
@@ -366,6 +385,27 @@ public class AdminDashboardController implements Initializable {
         historyBtn.setStyle("");
         hboxHistory.setStyle("-fx-background-radius: 0;");
         historyIcon.setIconColor(Color.WHITE);
+    }
+
+    //Get account infortion is in use
+    public void getAccountInformationInUse(){
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID \n" +
+                    "    WHERE AC.accountStatus = '1'");
+            while (rs.next()){
+                accountPosition.setText(rs.getString("position") + ":");
+                nameEmployee.setText(rs.getString("fullName"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void closeStage(){

@@ -10,7 +10,7 @@ CREATE TABLE Account (
     username VARCHAR(15) NOT NULL UNIQUE,
     passwordHash BINARY(64) NOT NULL,
     position VARCHAR(30),
-    accountStatus INT
+    accountStatus INT,
 )
 
 CREATE TABLE RoomType(
@@ -107,21 +107,36 @@ INSERT INTO Customer VALUES ('2223334445', N'Quách Thị Tĩnh', 'Female', '08/
 INSERT INTO Customer VALUES ('5556667778', N'Trần Dần', 'Male', '05/16/1986', '0903558115', N'Thăng Bình, Quảng Nam');
 INSERT INTO Customer VALUES ('8889991110', N'Lý Kim Thoa', 'Female', '09/22/1996', '0964889223', N'Hải Châu, Đà Nẵng');
 
-INSERT INTO EmployeeInformation VALUES (2, 'Pham Phu Dien', '125684285', '02/13/2022', '05/05/1991', 'ppdien@gmail.com', '0353135698', 'Da Nang', '0' );
+
+INSERT INTO EmployeeInformation VALUES (1, 'Admin of Lotus Hotel', '0000000000', '02/13/2022', '05/05/1991', 'lotus.info@gmail.com', '0905887889', 'Da Nang', '0' );
+INSERT INTO EmployeeInformation VALUES (2, 'Pham Phu Dien', '387684285', '02/13/2022', '05/05/1991', 'ppdien@gmail.com', '0353135698', 'Da Nang', '0' );
 INSERT INTO EmployeeInformation VALUES (3, 'Nguyen Si An', '125684255', '02/13/2022', '05/06/1992', 'ngsian@gmail.com', '0353125698', 'Da Nang', '0' );
-INSERT INTO EmployeeInformation VALUES (4, 'Ton That Hao Phuc', '125683285', '02/13/2022', '05/07/1993', 'tthphuc@gmail.com', '0353175698', 'Da Nang', '0' );
+INSERT INTO EmployeeInformation VALUES (4, 'Ton That Hao Phuc', '012583285', '02/13/2022', '05/07/1993', 'tthphuc@gmail.com', '0353175698', 'Da Nang', '0' );
 
 SELECT * FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID
 
 --Procedure check account
 CREATE PROC checkLogin @username VARCHAR(15), @pass VARCHAR(60) AS 
-    SELECT * FROM Account AD WHERE AD.username = @username AND AD.passwordHash = HASHBYTES('SHA2_512', @pass)
+    SELECT * FROM Account AD JOIN EmployeeInformation EM ON AD.id = EM.userID
+    WHERE AD.username = @username AND AD.passwordHash = HASHBYTES('SHA2_512', @pass) AND EM.deleted = '0'
 GO 
+
 
 --Procudure check is manager or not
 CREATE PROC checkIsManager @username VARCHAR(15), @position VARCHAR(30) AS
     SELECT * FROM Account AC WHERE AC.username = @username AND AC.position = @position
-GO    
+GO
+
+-- Procedure get account is in use
+SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID 
+    WHERE AC.accountStatus = '1'
+
+
+--Procudure change account status (is in use or not)
+CREATE PROC changeAccountStatusInUse @username VARCHAR(15) AS
+    UPDATE Account SET accountStatus = '1' WHERE username = @username
+GO
+
 
 UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 101
 UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 104
@@ -129,10 +144,7 @@ UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 202
 UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 304
 GO
 
--- Procudure confirm cleaned and change status room
---CREATE PROC confirmCleanedRoom @roomName VARCHAR(15) AS
---    UPDATE Room SET roomStatus = 'Available' WHERE roomName = @roomName
---GO
+
 -- Procedure check and get customer name from customer Identiry number
 CREATE PROC getCusNameFromIDNumber @idNum VARCHAR(20) AS
     SELECT CUS.cusName FROM Customer CUS WHERE CUS.cusIdentityNumber = @idNum
@@ -148,10 +160,7 @@ CREATE PROC addCheckin @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15),
     INSERT INTO Checkin VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount)
 GO
 
--- Procudure was checkin and change status room
---CREATE PROC checkinAndChangeStatus @roomName VARCHAR(15) AS
- --   UPDATE Room SET roomStatus = 'Rented' WHERE roomName = @roomName
---GO
+
 
 -- Procudure change status room
 CREATE PROC changeStatusRoom @roomName VARCHAR(15), @status VARCHAR(120) AS

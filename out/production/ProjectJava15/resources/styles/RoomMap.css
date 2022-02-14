@@ -37,3 +37,26 @@
     -fx-background-radius: 0 0 8 8;
     -fx-padding: 0 0 5 0;
 }
+
+.choice-box {
+    -fx-background-color: #3498db;
+    /*arrow color*/
+    -fx-mark-color: #F3F386;
+    -fx-background-radius: 8;
+}
+.choice-box > .label { -fx-text-fill: #F3F386; }
+
+/* Text in all labels */
+.choice-box .label {
+    -fx-text-fill: #F3F386;
+    -fx-font-size: 14;
+    -fx-font-weight: 700;
+}
+.choice-box {
+    -fx-backgroundcolor: #3498db;
+    -fx-focus-color: #00699C;
+    -fx-faint-focus-color: #3498db;
+    -fx-control-inner-background: #3498db;
+    -fx-selection-bar: #00699C;
+    -fx-selection-bar-text-fill: white;
+}

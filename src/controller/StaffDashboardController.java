@@ -1,14 +1,17 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import dao.DBConnect;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -16,11 +19,16 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class StaffDashboardController implements Initializable {
@@ -70,6 +78,16 @@ public class StaffDashboardController implements Initializable {
     @FXML
     private AnchorPane contentPane;
 
+    @FXML
+    private Label accountPosition;
+
+    @FXML
+    private Label nameEmployee;
+
+    @FXML
+    private JFXButton aboutUsBtn;
+
+
     private double x, y;
     Stage stage;
 
@@ -110,10 +128,41 @@ public class StaffDashboardController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 stage = (Stage) adminMainPane.getScene().getWindow();
-                if (stage.isMaximized()) {
-                    stage.setMaximized(false);
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                if (stage.getX() == 0 && stage.getY() == 0) {
+                    stage.setWidth(1000);
+                    stage.setHeight(700);
+                    stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                    stage.setY((bounds.getHeight() - stage.getHeight())/2);
                 } else {
-                    stage.setMaximized(true);
+                    stage.setX(bounds.getMinX());
+                    stage.setY(bounds.getMinY());
+                    stage.setWidth(bounds.getWidth());
+                    stage.setHeight(bounds.getHeight());
+                }
+            }
+        });
+
+        //Double click to maximize
+        titleBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                stage = (Stage) adminMainPane.getScene().getWindow();
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                if(mouseEvent.getClickCount() == 2){
+                    if (stage.getX() == 0 && stage.getY() == 0) {
+                        stage.setWidth(1000);
+                        stage.setHeight(700);
+                        stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                        stage.setY((bounds.getHeight() - stage.getHeight())/2);
+                    } else {
+                        stage.setX(bounds.getMinX());
+                        stage.setY(bounds.getMinY());
+                        stage.setWidth(bounds.getWidth());
+                        stage.setHeight(bounds.getHeight());
+                    }
                 }
             }
         });
@@ -147,6 +196,9 @@ public class StaffDashboardController implements Initializable {
 
             }
         });
+
+        //Get account information in use
+        getAccountInformationInUse();
     }
 
     private void changeContentScene(String sceneUrl) {
@@ -160,5 +212,26 @@ public class StaffDashboardController implements Initializable {
         contentPane.getChildren().add(childrenPane);
         childrenPane.prefWidthProperty().bind(contentPane.widthProperty());
         childrenPane.prefHeightProperty().bind(contentPane.heightProperty());
+    }
+
+    //Get account infortion is in use
+    public void getAccountInformationInUse(){
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID \n" +
+                    "    WHERE AC.accountStatus = '1'");
+            while (rs.next()){
+                accountPosition.setText(rs.getString("position") + ":");
+                nameEmployee.setText(rs.getString("fullName"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

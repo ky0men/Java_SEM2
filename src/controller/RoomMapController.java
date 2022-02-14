@@ -14,6 +14,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -40,6 +41,12 @@ public class RoomMapController implements Initializable {
 
     @FXML
     private JFXTabPane allRoomTabPane;
+
+    @FXML
+    private ChoiceBox<String> searchTypeChoiceBox;
+
+    @FXML
+    private JFXButton searchRoomBtn;
 
     @FXML
     private ScrollPane allRoomScrollPane;
@@ -77,13 +84,9 @@ public class RoomMapController implements Initializable {
     @FXML
     private GridPane gridDirtyRoom;
 
-    @FXML
-    private JFXComboBox<SearchRoomSelectType> comboBoxSearchRoom;
-
-    @FXML
-    private JFXButton searchRoomBtn;
-
     public Integer col, row;
+
+    private String[] searchType = {"Floor", "Room name"};
 
     private List<Room> rooms = new ArrayList<>();
     private List<Room> availableRooms = new ArrayList<>();
@@ -168,31 +171,14 @@ public class RoomMapController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Search Type Select To Search
-        comboBoxSearchRoom.setItems(FXCollections.observableArrayList(new SearchRoomSelectType("Floor"), new SearchRoomSelectType("Room name")));
-        comboBoxSearchRoom.setConverter(new StringConverter<SearchRoomSelectType>() {
-            @Override
-            public String toString(SearchRoomSelectType searchRoomSelectType) {
-                return searchRoomSelectType.getSearchType();
-            }
-
-            @Override
-            public SearchRoomSelectType fromString(String s) {
-                return null;
-            }
-        });
+        searchTypeChoiceBox.getItems().addAll(searchType);
 //        System.out.println(comboBoxSearchRoom.getValue());
 
         //Search button action
         searchRoomBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    System.out.println(comboBoxSearchRoom.getValue().getSearchType().toString());
-                    rooms.removeAll(rooms);
-                    showRoomToPane(allRoomScrollPane, allRoomHBoxGrid, gridAllRoom, rooms);
-                } catch (NullPointerException e) {
-                    System.out.println("null");
-                }
+
             }
         });
         //All Room Tab
@@ -230,21 +216,4 @@ public class RoomMapController implements Initializable {
         return rooms;
     }
 
-//    public void selectTab() {
-//        //Get tab name from roomview
-//        FXMLLoader roomViewLoader = new FXMLLoader(getClass().getResource("/resources/views/RoomView.fxml"));
-//        try {
-//            Parent roomViewRoot = roomViewLoader.load();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        RoomViewController roomViewcontroller = roomViewLoader.getController();
-//        String gridRoomType = roomViewcontroller.getGridRoomType();
-//        if (gridRoomType.equals("gridDirtyRoom")) {
-//            allRoomTabPane.getSelectionModel().select(3);
-//
-//        }else{
-//            allRoomTabPane.getSelectionModel().select(0);
-//        }
-//    }
 }

@@ -123,6 +123,11 @@ public class LoginController implements Initializable {
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
+
+        //Reset account status
+        resetAccountStatus(conn);
+
+        //Check account
         if (conn != null) {
             if (txtUsername.getText().equals("") || txtPassword.getText().equals("")) {
                 messLabel.setText("Please input both!");
@@ -130,6 +135,7 @@ public class LoginController implements Initializable {
                 messLabel.setStyle("-fx-text-fill: red;");
             } else {
                 if (checkAccount(txtUsername.getText(), txtPassword.getText(), conn)) {
+                    changeAccountStatus(conn, txtUsername.getText());
                     if (checkIsManager(txtUsername.getText(), conn)) {
                         messLabel.setText("Login successful");
                         messLabel.setStyle("-fx-text-fill: green;");
@@ -259,8 +265,30 @@ public class LoginController implements Initializable {
                 }
             }
         }
-
-
         return result;
     }
+
+    //Reset account status
+    public void resetAccountStatus(Connection conn){
+        try {
+            Statement stm = conn.createStatement();
+            stm.executeUpdate("UPDATE Account SET accountStatus = '0' WHERE accountStatus = '1'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    //Change Account status
+    public void changeAccountStatus(Connection conn, String username){
+        CallableStatement cstm = null;
+        try {
+            cstm = conn.prepareCall("{call changeAccountStatusInUse(?)}");
+            cstm.setString(1, username);
+            cstm.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
 }

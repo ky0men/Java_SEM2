@@ -89,7 +89,7 @@ public class RoomViewController implements Initializable {
                 } else if (actionBtn.getText().equals("Check Out")) {
                     System.out.println("Check out");
                 } else if (actionBtn.getText().equals("Cleaned")) {
-                    System.out.println("Cleaned room");
+//                    System.out.println("Cleaned room");
                     //Get column and row of gridpane
                     col = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-column");
                     row = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-row");

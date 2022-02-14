@@ -342,14 +342,14 @@
             <DropShadow height="15.0" offsetX="2.0" offsetY="2.0" radius="7.0" width="15.0" />
          </effect>
          <children>
-            <HBox alignment="CENTER_LEFT" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="325.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="accountPosition" text="Manager: " textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="nameEmployee" layoutX="26.0" layoutY="15.0" text="Admin" textFill="WHITE">
+                  <Label fx:id="nameEmployee" layoutX="26.0" layoutY="15.0" prefHeight="20.0" prefWidth="198.0" text="Admin" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
