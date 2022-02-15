@@ -62,6 +62,14 @@ CREATE TABLE Checkin(
     checkoutDate DATE,
     prepaid MONEY,
     discount MONEY,
+    wasPayment INT,
+)
+
+CREATE TABLE usedServices(
+    bookingServiceID INT IDENTITY (1, 1) PRIMARY KEY,
+    checkinID INT FOREIGN KEY REFERENCES Checkin(checkinID),
+    usedServiceID INT FOREIGN KEY REFERENCES Service(ID),
+    usedServiceQty INT,
 )
 
 --Phuc
@@ -118,6 +126,8 @@ GO
 SELECT * FROM ServiceType
 SELECT * FROM Service
 --END DUC
+
+SELECT * FROM Service S WHERE S.ServiceType = 'Food Service' 
 
 INSERT INTO Account VALUES ('admin', HASHBYTES('SHA2_512', '123456'), 'Manager', 0);
 INSERT INTO Account VALUES ('ppdien', HASHBYTES('SHA2_512', '123'), 'Employee', 0);
@@ -199,7 +209,7 @@ GO
 
 -- Procudure add checkin
 CREATE PROC addCheckin @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15), @checkinDate DATETIME, @checkoutDate DATE, @prepaid MONEY, @discount MONEY AS
-    INSERT INTO Checkin VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount)
+    INSERT INTO Checkin VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount, 0)
 GO
 
 
