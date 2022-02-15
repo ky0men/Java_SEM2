@@ -10,6 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -45,11 +46,18 @@ public class RoomViewController implements Initializable {
     @FXML
     private HBox hBoxBtn;
 
+    @FXML
+    private JFXButton servicesBtn;
+
+    @FXML
+    private HBox hboxServiceContainer;
+
     private static Integer col, row;
 
     private static String gridRoomType;
 
     private Room room;
+
 
     public void setData(Room room) {
         this.room = room;
@@ -59,11 +67,9 @@ public class RoomViewController implements Initializable {
         if (room.getRoomStatus().equals("Rented")) {
             roomViewAnchorPane.setStyle("-fx-background-color: #ee6a5f;-fx-background-radius: 10;");
             actionBtn.setText("Check Out");
-            JFXButton servicesBtn = new JFXButton("Services");
-            servicesBtn.getStylesheets().add("/resources/styles/setButton.css");
-            servicesBtn.getStyleClass().add("set-type2-btn");
-            servicesBtn.setCursor(Cursor.HAND);
-            hBoxBtn.getChildren().add(servicesBtn);
+            servicesBtn.setText("Services");
+            servicesBtn.setVisible(true);
+            hboxServiceContainer.setStyle("-fx-padding: 0;");
         } else if (room.getRoomStatus().equals("Dirty")) {
             roomViewAnchorPane.setStyle("-fx-background-color: #f5bd4f; -fx-background-radius: 10;");
             actionBtn.setText("Cleaned");
@@ -78,9 +84,9 @@ public class RoomViewController implements Initializable {
                 if (actionBtn.getText().equals("Check in")) {
                     System.out.println("Book Room");
                     //Get column and row of gridpane
-                    col = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-column");
-                    row = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-row");
-                    gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getId();
+                    col = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
+                    row = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
+                    gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getParent().getId();
 
                     stage = (Stage) actionBtn.getScene().getWindow();
                     stage.close();
@@ -91,9 +97,9 @@ public class RoomViewController implements Initializable {
                 } else if (actionBtn.getText().equals("Cleaned")) {
 //                    System.out.println("Cleaned room");
                     //Get column and row of gridpane
-                    col = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-column");
-                    row = (Integer) actionBtn.getParent().getParent().getParent().getProperties().get("gridpane-row");
-                    gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getId();
+                    col = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
+                    row = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
+                    gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getParent().getId();
 //                    System.out.println(getRow());
 //                    System.out.println(actionBtn.getParent().getParent().getParent().getProperties());
 
@@ -104,6 +110,24 @@ public class RoomViewController implements Initializable {
                 }
             }
         });
+
+
+        //ServiceBtn Action
+        servicesBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GaussianBlur blurEffect = new GaussianBlur(10);
+                stage.getScene().getRoot().setEffect(blurEffect);
+                //Get column and row of gridpane
+                col = (Integer) servicesBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
+                row = (Integer) servicesBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
+                gridRoomType = servicesBtn.getParent().getParent().getParent().getParent().getParent().getId();
+//                System.out.println(servicesBtn.getParent().getParent());
+                showAction("/resources/views/BookingService.fxml");
+            }
+        });
+
+
     }
 
     private void showAction(String actionUrl) {

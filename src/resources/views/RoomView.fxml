@@ -52,16 +52,32 @@
                   <Insets right="10.0" />
                </padding>
             </HBox>
-            <HBox fx:id="hBoxBtn" alignment="CENTER" prefHeight="57.0" prefWidth="225.0" spacing="6.0" VBox.vgrow="ALWAYS">
+            <HBox fx:id="hboxServiceContainer" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXButton fx:id="actionBtn" buttonType="RAISED" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Check in" textFill="WHITE">
-                     <font>
-                        <Font name="Ubuntu Regular" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></JFXButton>
+                  <HBox fx:id="hBoxBtn" alignment="CENTER" prefHeight="84.0" prefWidth="957.0" spacing="6.0">
+                     <children>
+                        <JFXButton fx:id="actionBtn" buttonType="RAISED" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Check in" textFill="WHITE">
+                           <font>
+                              <Font name="Ubuntu Regular" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <JFXButton fx:id="servicesBtn" buttonType="RAISED" layoutX="376.0" layoutY="19.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="." textFill="WHITE" visible="false">
+                           <font>
+                              <Font name="Ubuntu Regular" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                </children>
+               <padding>
+                  <Insets left="24.0" />
+               </padding>
             </HBox>
          </children>
       </VBox>

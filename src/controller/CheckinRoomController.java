@@ -219,8 +219,6 @@ public class CheckinRoomController implements Initializable {
                     customerName.validate();
                 } else if (checkinDay.equals(today)) {
 //                    System.out.println("Checkin Done");
-//                    System.out.println(todayTime);
-//                    System.out.println(checkinDay);
                     changeStatusRentedRoom(roomName);
                     if (getCustomerNameFromID(identityNumber.getText(), conn) == null) {
                         addNameAndIdCustomer(identityNumber.getText(), customerName.getText());
@@ -309,8 +307,6 @@ public class CheckinRoomController implements Initializable {
         RoomViewController roomViewcontroller = roomViewLoader.getController();
         int row = roomViewcontroller.getRow();
         int col = roomViewcontroller.getCol();
-//        System.out.println(row);
-//        System.out.println(col);
         String gridRoomType = roomViewcontroller.getGridRoomType();
 
         //Get room name from room map
