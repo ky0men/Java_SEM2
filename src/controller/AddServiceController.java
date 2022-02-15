@@ -110,11 +110,11 @@ public class AddServiceController implements Initializable {
     }
 
     private void AddServiceTable(){
-        String Name = tfName.getText();
-        String Type = cmbType.getSelectionModel().getSelectedItem();
-        int price = Integer.parseInt(tfPrice.getText());
-        String unit = cmbUnit.getSelectionModel().getSelectedItem();
-        int volume = Integer.parseInt(tfVolume.getText());
+//        String Name = tfName.getText();
+//        String Type = cmbType.getSelectionModel().getSelectedItem();
+//        int price = Integer.parseInt(tfPrice.getText());
+//        String unit = cmbUnit.getSelectionModel().getSelectedItem();
+//        int volume = Integer.parseInt(tfVolume.getText());
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
