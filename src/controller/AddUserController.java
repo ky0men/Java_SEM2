@@ -3,6 +3,8 @@ package controller;
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -65,16 +67,34 @@ public class AddUserController implements Initializable {
     private JFXTextField txtEmail;
 
     @FXML
-    private JFXDatePicker dpBirthday;
+    private DatePicker dpBirthday;
 
     @FXML
     private FontIcon iconWarning;
 
+    @FXML
+    private Button btnAdd;
+
+    @FXML
+    private Button btnCancel;
+
     private double x, y;
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Set DatePicker
+        dpBirthday.setValue(LocalDate.now().minusYears(18));
+        dpBirthday.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate day = LocalDate.now().minusYears(18);
+
+                setDisable(empty || date.compareTo(day) > 0 );
+            }
+        });
+
         //Window move action
         titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -90,44 +110,196 @@ public class AddUserController implements Initializable {
                 titleBar.getScene().getWindow().setY(event.getScreenY() - y);
             }
         });
+
+        //Set Combobox
         cbPosition.setValue("Manager");
         cbPosition.setItems(positionList);
+
+        //Validate
+        RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+        txtUserName.getValidators().add(requiredFieldValidator);
+        txtPassword.getValidators().add(requiredFieldValidator);
+        txtReEnterPassword.getValidators().add(requiredFieldValidator);
+        txtFullName.getValidators().add(requiredFieldValidator);
+        txtNoID.getValidators().add(requiredFieldValidator);
+        txtAddress.getValidators().add(requiredFieldValidator);
+        txtEmail.getValidators().add(requiredFieldValidator);
+        txtPhoneNumber.getValidators().add(requiredFieldValidator);
+
+        txtUserName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("User Name is required!");
+                    txtUserName.validate();
+                }
+            }
+        });
+
+        txtPassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Password is required!");
+                    txtPassword.validate();
+                }
+            }
+        });
+
+        txtReEnterPassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Confirm Password is required!");
+                    txtReEnterPassword.validate();
+                }
+            }
+        });
+
+        txtFullName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Full Name is required!");
+                    txtFullName.validate();
+                }
+            }
+        });
+
+        txtNoID.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("ID Number is required!");
+                    txtNoID.validate();
+                }
+            }
+        });
+
+        txtAddress.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Address is required!");
+                    txtAddress.validate();
+                }
+            }
+        });
+
+        txtEmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Email is required!");
+                    txtEmail.validate();
+                }
+            }
+        });
+
+        txtPhoneNumber.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Phone Number is required!");
+                    txtPhoneNumber.validate();
+                }
+            }
+        });
+
+        //Add Employee
+        btnAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                if(txtUserName.getText().equals("") && txtPassword.getText().equals("") && txtReEnterPassword.getText().equals("") &&
+                        txtFullName.getText().equals("") && txtNoID.getText().equals("") && txtAddress.getText().equals("") &&
+                        txtEmail.getText().equals("") && txtPhoneNumber.getText().equals("")){
+                    requiredFieldValidator.setMessage("User Name is required!");
+                    txtUserName.validate();
+                    requiredFieldValidator.setMessage("Password is required!");
+                    txtPassword.validate();
+                    requiredFieldValidator.setMessage("Confirm Password is required!");
+                    txtReEnterPassword.validate();
+                    requiredFieldValidator.setMessage("Full Name is required!");
+                    txtFullName.validate();
+                    requiredFieldValidator.setMessage("ID Number is required!");
+                    txtNoID.validate();
+                    requiredFieldValidator.setMessage("Address is required!");
+                    txtAddress.validate();
+                    requiredFieldValidator.setMessage("Email is required!");
+                    txtEmail.validate();
+                    requiredFieldValidator.setMessage("Phone Number is required!");
+                    txtPhoneNumber.validate();}
+//                }else if(txtUserName.getText().equals("")){
+//                    requiredFieldValidator.setMessage("User Name is required!");
+//                    txtUserName.validate();
+//                }else if(txtPassword.getText().equals("")){
+//                    requiredFieldValidator.setMessage("Password is required!");
+//                    txtPassword.validate();
+//                }else if(txtReEnterPassword.getText().equals("")){
+//                    requiredFieldValidator.setMessage("Confirm Password is required!");
+//                    txtReEnterPassword.validate();
+//                }else if(txtFullName.getText().equals("")){
+//                    requiredFieldValidator.setMessage("Full Name is required!");
+//                    txtFullName.validate();
+//                }else if(txtNoID.getText().equals("")){
+//                    requiredFieldValidator.setMessage("ID Number is required!");
+//                    txtNoID.validate();
+//                }else if(txtAddress.getText().equals("")){
+//                    requiredFieldValidator.setMessage("Address is required!");
+//                    txtAddress.validate();
+//                } else if(txtEmail.getText().equals("")){
+//                    requiredFieldValidator.setMessage("Email is required!");
+//                    txtEmail.validate();
+//                }else if(txtPhoneNumber.getText().equals("")){
+//                    requiredFieldValidator.setMessage("Phone Number is required!");
+//                    txtPhoneNumber.validate();
+//                }
+            }
+        });
+
+        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Node node = (Node)event.getSource();
+                Stage stage = (Stage)node.getScene().getWindow();
+                stage.close();
+                GaussianBlur blur = new GaussianBlur(0);
+                LoginController.stage.getScene().getRoot().setEffect(blur);
+            }
+        });
+
+
+
+
     }
 
-    @FXML
-    void AddUser(ActionEvent event) {
-        formNotNull();
-        checkUserName();
-        checkPassword();
-        System.out.println("Add");
-        if(formNotNull() && checkUserName() && checkPassword() && checkEmail() && checkPhoneNumber()){
-            AddTableAccount();
-            AddTableProfile();
-            Node node = (Node)event.getSource();
-            Stage stage = (Stage)node.getScene().getWindow();
-            stage.close();
-            String fullNameText = txtFullName.getText();
-            String title = "Successfully added employee";
-            String mess = "Employee "+ fullNameText +" has been successfully added";
-            TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-            tray.setAnimationType(AnimationType.POPUP);
-            tray.showAndDismiss(Duration.seconds(3));
-            tray.showAndWait();
-            GaussianBlur blur = new GaussianBlur(0);
-            LoginController.stage.getScene().getRoot().setEffect(blur);
-        }
-    }
 
 
+//    @FXML
+//    void AddUser(ActionEvent event) {
+//        formNotNull();
+//        checkUserName();
+//        checkPassword();
+//        System.out.println("Add");
+//        if(formNotNull() && checkUserName() && checkPassword() && checkEmail() && checkPhoneNumber()){
+//            AddTableAccount();
+//            AddTableProfile();
+//            Node node = (Node)event.getSource();
+//            Stage stage = (Stage)node.getScene().getWindow();
+//            stage.close();
+//            String fullNameText = txtFullName.getText();
+//            String title = "Successfully added employee";
+//            String mess = "Employee "+ fullNameText +" has been successfully added";
+//            TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+//            tray.setAnimationType(AnimationType.POPUP);
+//            tray.showAndDismiss(Duration.seconds(3));
+//            tray.showAndWait();
+//            GaussianBlur blur = new GaussianBlur(0);
+//            LoginController.stage.getScene().getRoot().setEffect(blur);
+//        }
+//    }
 
-    @FXML
-    void CancelAction(ActionEvent event) {
-        Node node = (Node)event.getSource();
-        Stage stage = (Stage)node.getScene().getWindow();
-        stage.close();
-        GaussianBlur blur = new GaussianBlur(0);
-        LoginController.stage.getScene().getRoot().setEffect(blur);
-    }
 
     private boolean checkPassword(){
         String password = txtPassword.getText();
@@ -253,17 +425,17 @@ public class AddUserController implements Initializable {
         return flag;
     }
 
-    private boolean formNotNull(){
+    private boolean formIsNull(){
         if(txtFullName.getText() == "" || txtUserName.getText() == "" || txtPassword.getText() == ""
                 || txtReEnterPassword.getText() == "" || txtNoID.getText() == "" || dpBirthday.getValue() == null
                 || txtPhoneNumber.getText() == ""|| txtEmail.getText() == ""|| txtAddress.getText() == "" ){
             iconWarning.setVisible(true);
             lbWarning.setText("Please complete all information");
-            return false;
+            return true;
         }else {
             iconWarning.setVisible(false);
             lbWarning.setText("");
-            return true;
+            return false;
         }
     }
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane minHeight="540.0" prefHeight="540.0" prefWidth="801.0" styleClass="main-pane" stylesheets="@../styles/BookingRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUserController">
+<AnchorPane minHeight="540.0" prefHeight="540.0" prefWidth="801.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUserController">
    <children>
       <HBox fx:id="titleBar" alignment="CENTER" focusTraversable="true" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="574.0" styleClass="title-name" AnchorPane.bottomAnchor="511.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -30,12 +30,12 @@
       </HBox>
       <ButtonBar layoutX="564.0" layoutY="472.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddUser" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add">
+            <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#CancelAction" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel">
+            <Button fx:id="btnCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -97,7 +97,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <JFXPasswordField prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <JFXPasswordField fx:id="txtReEnterPassword" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <font>
                   <Font size="13.0" />
                </font>
@@ -128,7 +128,7 @@
       <GridPane layoutX="19.0" layoutY="236.0" prefHeight="198.0" prefWidth="762.0" styleClass="information-box">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.20001831054685" minWidth="10.0" prefWidth="82.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="338.4000244140625" minWidth="10.0" prefWidth="260.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="260.0" prefWidth="260.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
         </columnConstraints>
@@ -167,7 +167,6 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <JFXDatePicker fx:id="dpBirthday" prefHeight="30.0" prefWidth="220.0" stylesheets="@../styles/Employee.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" text="Address:" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
@@ -203,6 +202,7 @@
                   <FontIcon fx:id="iconWarning" iconColor="#f80606" iconLiteral="gmi-warning" iconSize="15" visible="false" wrappingWidth="20.79998779296875" />
                </graphic>
             </Label>
+            <DatePicker fx:id="dpBirthday" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="20.0" />

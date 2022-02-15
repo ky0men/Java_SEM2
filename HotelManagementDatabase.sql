@@ -64,7 +64,6 @@ CREATE TABLE Checkin(
     discount MONEY,
 )
 
-DROP TABLE EmployeeInformation
 --Phuc
 CREATE TABLE EmployeeInformation(
 	userID int foreign key references Account(id),
