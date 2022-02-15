@@ -53,7 +53,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tfID" focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
+                              <JFXTextField fx:id="tfID" editable="false" focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

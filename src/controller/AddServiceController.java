@@ -1,5 +1,8 @@
 package controller;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Service;
@@ -31,37 +35,28 @@ import java.util.ResourceBundle;
 public class AddServiceController implements Initializable {
 
     @FXML
-    private AnchorPane title_bar;
+    private HBox titleBar;
 
     @FXML
-    private TextField tfID;
+    private JFXTextField tfName;
 
     @FXML
-    private TextField tfName;
+    private JFXComboBox<String> cmbType;
 
     @FXML
-    private TextField tfPrice;
+    private JFXTextField tfPrice;
 
     @FXML
-    private ComboBox<String> cmbType;
+    private JFXComboBox<String> cmbUnit;
 
     @FXML
-    private ComboBox<String> cmbUnit;
+    private JFXTextField tfVolume;
 
     @FXML
-    private TextField tfVolume;
+    private JFXButton btnAdd;
 
     @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnCancel;
-
-    @FXML
-    private Label lbWarning;
-
-    @FXML
-    private FontIcon iconWarning;
+    private JFXButton btnCancel;
 
     ObservableList<String> typeService = FXCollections.observableArrayList( "Food Service","Traveling Service","Relaxing Service","Sport - Entertainment Service","Others Service");
     ObservableList<String> unit = FXCollections.observableArrayList( "bottle","can","person","time","date");
@@ -75,18 +70,18 @@ public class AddServiceController implements Initializable {
         cmbUnit.setItems(unit);
         cmbType.setItems(typeService );
         //Window move action
-        title_bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 x = event.getSceneX();
                 y = event.getSceneY();
             }
         });
-        title_bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                title_bar.getScene().getWindow().setX(event.getScreenX() - x);
-                title_bar.getScene().getWindow().setY(event.getScreenY() - y);
+                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
             }
         });
     }
@@ -101,33 +96,38 @@ public class AddServiceController implements Initializable {
     }
 
     private boolean formNotNull(){
-        if(tfID.getText() == "" || tfName.getText() == "" || tfPrice.getText() == ""
-                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == ""){
-            iconWarning.setVisible(true);
-            lbWarning.setText("Please complete all information");
-            return false;
-        }else {
-            iconWarning.setVisible(false);
-            lbWarning.setText("");
-            return true;
-        }
+//        if(tfID.getText() == "" || tfName.getText() == "" || tfPrice.getText() == ""
+//                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == ""){
+//            iconWarning.setVisible(true);
+//            lbWarning.setText("Please complete all information");
+//            return false;
+//        }else {
+//            iconWarning.setVisible(false);
+//            lbWarning.setText("");
+
+//        }
+        return true;
     }
 
     private void AddServiceTable(){
-        int ID = Integer.parseInt(tfID.getText());
-        String ServiceName = tfName.getText();
-        String ServiceType = cmbType.getSelectionModel().getSelectedItem();
-        int Price = Integer.parseInt(tfPrice.getText());
-        String Unit = cmbUnit.getSelectionModel().getSelectedItem();
-        int Volume = Integer.parseInt(tfVolume.getText());
+        String Name = tfName.getText();
+        String Type = cmbType.getSelectionModel().getSelectedItem();
+        int price = Integer.parseInt(tfPrice.getText());
+        String unit = cmbUnit.getSelectionModel().getSelectedItem();
+        int volume = Integer.parseInt(tfVolume.getText());
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
-        String query = "INSERT INTO Service VALUES ("+ID+",'"+ ServiceName +"','"+ ServiceType +"',"+Price+",'" + Unit + "',"+Volume+");";
+        CallableStatement ctsm = null;
         try {
-            Statement st = conn.createStatement();
-            st.executeUpdate(query);
-            conn.close();
+            ctsm = conn.prepareCall("{call addService(?,?,?,?,?)}");
+            ctsm.setString(1,tfName.getText());
+            ctsm.setString(2,cmbType.getValue());
+            ctsm.setString(3,tfPrice.getText());
+            ctsm.setString(4,cmbUnit.getValue());
+            ctsm.setString(5,tfVolume.getText());
+            ctsm.execute();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -153,7 +153,6 @@ public class AddServiceController implements Initializable {
         }
     }
     public void setService(Service service){
-        tfID.setText(String.valueOf(service.getID()));
         tfName.setText(service.getName());
         tfVolume.setText(String.valueOf(service.getVolume()));
         tfPrice.setText(String.valueOf(service.getPrice()));
