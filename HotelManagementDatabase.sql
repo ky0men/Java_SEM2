@@ -117,6 +117,12 @@ UPDATE Service SET Unit = 'person' WHERE ID = 15
 GO
 SELECT * FROM ServiceType
 SELECT * FROM Service
+
+--Procudure update service
+CREATE PROC updateService @id int, @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20), @volume int AS
+    UPDATE Service SET ServiceName = @serviceName, ServiceType = @serviceType, Price = @price, Unit = @unit, Volume = @volume WHERE ID = @id
+
+
 --END DUC
 
 INSERT INTO Account VALUES ('admin', HASHBYTES('SHA2_512', '123456'), 'Manager', 0);

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="445.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddServiceController">
+   <children>
+      <AnchorPane fx:id="title_bar" prefHeight="84.0" prefWidth="600.0" style="-fx-background-color: #102166;">
+         <children>
+            <Label layoutX="201.0" layoutY="29.0" text="SERVICE FORM" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="34.0" layoutY="116.0" prefHeight="16.0" prefWidth="86.0" text="ID">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="161.0" text="Service Name">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="207.0" prefHeight="16.0" prefWidth="102.0" text="Type of Service">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="258.0" text="Price">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="32.0" layoutY="311.0" prefHeight="16.0" prefWidth="32.0" text=" Unit">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="359.0" text="Volume">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfID" layoutX="169.0" layoutY="112.0" prefHeight="25.0" prefWidth="337.0" promptText="Example: 001">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfName" layoutX="169.0" layoutY="157.0" prefHeight="25.0" prefWidth="337.0" promptText="Morning Service">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tfPrice" layoutX="169.0" layoutY="253.0" prefHeight="25.0" prefWidth="124.0" promptText="100.000">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </TextField>
+      <ComboBox fx:id="cmbType" editable="true" layoutX="169.0" layoutY="203.0" prefHeight="25.0" prefWidth="198.0" promptText="Food Service" />
+      <ComboBox fx:id="cmbUnit" layoutX="169.0" layoutY="307.0" prefHeight="25.0" prefWidth="124.0" promptText="Person" />
+      <TextField fx:id="tfVolume" layoutX="169.0" layoutY="355.0" prefHeight="25.0" prefWidth="124.0" promptText="1.000">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </TextField>
+      <Label layoutX="254.0" layoutY="257.0" prefHeight="17.0" prefWidth="32.0" text="VND" />
+      <Button fx:id="btnAdd" layoutX="352.0" layoutY="397.0" mnemonicParsing="false" onAction="#AddService" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #45b873; -fx-background-radius: 50; -fx-border-color: white; -fx-border-radius: 50;" text="Add" />
+      <Button fx:id="btnCancel" layoutX="456.0" layoutY="397.0" mnemonicParsing="false" onAction="#CancelAction" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: #ffa163; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: white;" text="Cancel" />
+      <Label fx:id="lbWarning" layoutX="81.0" layoutY="402.0">
+         <graphic>
+            <FontIcon fx:id="iconWarning" />
+         </graphic>
+      </Label>
+   </children>
+</AnchorPane>

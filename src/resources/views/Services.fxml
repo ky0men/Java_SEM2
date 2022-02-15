@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RoomSettingController">
+<AnchorPane prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServiceController">
    <children>
-      <Label layoutX="173.0" layoutY="264.0" text="Services Content" textFill="#00699c">
+      <Label layoutX="43.0" layoutY="46.0" text="Services" textFill="#00699c">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
+      <TableView fx:id="table_service" layoutX="20.0" layoutY="165.0" prefHeight="353.0" prefWidth="666.0">
+        <columns>
+          <TableColumn fx:id="col_id" prefWidth="40.0" text="ID" />
+          <TableColumn fx:id="col_name" prefWidth="211.0" text="Service Name" />
+            <TableColumn fx:id="col_type" prefWidth="168.0" text="Type of Service" />
+            <TableColumn fx:id="col_price" prefWidth="88.0" text="Price" />
+            <TableColumn fx:id="col_unit" prefWidth="54.0" text="Unit" />
+            <TableColumn fx:id="col_volume" prefWidth="104.0" text="Volume" />
+        </columns>
+      </TableView>
+      <TextField fx:id="tfSearch" layoutX="375.0" layoutY="123.0" onAction="#search_service" prefHeight="25.0" prefWidth="311.0" promptText="Search" />
+      <Button fx:id="btnAdd" layoutX="436.0" layoutY="71.0" mnemonicParsing="false" onAction="#AddServiceAction" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 50; -fx-background-color: #45b873; -fx-border-radius: 50; -fx-border-color: white;" text="Add New">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnRefresh" layoutX="562.0" layoutY="71.0" mnemonicParsing="false" onAction="#updateTable" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 50; -fx-background-color: #dbdf7e; -fx-border-radius: 50; -fx-border-color: white;" text="Refresh">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnEdit" layoutX="319.0" layoutY="71.0" mnemonicParsing="false" onAction="#Edit_Action" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 50; -fx-background-color: #fc6f7a; -fx-border-radius: 50; -fx-border-color: white;" text="Edit">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
