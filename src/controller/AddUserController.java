@@ -117,6 +117,7 @@ public class AddUserController implements Initializable {
 
         //Validate
         RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+        RequiredFieldValidator userNameValidation = new RequiredFieldValidator();
         txtUserName.getValidators().add(requiredFieldValidator);
         txtPassword.getValidators().add(requiredFieldValidator);
         txtReEnterPassword.getValidators().add(requiredFieldValidator);
