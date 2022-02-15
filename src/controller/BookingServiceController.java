@@ -91,14 +91,15 @@ public class BookingServiceController implements Initializable {
         //Populate ServiceType
         potulateComboBox(conn, serviceTypeCombobox, "SELECT * FROM ServiceType", "ServiceType");
 
-//        serviceTypeCombobox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
-//
-//            @Override
-//            public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
-//                //Populata service name
-//                potulateComboBox(conn, serviceCombobox, "SELECT * FROM Service S WHERE S.ServiceType = " + (String) newValue, "ServiceName");
-//            }
-//        });
+        serviceTypeCombobox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+
+            @Override
+            public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
+                //Populata service name
+                potulateComboBox(conn, serviceCombobox, "SELECT * FROM Service S WHERE S.ServiceType = " + "'" +(String) newValue + "'", "ServiceName");
+                System.out.println("SELECT * FROM Service S WHERE S.ServiceType = " + "'" +(String) newValue + "'");
+            }
+        });
 
 
     }
