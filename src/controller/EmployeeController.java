@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,6 +46,10 @@ public class EmployeeController implements Initializable {
     private Button btnAddUser;
 
     @FXML
+    private Button btnRefresh;
+
+
+    @FXML
     private TextField txtSearch;
 
     private ObservableList<EmployeeList> employeeLists;
@@ -70,6 +75,8 @@ public class EmployeeController implements Initializable {
     @FXML
     private Label lbTotalEmployee;
 
+
+
     EmployeeList data = null;
 
     private ButtonBar[] buttonBar = new ButtonBar[100];
@@ -85,8 +92,26 @@ public class EmployeeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb){
         initLoadTable();
         initTotalEmployee();
+
+        //Add Employee
+        btnAddUser.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                openScene("/resources/views/AddUser.fxml", 400, 100);
+            }
+        });
+
+        //Refresh TableView
+        btnRefresh.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                initLoadTable();
+                initTotalEmployee();
+            }
+        });
     }
 
+    //Load Total Employee
     private void initTotalEmployee(){
         int totalEmployee = 0;
         String query = "SELECT COUNT(userID) AS TotalEmployee FROM EmployeeInformation";
@@ -107,6 +132,7 @@ public class EmployeeController implements Initializable {
         }
     }
 
+    //Load TableView
     private void initLoadTable(){
         employeeLists = FXCollections.observableArrayList();
         setCellValue();
@@ -125,6 +151,7 @@ public class EmployeeController implements Initializable {
         SearchAction();
     }
 
+    //Search Employee
     private void SearchAction() {
         FilteredList<EmployeeList> employeeListsData = new FilteredList<>(employeeLists, b -> true);
         txtSearch.textProperty().addListener((observableValue, oldvalue, newvalue) -> {
@@ -150,6 +177,7 @@ public class EmployeeController implements Initializable {
         tableEmployee.setItems(sortedList);
     }
 
+    //Open new Scene
     private void openScene(String sceneUrl, int x, int y){
         FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneUrl));
         Parent parent = null;
@@ -172,6 +200,7 @@ public class EmployeeController implements Initializable {
         stage.showAndWait();
     }
 
+    //Edit Information
     private void HandleEdit(ActionEvent event){
         data = tableEmployee.getSelectionModel().getSelectedItem();
         String email = data.getEmail();
@@ -239,11 +268,12 @@ public class EmployeeController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setX(600);
+        stage.setX(400);
         stage.setY(200);
         stage.showAndWait();
     }
 
+    //Get User Name for TableView
     private String getUsername(){
         data = tableEmployee.getSelectionModel().getSelectedItem();
         String email = data.getEmail();
@@ -266,6 +296,7 @@ public class EmployeeController implements Initializable {
         return userName;
     }
 
+    //Check Delete Status
     private boolean CheckDeleted(){
         data = tableEmployee.getSelectionModel().getSelectedItem();
         boolean flag = false;
@@ -292,6 +323,7 @@ public class EmployeeController implements Initializable {
         return flag;
     }
 
+    //Delete Employee
     private void HandleDelete(ActionEvent event){
         if(CheckDeleted()){
             data = tableEmployee.getSelectionModel().getSelectedItem();
@@ -331,6 +363,7 @@ public class EmployeeController implements Initializable {
 
     }
 
+    //Change Password
     private void HandleChangePassword(ActionEvent event){
         data = tableEmployee.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/ChangePassword.fxml"));
@@ -351,18 +384,13 @@ public class EmployeeController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setX(600);
-        stage.setY(300);
+        stage.setX(500);
+        stage.setY(250);
         stage.showAndWait();
 
     }
 
-    @FXML
-    void AddUserAction(ActionEvent event) {
-        openScene("/resources/views/AddUser.fxml", 600, 100);
-//        System.out.println("ADD");
-    }
-
+    //Set Cell Value for TableView
     public void setCellValue(){
         tableEmployee.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
         columnName.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
@@ -379,7 +407,7 @@ public class EmployeeController implements Initializable {
 
     }
 
-
+    //Load Employee from Database
     public void loadEmployeeTable(){
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
@@ -400,9 +428,4 @@ public class EmployeeController implements Initializable {
         tableEmployee.setItems(employeeLists);
     }
 
-    @FXML
-    void RefreshAction(ActionEvent event) {
-        initLoadTable();
-        initTotalEmployee();
-    }
 }

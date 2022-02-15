@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 public class ChangePasswordController implements Initializable {
 
     @FXML
-    private AnchorPane titleBar;
+    private HBox titleBar;
 
     private double x, y;
 

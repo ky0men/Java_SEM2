@@ -1,6 +1,10 @@
 package controller;
 
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,21 +38,21 @@ import java.util.regex.Pattern;
 public class EditInformationController implements Initializable {
 
     @FXML
-    private AnchorPane titleBar;
+    private HBox titleBar;
 
     private double x, y;
 
     @FXML
-    public TextField txtFullName;
+    public JFXTextField txtFullName;
 
     @FXML
-    public TextField txtNoID;
+    public JFXTextField txtNoID;
 
     @FXML
     public DatePicker dpBirthday;
 
     @FXML
-    public TextField txtEmail;
+    public JFXTextField txtEmail;
 
     @FXML
     public ComboBox<String> cbPosition;
@@ -57,10 +61,10 @@ public class EditInformationController implements Initializable {
     public ComboBox<String> cbStatus;
 
     @FXML
-    public TextField txtAddress;
+    public JFXTextField txtAddress;
 
     @FXML
-    public TextField txtPhoneNumber;
+    public JFXTextField txtPhoneNumber;
 
     @FXML
     public Button btnSave;
@@ -78,6 +82,17 @@ public class EditInformationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Set DatePicker
+        dpBirthday.setValue(LocalDate.now().minusYears(18));
+        dpBirthday.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate day = LocalDate.now().minusYears(18);
+
+                setDisable(empty || date.compareTo(day) > 0 );
+            }
+        });
+
         //Window move action
         titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -91,6 +106,64 @@ public class EditInformationController implements Initializable {
             public void handle(MouseEvent event) {
                 titleBar.getScene().getWindow().setX(event.getScreenX() - x);
                 titleBar.getScene().getWindow().setY(event.getScreenY() - y);
+            }
+        });
+
+        //Validate
+        RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+        txtFullName.getValidators().add(requiredFieldValidator);
+        txtNoID.getValidators().add(requiredFieldValidator);
+        txtAddress.getValidators().add(requiredFieldValidator);
+        txtEmail.getValidators().add(requiredFieldValidator);
+        txtPhoneNumber.getValidators().add(requiredFieldValidator);
+
+        txtFullName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Full Name is required!");
+                    txtFullName.validate();
+                }
+            }
+        });
+
+        txtNoID.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("ID Number is required!");
+                    txtNoID.validate();
+                }
+            }
+        });
+
+        txtAddress.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Address is required!");
+                    txtAddress.validate();
+                }
+            }
+        });
+
+        txtEmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Email is required!");
+                    txtEmail.validate();
+                }
+            }
+        });
+
+        txtPhoneNumber.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    requiredFieldValidator.setMessage("Phone Number is required!");
+                    txtPhoneNumber.validate();
+                }
             }
         });
     }

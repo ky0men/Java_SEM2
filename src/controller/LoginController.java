@@ -124,11 +124,11 @@ public class LoginController implements Initializable {
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
 
-        //Reset account status
-        resetAccountStatus(conn);
-
         //Check account
         if (conn != null) {
+            //Reset account status
+            resetAccountStatus(conn);
+
             if (txtUsername.getText().equals("") || txtPassword.getText().equals("")) {
                 messLabel.setText("Please input both!");
                 messLabel.setWrapText(true);

@@ -16,7 +16,7 @@
    <children>
       <AnchorPane prefHeight="74.0" prefWidth="740.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="btnAddUser" layoutX="403.0" layoutY="22.0" mnemonicParsing="false" onAction="#AddUserAction" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new employee" textFill="WHITE" AnchorPane.rightAnchor="200.0">
+            <Button fx:id="btnAddUser" layoutX="403.0" layoutY="22.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new employee" textFill="WHITE" AnchorPane.rightAnchor="200.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
                </graphic>
@@ -24,7 +24,7 @@
                   <Font name="Calibri" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnRefresh" layoutX="570.0" layoutY="22.0" mnemonicParsing="false" onAction="#RefreshAction" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0">
+            <Button fx:id="btnRefresh" layoutX="570.0" layoutY="22.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
                </graphic>
