@@ -26,6 +26,7 @@ CREATE TABLE Room (
     --Room static Available, Rented, Dirty
     roomStatus VARCHAR(120),
     roomPrice MONEY,
+    roomFloor INT,
 )
 
 CREATE TABLE Customer (
@@ -135,18 +136,18 @@ INSERT INTO RoomType VALUES ('Double')
 INSERT INTO RoomType VALUES ('Single VIP')
 INSERT INTO RoomType VALUES ('Double VIP')
 
-INSERT INTO Room VALUES ('101', 1, 'Available', 250000)
-INSERT INTO Room VALUES ('102', 2, 'Rented', 300000)
-INSERT INTO Room VALUES ('103', 3, 'Dirty', 350000)
-INSERT INTO Room VALUES ('104', 4, 'Available', 400000)
-INSERT INTO Room VALUES ('201', 1, 'Available', 250000)
-INSERT INTO Room VALUES ('202', 2, 'Rented', 300000)
-INSERT INTO Room VALUES ('203', 3, 'Available', 350000)
-INSERT INTO Room VALUES ('204', 4, 'Available', 400000)
-INSERT INTO Room VALUES ('301', 1, 'Available', 250000)
-INSERT INTO Room VALUES ('302', 2, 'Rented', 300000)
-INSERT INTO Room VALUES ('303', 3, 'Dirty', 350000)
-INSERT INTO Room VALUES ('304', 4, 'Available', 400000)
+INSERT INTO Room VALUES ('101', 1, 'Available', 250000, 1)
+INSERT INTO Room VALUES ('102', 2, 'Rented', 300000, 1)
+INSERT INTO Room VALUES ('103', 3, 'Dirty', 350000, 1)
+INSERT INTO Room VALUES ('104', 4, 'Available', 400000, 1)
+INSERT INTO Room VALUES ('201', 1, 'Available', 250000, 2)
+INSERT INTO Room VALUES ('202', 2, 'Rented', 300000, 2)
+INSERT INTO Room VALUES ('203', 3, 'Available', 350000, 2)
+INSERT INTO Room VALUES ('204', 4, 'Available', 400000, 2)
+INSERT INTO Room VALUES ('301', 1, 'Available', 250000, 3)
+INSERT INTO Room VALUES ('302', 2, 'Rented', 300000, 3)
+INSERT INTO Room VALUES ('303', 3, 'Dirty', 350000, 3)
+INSERT INTO Room VALUES ('304', 4, 'Available', 400000, 3)
 
 INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng');
 INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng');
@@ -161,6 +162,7 @@ INSERT INTO EmployeeInformation VALUES (3, 'Nguyen Si An', '125684255', '02/13/2
 INSERT INTO EmployeeInformation VALUES (4, 'Ton That Hao Phuc', '012583285', '02/13/2022', '05/07/1993', 'tthphuc@gmail.com', '0353175698', 'Da Nang', '0' );
 
 SELECT * FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID
+
 
 --Procedure check account
 CREATE PROC checkLogin @username VARCHAR(15), @pass VARCHAR(60) AS 

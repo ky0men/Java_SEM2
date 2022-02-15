@@ -288,7 +288,7 @@ public class AdminDashboardController implements Initializable {
         roomMapBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Change to home Scene");
+//                System.out.println("Change to home Scene");
                 changeContentScene("/resources/views/RoomMap.fxml");
                 removeSelectBtn();
                 roomMapBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
@@ -303,7 +303,7 @@ public class AdminDashboardController implements Initializable {
         historyBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Change to history scene");
+//                System.out.println("Change to history scene");
                 changeContentScene("/resources/views/History.fxml");
                 removeSelectBtn();
                 historyBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
@@ -317,7 +317,7 @@ public class AdminDashboardController implements Initializable {
         clickBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println("Change to scene");
+//                System.out.println("Change to scene");
                 changeContentScene("/resources/views/" + url);
                 removeSelectBtn();
                 clickBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");

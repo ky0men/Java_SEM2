@@ -49,6 +49,15 @@ public class StaffDashboardController implements Initializable {
     private FontIcon roomMapIcon;
 
     @FXML
+    private HBox hboxBookingManage;
+
+    @FXML
+    private JFXButton bookingManageBtn;
+
+    @FXML
+    private FontIcon bookingManageIcon;
+
+    @FXML
     private HBox hboxCustomer;
 
     @FXML
@@ -96,7 +105,7 @@ public class StaffDashboardController implements Initializable {
         Font.loadFont(getClass().getResourceAsStream("/resources/fonts/DancingScript-Regular.ttf"), 14);
         Font.loadFont(getClass().getResourceAsStream("/resources/fonts/Roboto-Regular.ttf"), 14);
         changeContentScene("/resources/views/RoomMap.fxml");
-//        resetButton();
+        resetButton();
         roomMapBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill: #16314f; -fx-background-radius: 20 0 0 20;");
         roomMapIcon.setIconColor(Color.web("#16314f"));
 
@@ -197,6 +206,10 @@ public class StaffDashboardController implements Initializable {
             }
         });
 
+        roomMapBtnClick();
+        changeSceneWhenClickButton(bookingManageBtn, bookingManageIcon, hboxHome, hboxCustomer, "BookingManage.fxml");
+        customerBtnClick();
+
         //Get account information in use
         getAccountInformationInUse();
     }
@@ -212,6 +225,72 @@ public class StaffDashboardController implements Initializable {
         contentPane.getChildren().add(childrenPane);
         childrenPane.prefWidthProperty().bind(contentPane.widthProperty());
         childrenPane.prefHeightProperty().bind(contentPane.heightProperty());
+    }
+
+    public void roomMapBtnClick(){
+        roomMapBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+//                System.out.println("Change to home Scene");
+                changeContentScene("/resources/views/RoomMap.fxml");
+                removeSelectBtn();
+                roomMapBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
+                roomMapIcon.setIconColor(Color.web("#16314f"));
+                logoPane.setStyle("-fx-background-radius: 0 0 20 0;");
+                hboxBookingManage.setStyle("-fx-background-radius: 0 20 0 0;");
+                vboxFooterLeft.setStyle("-fx-background-radius: 0 0 0 10;");
+            }
+        });
+    }
+    public void changeSceneWhenClickButton(JFXButton clickBtn, FontIcon icon, HBox topHbox, HBox bottomHbox, String url){
+        clickBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+//                System.out.println("Change to scene");
+                changeContentScene("/resources/views/" + url);
+                removeSelectBtn();
+                clickBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
+                icon.setIconColor(Color.web("#16314f"));
+                topHbox.setStyle("-fx-background-radius: 0 0 20 0;");
+                bottomHbox.setStyle("-fx-background-radius: 0 20 0 0;");
+                vboxFooterLeft.setStyle("-fx-background-radius: 0 0 0 10;");
+            }
+        });
+    }
+
+    public void customerBtnClick(){
+        customerBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+//                System.out.println("Change to history scene");
+                changeContentScene("/resources/views/History.fxml");
+                removeSelectBtn();
+                customerBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
+                customersIcon.setIconColor(Color.web("#16314f"));
+                hboxBookingManage.setStyle("-fx-background-radius: 0 0 20 0;");
+                vboxFooterLeft.setStyle("-fx-background-radius: 0 20 0 10;");
+            }
+        });
+    }
+
+    private void removeSelectBtn() {
+        logoPane.setStyle("-fx-background-radius: 0;");
+        vboxFooterLeft.setStyle("-fx-background-radius: 0;");
+        roomMapBtn.setStyle("");
+        hboxHome.setStyle("-fx-background-radius: 0;");
+        roomMapIcon.setIconColor(Color.WHITE);
+        bookingManageBtn.setStyle("");
+        hboxBookingManage.setStyle("-fx-background-radius: 0;");
+        bookingManageIcon.setIconColor(Color.WHITE);
+        customerBtn.setStyle("");
+        hboxCustomer.setStyle("-fx-background-radius: 0;");
+        customersIcon.setIconColor(Color.WHITE);
+    }
+
+    private void resetButton() {
+        roomMapBtn.setFocusTraversable(false);
+        bookingManageBtn.setFocusTraversable(false);
+        customerBtn.setFocusTraversable(false);
     }
 
     //Get account infortion is in use

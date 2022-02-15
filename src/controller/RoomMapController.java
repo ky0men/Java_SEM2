@@ -3,6 +3,8 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTabPane;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -16,11 +18,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import models.Room;
 import models.SearchRoomSelectType;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -43,7 +50,7 @@ public class RoomMapController implements Initializable {
     private JFXTabPane allRoomTabPane;
 
     @FXML
-    private ChoiceBox<String> searchTypeChoiceBox;
+    private ChoiceBox searchTypeChoiceBox;
 
     @FXML
     private JFXButton searchRoomBtn;
@@ -84,6 +91,18 @@ public class RoomMapController implements Initializable {
     @FXML
     private GridPane gridDirtyRoom;
 
+    @FXML
+    private JFXTextField searchTextField;
+
+    @FXML
+    private HBox ouputMessHbox;
+
+    @FXML
+    private Label outputMess;
+
+    @FXML
+    private JFXButton showAllRoomBtn;
+
     public Integer col, row;
 
     private String[] searchType = {"Floor", "Room name"};
@@ -92,6 +111,7 @@ public class RoomMapController implements Initializable {
     private List<Room> availableRooms = new ArrayList<>();
     private List<Room> rentedRooms = new ArrayList<>();
     private List<Room> dirtyRooms = new ArrayList<>();
+    private List<Room> searchRooms = new ArrayList<>();
 
     final double SPEED = 0.01;
 
@@ -179,6 +199,52 @@ public class RoomMapController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
 
+//                System.out.println(searchTypeChoiceBox.getValue());
+                String choiceBox = (String) searchTypeChoiceBox.getValue();
+                String searchRoomSQL;
+                if(searchTextField.getText().equals("")){
+                    rooms.clear();
+                    ouputMessHbox.setVisible(true);
+                    outputMess.setText("Please input search field before search!");
+                }else if(choiceBox == null){
+                    ouputMessHbox.setVisible(true);
+                    outputMess.setText("Please chose the type before search!");
+                    rooms.clear();
+                }else if(!isInteger(searchTextField.getText())){
+                    ouputMessHbox.setVisible(true);
+                    outputMess.setText("Room name and floor must be a number!");
+                    rooms.clear();
+                }else if(isInteger(searchTextField.getText())){
+                    if (searchTypeChoiceBox.getValue().equals("Floor")) {
+                        ouputMessHbox.setVisible(false);
+                        searchRooms.clear();
+                        rooms.clear();
+                        gridAllRoom.getChildren().clear();
+                        searchRoomSQL = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomFloor = " + Integer.parseInt(searchTextField.getText()) + "";
+                        rooms.addAll(getSearchData(searchRooms, searchRoomSQL));
+                        outputMess.setText("Can not found floor: " + searchTextField.getText());
+                    } else if (searchTypeChoiceBox.getValue().equals("Room name")) {
+                        ouputMessHbox.setVisible(false);
+                        searchRooms.clear();
+                        rooms.clear();
+                        gridAllRoom.getChildren().clear();
+                        searchRoomSQL = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomName = " + searchTextField.getText();
+                        rooms.addAll(getSearchData(searchRooms, searchRoomSQL));
+                        outputMess.setText("Can not found room name: " + searchTextField.getText());
+                    }
+                }
+                showRoomToPane(allRoomScrollPane, allRoomHBoxGrid, gridAllRoom, rooms);
+            }
+        });
+
+        showAllRoomBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                searchRooms.clear();
+                rooms.clear();
+                gridAllRoom.getChildren().clear();
+                rooms.addAll(getData(rooms, allRoomSql));
+                showRoomToPane(allRoomScrollPane, allRoomHBoxGrid, gridAllRoom, rooms);
             }
         });
         //All Room Tab
@@ -200,11 +266,45 @@ public class RoomMapController implements Initializable {
 
     }
 
+    public List<Room> getSearchData(List<Room> typeRoomToShow, String roomData) {
+        typeRoomToShow = new ArrayList<>();
+        Room room;
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+
+        try {
+
+            stm = conn.createStatement();
+            rs = stm.executeQuery(roomData);
+
+            if(!rs.isBeforeFirst() && rs.getRow() == 0){
+                ouputMessHbox.setVisible(true);
+            }else{
+                while (rs.next()) {
+                    room = new Room();
+                    room.setRoomName(rs.getString("roomName"));
+                    room.setRomeTypeName(rs.getString("roomTypeName"));
+                    room.setRoomStatus(rs.getString("roomStatus"));
+                    typeRoomToShow.add(room);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return typeRoomToShow;
+    }
+
 
     public List<Room> getListAllRoom() {
         rooms = getData(rooms, allRoomSql);
         return rooms;
     }
+
     public List<Room> getListAvailableRoom() {
         rooms = getData(rooms, availableRoomSql);
         return rooms;
@@ -214,6 +314,18 @@ public class RoomMapController implements Initializable {
     public List<Room> getListDirtyRoom() {
         rooms = getData(rooms, dirtyRoomSql);
         return rooms;
+    }
+
+    public boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
 }
