@@ -1,11 +1,11 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -28,19 +27,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EditInformationController implements Initializable {
-
     @FXML
     private HBox titleBar;
-
-    private double x, y;
 
     @FXML
     public JFXTextField txtFullName;
@@ -78,7 +70,22 @@ public class EditInformationController implements Initializable {
     @FXML
     private FontIcon iconWarning;
 
+    @FXML
+    private Label lbPhoneValidator;
+
+    @FXML
+    private Label lbEmailValidator;
+
     public int id;
+
+    private double x, y;
+
+    public String defaultPhone;
+
+    public String defaultEmail;
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,18 +117,40 @@ public class EditInformationController implements Initializable {
         });
 
         //Validate
-        RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
-        txtFullName.getValidators().add(requiredFieldValidator);
-        txtNoID.getValidators().add(requiredFieldValidator);
-        txtAddress.getValidators().add(requiredFieldValidator);
-        txtEmail.getValidators().add(requiredFieldValidator);
-        txtPhoneNumber.getValidators().add(requiredFieldValidator);
+        RequiredFieldValidator fullNameValidation = new RequiredFieldValidator();
+        txtFullName.getValidators().add(fullNameValidation);
+        fullNameValidation.setMessage("Full Name is required!");
+
+        RequiredFieldValidator numberIdValidation = new RequiredFieldValidator();
+        txtNoID.getValidators().add(numberIdValidation);
+        numberIdValidation.setMessage("ID Number is required!");
+
+        RequiredFieldValidator addressValidation = new RequiredFieldValidator();
+        txtAddress.getValidators().add(addressValidation);
+        addressValidation.setMessage("Address is required!");
+
+        RequiredFieldValidator emailValidation = new RequiredFieldValidator();
+        txtEmail.getValidators().add(emailValidation);
+        emailValidation.setMessage("Email is required!");
+
+        RequiredFieldValidator phoneNumberValidation = new RequiredFieldValidator();
+        txtPhoneNumber.getValidators().add(phoneNumberValidation);
+        phoneNumberValidation.setMessage("Phone Number is required!");
+
+        RegexValidator emailRegexValidator = new RegexValidator();
+        emailRegexValidator.setRegexPattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+        emailRegexValidator.setMessage("Your Email is not valid");
+        txtEmail.getValidators().add(emailRegexValidator);
+
+        RegexValidator phoneRegexValidator = new RegexValidator();
+        phoneRegexValidator.setRegexPattern("(84|0[3|5|7|8|9])+([0-9]{8})\\b");
+        phoneRegexValidator.setMessage("Your Phone Number is not valid");
+        txtPhoneNumber.getValidators().add(phoneRegexValidator);
 
         txtFullName.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue) {
-                    requiredFieldValidator.setMessage("Full Name is required!");
                     txtFullName.validate();
                 }
             }
@@ -131,7 +160,6 @@ public class EditInformationController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue) {
-                    requiredFieldValidator.setMessage("ID Number is required!");
                     txtNoID.validate();
                 }
             }
@@ -141,7 +169,6 @@ public class EditInformationController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue) {
-                    requiredFieldValidator.setMessage("Address is required!");
                     txtAddress.validate();
                 }
             }
@@ -151,9 +178,9 @@ public class EditInformationController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue) {
-                    requiredFieldValidator.setMessage("Email is required!");
                     txtEmail.validate();
                 }
+                emailIsExist();
             }
         });
 
@@ -161,133 +188,144 @@ public class EditInformationController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue) {
-                    requiredFieldValidator.setMessage("Phone Number is required!");
                     txtPhoneNumber.validate();
                 }
+                phoneNumberIsExist();
+            }
+        });
+
+        btnSave.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
+                        txtEmail.getText().equals("") || txtPhoneNumber.getText().equals("")){
+                    txtFullName.validate();
+                    txtNoID.validate();
+                    txtAddress.validate();
+                    txtEmail.validate();
+                    txtPhoneNumber.validate();
+                }
+                emailIsExist();
+                phoneNumberIsExist();
+                if(!emailIsExist() && !phoneNumberIsExist()){
+                    UpdateTableAccount();
+                    UpdateTableProfile();
+                    Node node = (Node)event.getSource();
+                    Stage stage = (Stage)node.getScene().getWindow();
+                    stage.close();
+                    String title = "Successfully changed information";
+                    String mess = "Employee "+ txtFullName.getText() +" has successfully \n changed information";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                    GaussianBlur blur = new GaussianBlur(0);
+                    LoginController.stage.getScene().getRoot().setEffect(blur);
+                }
+            }
+        });
+
+        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Node node = (Node)event.getSource();
+                Stage stage = (Stage)node.getScene().getWindow();
+                stage.close();
+                GaussianBlur blur = new GaussianBlur(0);
+                LoginController.stage.getScene().getRoot().setEffect(blur);
             }
         });
     }
 
-    @FXML
-    void CancelAction(ActionEvent event) {
-        Node node = (Node)event.getSource();
-        Stage stage = (Stage)node.getScene().getWindow();
-        stage.close();
-        GaussianBlur blur = new GaussianBlur(0);
-        LoginController.stage.getScene().getRoot().setEffect(blur);
-    }
+//    private boolean formNotNull(){
+//        if(txtFullName.getText() == "" || txtNoID.getText() == "" || dpBirthday.getValue() == null
+//                || txtPhoneNumber.getText() == ""|| txtEmail.getText() == ""|| txtAddress.getText() == "" ){
+//            iconWarning.setVisible(true);
+//            lbWarning.setText("Please complete all information");
+//            return false;
+//        }else {
+//            iconWarning.setVisible(false);
+//            lbWarning.setText("");
+//            return true;
+//        }
+//    }
 
-    @FXML
-    void SaveUser(ActionEvent event) {
-        formNotNull();
-        if(formNotNull() && checkEmail() && checkPhoneNumber()){
-            UpdateTableAccount();
-            UpdateTableProfile();
-        }
-        Node node = (Node)event.getSource();
-        Stage stage = (Stage)node.getScene().getWindow();
-        stage.close();
-        String title = "Successfully changed information";
-        String mess = "Employee "+ txtFullName.getText() +" has successfully changed information";
-        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-        tray.setAnimationType(AnimationType.POPUP);
-        tray.showAndDismiss(Duration.seconds(3));
-        tray.showAndWait();
-        GaussianBlur blur = new GaussianBlur(0);
-        LoginController.stage.getScene().getRoot().setEffect(blur);
-    }
+//    public static boolean emailIsValid(final String email) {
+//        String EMAIL_PATTERN =
+//                "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+//                        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+//        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+//        Matcher matcher = pattern.matcher(email);
+//        return matcher.matches();
+//    }
 
-    private boolean formNotNull(){
-        if(txtFullName.getText() == "" || txtNoID.getText() == "" || dpBirthday.getValue() == null
-                || txtPhoneNumber.getText() == ""|| txtEmail.getText() == ""|| txtAddress.getText() == "" ){
-            iconWarning.setVisible(true);
-            lbWarning.setText("Please complete all information");
-            return false;
-        }else {
-            iconWarning.setVisible(false);
-            lbWarning.setText("");
-            return true;
-        }
-    }
-
-    public static boolean emailIsValid(final String email) {
-        String EMAIL_PATTERN =
-                "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    private boolean checkEmail(){
+    private boolean emailIsExist(){
         boolean flag = false;
         String email = txtEmail.getText();
-        if(emailIsValid(email)){
-            String query = "Select userEmail from EmployeeInformation";
+        if(!email.equals(defaultEmail)){
+            String query = "Select userEmail from EmployeeInformation WHERE userEmail='"+email+"'";
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
             try {
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
-                while (rs.next()){
-                    if(email.equals(rs.getString("userEmail"))){
-                        iconWarning.setVisible(true);
-                        lbWarning.setText("Email already exists");
-                        flag = false;
-                    }else{
-                        iconWarning.setVisible(false);
-                        lbWarning.setText("");
-                        flag = true;
-                    }
+                if(rs.next()){
+                    lbEmailValidator.setText("Email is Exist");
+                    txtEmail.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    lbEmailValidator.setStyle("-fx-text-background-color: #D34437;");
+                    flag = true;
+                }else {
+                    lbEmailValidator.setText("");
+                    txtEmail.setStyle("");
+                    flag = false;
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }else{
-            iconWarning.setVisible(true);
-            lbWarning.setText("Email invalid");
+        } else{
+            lbEmailValidator.setText("");
+            txtEmail.setStyle("");
             flag = false;
         }
         return flag;
     }
 
-    public static boolean phoneIsValid(final String phone) {
-        String PHONE_PATTERN =
-                "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
-        Pattern pattern = Pattern.compile(PHONE_PATTERN);
-        Matcher matcher = pattern.matcher(phone);
-        return matcher.matches();
-    }
+//    public static boolean phoneIsValid(final String phone) {
+//        String PHONE_PATTERN =
+//                "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
+//        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+//        Matcher matcher = pattern.matcher(phone);
+//        return matcher.matches();
+//    }
 
-    private boolean checkPhoneNumber(){
+    private boolean phoneNumberIsExist(){
         boolean flag = false;
         String phoneNumber = txtPhoneNumber.getText();
-        if(phoneIsValid(phoneNumber)){
-            String query = "Select userPhone from EmployeeInformation";
-            DBConnect dbConnect = new DBConnect();
-            dbConnect.readProperties();
-            Connection conn = dbConnect.getDBConnection();
-            try {
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(query);
-                while (rs.next()){
-                    if(phoneNumber.equals(rs.getString("userPhone"))){
-                        iconWarning.setVisible(true);
-                        lbWarning.setText("Phone Number already exists");
-                        flag = false;
-                    }else{
-                        iconWarning.setVisible(false);
-                        lbWarning.setText("");
-                        flag = true;
-                    }
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+        if(!phoneNumber.equals(defaultPhone)){
+        String query = "Select userPhone from EmployeeInformation WHERE userPhone= '"+ phoneNumber+"'";
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if(rs.next()){
+                lbPhoneValidator.setText("Phone Number is Exist");
+                txtPhoneNumber.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                lbPhoneValidator.setStyle("-fx-text-background-color: #D34437;");
+                flag = true;
+            }else{
+                lbPhoneValidator.setText("");
+                txtPhoneNumber.setStyle("");
+                flag = false;
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         }else {
-            iconWarning.setVisible(true);
-            lbWarning.setText("Phone Number invalid");
+            lbPhoneValidator.setText("");
+            txtPhoneNumber.setStyle("");
             flag = false;
         }
 
@@ -338,6 +376,4 @@ public class EditInformationController implements Initializable {
             throwables.printStackTrace();
         }
     }
-
-
 }

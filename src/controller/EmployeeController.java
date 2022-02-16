@@ -75,8 +75,6 @@ public class EmployeeController implements Initializable {
     @FXML
     private Label lbTotalEmployee;
 
-
-
     EmployeeList data = null;
 
     private ButtonBar[] buttonBar = new ButtonBar[100];
@@ -239,7 +237,7 @@ public class EmployeeController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/EditInformation.fxml"));
         Parent parent = null;
         try {
-            parent = loader.load();
+            parent =(Parent) loader.load();
             EditInformationController editInformationController = loader.getController();
             editInformationController.id = id;
             editInformationController.txtEmail.setText(data.getEmail());
@@ -250,6 +248,8 @@ public class EmployeeController implements Initializable {
             editInformationController.txtAddress.setText(address);
             editInformationController.cbPosition.setValue(data.getPosition());
             editInformationController.cbPosition.setItems(positionList);
+            editInformationController.defaultEmail = data.getEmail();
+            editInformationController.defaultPhone = data.getPhoneNumber();
             if(deleted.equals("0")){
                 editInformationController.cbStatus.setValue("Use");
             } else if(deleted.equals(("1"))){
