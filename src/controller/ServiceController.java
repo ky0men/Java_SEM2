@@ -14,10 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
@@ -31,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -131,7 +129,7 @@ public class ServiceController implements Initializable {
     }
 
     @FXML
-    void DeleteServiceAction(ActionEvent event){
+    void DeleteServiceAction(){
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
@@ -149,6 +147,7 @@ public class ServiceController implements Initializable {
         }
         updateTable();
     }
+
 
     @FXML
     void search_service(){
@@ -239,6 +238,30 @@ public class ServiceController implements Initializable {
         updateTable();
         search_service();
 
+        //Alert Delete
+        btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert =  new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete Confirmation");
+                alert.setHeaderText("Are you sure you want to permanently delete this row?");
+                ButtonType btnTypeYes =  new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType btnTypeNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().setAll(btnTypeYes,btnTypeNo);
+                Optional <ButtonType> result = alert.showAndWait();
+                if(result.get() == btnTypeYes){
+                    DeleteServiceAction();
+                    Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert1.setTitle("Delete Confirmation");
+                    alert1.setHeaderText("This row was deleted.");
+                    alert1.show();
+                    System.out.println("Delete completed!");
+                }
+                else {
+                    System.out.println("No delete the row.");
+                }
+            }
+        });
 
 
     }

@@ -59,7 +59,7 @@
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-border-color" iconSize="17" wrappingWidth="20.0" />
                </graphic>
             </Button>
-            <Button fx:id="btnDelete" layoutX="552.0" layoutY="69.0" mnemonicParsing="false" onAction="#DeleteServiceAction" prefHeight="38.0" prefWidth="107.0" style="-fx-background-color: #b43838;" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="81.0">
+            <Button fx:id="btnDelete" layoutX="552.0" layoutY="69.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" style="-fx-background-color: #b43838;" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="81.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-delete" iconSize="17" />
                </graphic>

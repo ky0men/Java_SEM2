@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
@@ -90,17 +91,12 @@ public class EditServiceController implements Initializable {
     }
 
     private boolean formNotNull(){
-//        if(tfID.getText() == "" || tfName.getText().equals("") || tfPrice.getText() == ""
-//                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == ""){
-//            iconWarning.setVisible(true);
-//            lbWarning.setText("Please complete all information");
-//            return false;
-//        }else {
-//            iconWarning.setVisible(false);
-//            lbWarning.setText("");
-//            return true;
-//        }
-        return true;
+        if(tfID.getText() == "" || tfName.getText().equals("") || tfPrice.getText() == ""
+                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
+            return false;
+        }else {
+            return true;
+        }
     }
     @FXML
     private void EditServiceTable(){
@@ -131,8 +127,7 @@ public class EditServiceController implements Initializable {
 
     @FXML
     void EditService(ActionEvent event) {
-        formNotNull();
-        if(formNotNull()){
+        if(formNotNull() == true){
             EditServiceTable();
             Node node = (Node)event.getSource();
             Stage stage = (Stage)node.getScene().getWindow();
@@ -146,6 +141,11 @@ public class EditServiceController implements Initializable {
             tray.showAndWait();
             GaussianBlur blur = new GaussianBlur(0);
             LoginController.stage.getScene().getRoot().setEffect(blur);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Complete Data");
+            alert.setHeaderText("Please complete the service form.");
+            alert.show();
         }
     }
     @Override
