@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="360.0" prefWidth="460.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingServiceController">
+<AnchorPane prefHeight="390.0" prefWidth="460.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingServiceController">
    <children>
       <VBox layoutX="2.0" layoutY="2.0" prefHeight="448.0" prefWidth="464.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -24,7 +24,7 @@
                   </Label>
                </children>
             </HBox>
-            <VBox layoutX="10.0" layoutY="50.0" prefHeight="197.0" prefWidth="223.0" spacing="20.0" styleClass="information-box">
+            <VBox layoutX="10.0" layoutY="50.0" prefHeight="265.0" prefWidth="430.0" spacing="20.0" styleClass="information-box">
                <children>
                   <HBox prefWidth="200.0" spacing="10.0">
                      <children>
@@ -128,9 +128,18 @@
                         </HBox>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="validateMessage" alignment="CENTER" prefHeight="17.0" prefWidth="451.0" text="Validate Message" textFill="RED" visible="false" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
                <padding>
-                  <Insets bottom="30.0" />
+                  <Insets bottom="5.0" />
                </padding>
                <opaqueInsets>
                   <Insets />

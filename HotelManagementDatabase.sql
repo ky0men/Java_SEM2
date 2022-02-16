@@ -241,5 +241,11 @@ CREATE PROC addBooking @cusIndentityNumber VARCHAR(20), @roomNumber VARCHAR(15),
     INSERT INTO RoomBooking (customerIdentityNumber, roomNumber, checkinTime, checkoutTime, prepaid, discount) VALUES(@cusIndentityNumber, @roomNumber, @checkinDate, @checkoutDate, @prepaid, @discount)
 GO
 
+--Procedure add used service
+CREATE PROC addUsedService @checkinID INT, @serviceID INT, @serviceQty INT AS
+    INSERT INTO usedServices(checkinID, usedServiceID, usedServiceQty) VALUES (@checkinID, @serviceID, @serviceQty)
+GO    
+
+
 SELECT Room.roomName FROM Room       
 

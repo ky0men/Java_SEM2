@@ -3,6 +3,7 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.beans.value.ChangeListener;
@@ -120,6 +121,10 @@ public class CheckinRoomController implements Initializable {
         RequiredFieldValidator validator = new RequiredFieldValidator();
         identityNumber.getValidators().add(validator);
         customerName.getValidators().add(validator);
+        RegexValidator numberValidator = new RegexValidator();
+        numberValidator.setRegexPattern("^\\d+$");
+        prepaidField.getValidators().add(numberValidator);
+        discountField.getValidators().add(numberValidator);
 
         identityNumber.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -139,6 +144,26 @@ public class CheckinRoomController implements Initializable {
                 if (!newValue) {
                     validator.setMessage("Customer name is required!");
                     customerName.validate();
+                }
+            }
+        });
+
+        prepaidField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!isInteger(prepaidField.getText())) {
+                    numberValidator.setMessage("Please input integer number!");
+                    prepaidField.validate();
+                }
+            }
+        });
+
+        discountField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!isInteger(discountField.getText())) {
+                    numberValidator.setMessage("Please input integer number!");
+                    discountField.validate();
                 }
             }
         });
@@ -217,7 +242,13 @@ public class CheckinRoomController implements Initializable {
                 } else if (customerName.getText() == null) {
                     validator.setMessage("Customer name is required!");
                     customerName.validate();
-                } else if (checkinDay.equals(today)) {
+                } else if (!isInteger(prepaidField.getText())) {
+                    numberValidator.setMessage("Please input integer number!");
+                    prepaidField.validate();
+                }else if (!isInteger(discountField.getText())) {
+                    numberValidator.setMessage("Please input integer number!");
+                    discountField.validate();
+                } else if (checkinDay.equals(today) && isInteger(prepaidField.getText()) && isInteger(discountField.getText())) {
 //                    System.out.println("Checkin Done");
                     changeStatusRentedRoom(roomName);
                     if (getCustomerNameFromID(identityNumber.getText(), conn) == null) {
@@ -505,6 +536,18 @@ public class CheckinRoomController implements Initializable {
         }
 
         return result;
+    }
+
+    public boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
 }
