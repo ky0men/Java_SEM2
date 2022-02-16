@@ -94,14 +94,21 @@ public class RoomViewController implements Initializable {
                     showAction("/resources/views/CheckinRoom.fxml");
                 } else if (actionBtn.getText().equals("Check Out")) {
                     System.out.println("Check out");
+                    //Get column and row of gridpane
+                    col = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
+                    row = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
+                    gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getParent().getId();
+
+                    stage = (Stage) actionBtn.getScene().getWindow();
+                    stage.close();
+                    //Show check out stage
+                    showAction("/resources/views/Checkout.fxml");
                 } else if (actionBtn.getText().equals("Cleaned")) {
 //                    System.out.println("Cleaned room");
                     //Get column and row of gridpane
                     col = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
                     row = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
                     gridRoomType = actionBtn.getParent().getParent().getParent().getParent().getParent().getId();
-//                    System.out.println(getRow());
-//                    System.out.println(actionBtn.getParent().getParent().getParent().getProperties());
 
                     stage = (Stage) actionBtn.getScene().getWindow();
                     stage.close();
