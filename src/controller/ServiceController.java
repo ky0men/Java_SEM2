@@ -208,6 +208,8 @@ public class ServiceController implements Initializable {
         table_service.setItems(list);
     }
 
+
+
     @FXML
     public void Edit_Action(ActionEvent event) throws  IOException{
         selected = table_service.getSelectionModel().getSelectedItem();
@@ -234,8 +236,7 @@ public class ServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         //TODO
-        setCellValue();
-        updateTable();
+//        updateTable();
         search_service();
 
         //Alert Delete
