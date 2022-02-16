@@ -71,7 +71,7 @@
       </AnchorPane>
       <AnchorPane layoutY="129.0" prefHeight="487.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="129.0">
          <children>
-            <TextField fx:id="tfSearch" layoutX="286.0" layoutY="6.0" onAction="#search_service" prefHeight="38.0" prefWidth="427.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="27.0">
+            <TextField fx:id="tfSearch" layoutX="286.0" layoutY="6.0" onAction="#search_service" prefHeight="38.0" prefWidth="427.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="27.0">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

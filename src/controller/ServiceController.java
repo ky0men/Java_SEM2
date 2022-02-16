@@ -215,13 +215,13 @@ public class ServiceController implements Initializable {
     }
 
     public void setCellValue(){
-        table_service.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
-        col_id.setMaxWidth( 1f * Integer.MAX_VALUE * 16 );
-        col_name.setMaxWidth( 1f * Integer.MAX_VALUE * 22  );
-        col_type.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
-        col_price.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
-        col_unit.setMaxWidth( 1f * Integer.MAX_VALUE * 18 );
-        col_volume.setMaxWidth( 1f * Integer.MAX_VALUE * 18 );
+        table_service.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
+        col_id.setMaxWidth( 1f * Integer.MAX_VALUE * 10 );
+        col_name.setMaxWidth( 1f * Integer.MAX_VALUE * 25  );
+        col_type.setMaxWidth( 1f * Integer.MAX_VALUE * 25 );
+        col_price.setMaxWidth( 1f * Integer.MAX_VALUE * 12 );
+        col_unit.setMaxWidth( 1f * Integer.MAX_VALUE * 12 );
+        col_volume.setMaxWidth( 1f * Integer.MAX_VALUE * 16 );
 
         col_id.setCellValueFactory(new PropertyValueFactory<Service,Integer>("ID"));
         col_name.setCellValueFactory(new PropertyValueFactory<Service,String>("name"));
