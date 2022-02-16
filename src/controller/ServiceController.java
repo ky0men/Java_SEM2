@@ -1,5 +1,6 @@
 package controller;
 
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,10 +29,7 @@ import models.Service;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -39,6 +37,21 @@ import java.util.ResourceBundle;
 import static controller.LoginController.stage;
 
 public class ServiceController implements Initializable {
+
+    @FXML
+    private Button btnAdd;
+
+    @FXML
+    private Button btnRefresh;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    private TextField tfSearch;
 
     @FXML
     private TableView<Service> table_service;
@@ -61,18 +74,6 @@ public class ServiceController implements Initializable {
     @FXML
     private TableColumn<Service, Integer> col_volume;
 
-    @FXML
-    private TextField tfSearch;
-
-    @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnRefresh;
-
-    @FXML
-    private Button btnDelete;
-
     int index = -1;
     Connection conn = null;
     ResultSet rs = null;
@@ -82,8 +83,6 @@ public class ServiceController implements Initializable {
     ObservableList<Service> dataList;
 
     static Service selected;
-
-
 
     public static ObservableList<Service> getService(){
         DBConnect dbConnect = new DBConnect();
@@ -127,7 +126,28 @@ public class ServiceController implements Initializable {
     }
     @FXML
     void AddServiceAction(ActionEvent event) {
-        openScene("/resources/views/AddService.fxml");
+        openScene("/resources/views/AddService1.fxml");
+
+    }
+
+    @FXML
+    void DeleteServiceAction(ActionEvent event){
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        String id;
+        try {
+            Service selected = (Service) table_service.getSelectionModel().getSelectedItem();
+            String query = "DELETE FROM Service WHERE ID = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,String.valueOf(selected.getID()));
+            id = String.valueOf(selected.getID());
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        updateTable();
     }
 
     @FXML
@@ -189,34 +209,37 @@ public class ServiceController implements Initializable {
         table_service.setItems(list);
     }
 
-
     @FXML
     public void Edit_Action(ActionEvent event) throws  IOException{
-//        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
-
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/resources/views/EditService.fxml"));
-//        Parent serviceAdd = loader.load();
-//        Scene scene = new Scene(serviceAdd);
-//        EditServiceController controller = loader.getController();
-//        Service selected = table_service.getSelectionModel().getSelectedItem();
-//        System.out.println(table_service.getSelectionModel().getSelectedItem());
-//        System.out.println(table_service.getSelectionModel().getSelectedItem());
         selected = table_service.getSelectionModel().getSelectedItem();
-//        System.out.println(selected);
         openScene("/resources/views/EditService.fxml");
-
-//        controller.setService(selected);
-//        stage.setScene(scene);
-
     }
 
+    public void setCellValue(){
+        table_service.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
+        col_id.setMaxWidth( 1f * Integer.MAX_VALUE * 16 );
+        col_name.setMaxWidth( 1f * Integer.MAX_VALUE * 22  );
+        col_type.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
+        col_price.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
+        col_unit.setMaxWidth( 1f * Integer.MAX_VALUE * 18 );
+        col_volume.setMaxWidth( 1f * Integer.MAX_VALUE * 18 );
+
+        col_id.setCellValueFactory(new PropertyValueFactory<Service,Integer>("ID"));
+        col_name.setCellValueFactory(new PropertyValueFactory<Service,String>("name"));
+        col_type.setCellValueFactory(new PropertyValueFactory<Service,String>("type"));
+        col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
+        col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
+        col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb){
         //TODO
+        setCellValue();
         updateTable();
         search_service();
+
+
 
     }
 

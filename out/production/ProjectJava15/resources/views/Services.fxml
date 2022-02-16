@@ -1,45 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="740.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServiceController">
    <children>
-      <Label layoutX="43.0" layoutY="46.0" text="Services" textFill="#00699c">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <TableView fx:id="table_service" layoutX="20.0" layoutY="165.0" prefHeight="353.0" prefWidth="666.0">
-        <columns>
-          <TableColumn fx:id="col_id" prefWidth="40.0" text="ID" />
-          <TableColumn fx:id="col_name" prefWidth="211.0" text="Service Name" />
-            <TableColumn fx:id="col_type" prefWidth="168.0" text="Type of Service" />
-            <TableColumn fx:id="col_price" prefWidth="88.0" text="Price" />
-            <TableColumn fx:id="col_unit" prefWidth="54.0" text="Unit" />
-            <TableColumn fx:id="col_volume" prefWidth="104.0" text="Volume" />
-        </columns>
-      </TableView>
-      <TextField fx:id="tfSearch" layoutX="375.0" layoutY="123.0" onAction="#search_service" prefHeight="25.0" prefWidth="311.0" promptText="Search" />
-      <Button fx:id="btnAdd" layoutX="436.0" layoutY="71.0" mnemonicParsing="false" onAction="#AddServiceAction" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 50; -fx-background-color: #45b873; -fx-border-radius: 50; -fx-border-color: white;" text="Add New">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnRefresh" layoutX="562.0" layoutY="71.0" mnemonicParsing="false" onAction="#updateTable" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 50; -fx-background-color: #dbdf7e; -fx-border-radius: 50; -fx-border-color: white;" text="Refresh">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnEdit" layoutX="319.0" layoutY="71.0" mnemonicParsing="false" onAction="#Edit_Action" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 50; -fx-background-color: #fc6f7a; -fx-border-radius: 50; -fx-border-color: white;" text="Edit">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Button>
+      <AnchorPane prefHeight="138.0" prefWidth="740.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="btnAdd" layoutX="403.0" layoutY="22.0" mnemonicParsing="false" onAction="#AddServiceAction" prefHeight="38.0" prefWidth="107.0" style="-fx-background-color: #63e999;" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new " textFill="WHITE" AnchorPane.rightAnchor="261.0">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
+               </graphic>
+               <font>
+                  <Font name="Calibri" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRefresh" layoutX="570.0" layoutY="22.0" mnemonicParsing="false" onAction="#updateTable" prefHeight="38.0" prefWidth="107.0" style="-fx-background-color: #ffbe35;" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="81.0">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
+               </graphic>
+               <font>
+                  <Font name="Calibri" size="13.0" />
+               </font>
+            </Button>
+            <HBox alignment="CENTER_LEFT" layoutX="76.0" layoutY="26.0" prefHeight="104.0" prefWidth="107.0" style="-fx-border-radius: 50; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944); -fx-background-radius: 50;" AnchorPane.leftAnchor="76.0">
+               <children>
+                  <VBox prefHeight="74.0" prefWidth="114.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="98.0" prefWidth="86.0" text="SERVICE" textFill="#474787">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Button fx:id="btnEdit" layoutX="372.0" layoutY="70.0" mnemonicParsing="false" onAction="#Edit_Action" prefHeight="38.0" prefWidth="107.0" style="-fx-background-color: #7749a8;" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" AnchorPane.rightAnchor="261.0">
+               <font>
+                  <Font name="Calibri" size="13.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="gmi-border-color" iconSize="17" wrappingWidth="20.0" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnDelete" layoutX="552.0" layoutY="69.0" mnemonicParsing="false" onAction="#DeleteServiceAction" prefHeight="38.0" prefWidth="107.0" style="-fx-background-color: #b43838;" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="81.0">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="gmi-delete" iconSize="17" />
+               </graphic>
+               <font>
+                  <Font name="Calibri" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="129.0" prefHeight="487.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="129.0">
+         <children>
+            <TextField fx:id="tfSearch" layoutX="286.0" layoutY="6.0" onAction="#search_service" prefHeight="38.0" prefWidth="427.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="27.0">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </TextField>
+            <TableView fx:id="table_service" layoutX="14.0" layoutY="52.0" prefHeight="415.0" prefWidth="700.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="52.0">
+              <columns>
+                <TableColumn fx:id="col_id" prefWidth="48.0" text="ID" />
+                <TableColumn fx:id="col_name" prefWidth="190.0" text="Service Name" />
+                  <TableColumn fx:id="col_type" prefWidth="151.0" text="Type of Service" />
+                  <TableColumn fx:id="col_price" minWidth="0.0" prefWidth="117.0" text="Price" />
+                  <TableColumn fx:id="col_unit" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="71.0" sortable="false" text="Unit" />
+                  <TableColumn fx:id="col_volume" prefWidth="122.0" text="Volume" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

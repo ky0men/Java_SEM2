@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditServiceController">
+<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddServiceController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fx:id="titleBar" alignment="CENTER" prefHeight="30.0" prefWidth="200.0" styleClass="title-name">
                <children>
-                  <Label text="Edit Service" textFill="WHITE">
+                  <Label text="Add Service" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -46,31 +46,14 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label maxWidth="100.0" prefWidth="100.0" text="ID">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <JFXTextField fx:id="tfID" editable="false" focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                           </children>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                        </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label maxWidth="120.0" prefWidth="120.0" text="Service Name: ">
+                              <Label maxWidth="120.0" prefHeight="20.0" prefWidth="92.0" text="Service Name: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tfName" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0">
+                              <JFXTextField fx:id="tfName" focusColor="#00699c" prefHeight="30.0" prefWidth="630.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -102,16 +85,17 @@
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label maxWidth="120.0" prefWidth="120.0" text="Price">
+                              <Label maxWidth="120.0" prefHeight="20.0" prefWidth="120.0" text="Price">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tfPrice" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0">
+                              <JFXTextField fx:id="tfPrice" focusColor="#00699c" prefHeight="30.0" prefWidth="169.0" promptText="100.000">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </JFXTextField>
+                              <Label prefHeight="17.0" prefWidth="38.0" text="VND" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -144,7 +128,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tfVolume" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0">
+                              <JFXTextField fx:id="tfVolume" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0" promptText="100">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -172,7 +156,7 @@
             </VBox>
             <HBox alignment="CENTER_RIGHT" spacing="20.0">
                <children>
-                  <JFXButton fx:id="btnEdit" onAction="#EditService" prefHeight="38.0" prefWidth="70.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE">
+                  <JFXButton fx:id="btnAdd" onAction="#AddService" prefHeight="38.0" prefWidth="70.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
