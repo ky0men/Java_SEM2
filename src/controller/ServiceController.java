@@ -1,5 +1,6 @@
 package controller;
 
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -237,6 +238,9 @@ public class ServiceController implements Initializable {
         setCellValue();
         updateTable();
         search_service();
+
+
+
     }
 
     public Service setModelService(){

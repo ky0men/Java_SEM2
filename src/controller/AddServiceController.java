@@ -3,7 +3,10 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -82,6 +85,65 @@ public class AddServiceController implements Initializable {
             public void handle(MouseEvent event) {
                 titleBar.getScene().getWindow().setX(event.getScreenX() - x);
                 titleBar.getScene().getWindow().setY(event.getScreenY() - y);
+            }
+        });
+
+        //Connect to database
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        //Validate form
+        RequiredFieldValidator validator = new RequiredFieldValidator();
+        tfName.getValidators().add(validator);
+        tfVolume.getValidators().add(validator);
+        tfPrice.getValidators().add(validator);
+        cmbType.getValidators().add(validator);
+        cmbUnit.getValidators().add(validator);
+
+        tfName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue){
+                    validator.setMessage("Service Name is required!");
+                    tfName.validate();
+                }
+            }
+        });
+        tfPrice.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue){
+                    validator.setMessage("Price is required!");
+                    tfPrice.validate();
+                }
+            }
+        });
+        cmbType.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue){
+                    validator.setMessage("Service Type is required!");
+                    cmbType.validate();
+                }
+            }
+        });
+        cmbUnit.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue){
+                    validator.setMessage("Unit is required!");
+                    cmbUnit.validate();
+                }
+            }
+        });
+        tfVolume.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if (!newValue){
+                    validator.setMessage("Volume is required!");
+                    tfVolume.validate();
+                }
             }
         });
     }
