@@ -14,10 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -158,25 +155,15 @@ public class AddServiceController implements Initializable {
     }
 
     private boolean formNotNull(){
-//        if(tfID.getText() == "" || tfName.getText() == "" || tfPrice.getText() == ""
-//                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == ""){
-//            iconWarning.setVisible(true);
-//            lbWarning.setText("Please complete all information");
-//            return false;
-//        }else {
-//            iconWarning.setVisible(false);
-//            lbWarning.setText("");
-
-//        }
-        return true;
+        if(tfName.getText().equals("") || tfPrice.getText() == ""
+                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
+            return false;
+        }else {
+            return true;
+        }
     }
 
     private void AddServiceTable(){
-//        String Name = tfName.getText();
-//        String Type = cmbType.getSelectionModel().getSelectedItem();
-//        int price = Integer.parseInt(tfPrice.getText());
-//        String unit = cmbUnit.getSelectionModel().getSelectedItem();
-//        int volume = Integer.parseInt(tfVolume.getText());
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
@@ -197,8 +184,7 @@ public class AddServiceController implements Initializable {
 
     @FXML
     void AddService(ActionEvent event) {
-        formNotNull();
-        if(formNotNull()){
+        if(formNotNull() == true){
             AddServiceTable();
             Node node = (Node)event.getSource();
             Stage stage = (Stage)node.getScene().getWindow();
@@ -212,6 +198,11 @@ public class AddServiceController implements Initializable {
             tray.showAndWait();
             GaussianBlur blur = new GaussianBlur(0);
             LoginController.stage.getScene().getRoot().setEffect(blur);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Complete Data");
+            alert.setHeaderText("Please complete the service form.");
+            alert.show();
         }
     }
     public void setService(Service service){

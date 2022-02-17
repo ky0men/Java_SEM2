@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: App
+Class-Path: lib/jfoenix-9.0.10.jar lib/TrayTester.jar lib/ikonli-core-12
+ .2.0.jar lib/ikonli-javafx-12.2.0.jar lib/ikonli-material-pack-12.2.0.j
+ ar lib/mssql-jdbc-9.2.0.jre15.jar lib/javafx-swt.jar lib/javafx.base.ja
+ r lib/javafx.controls.jar lib/javafx.fxml.jar lib/javafx.graphics.jar l
+ ib/javafx.media.jar lib/javafx.swing.jar lib/javafx.web.jar
+

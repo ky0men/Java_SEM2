@@ -9,8 +9,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ikonli-core-12.2.0" level="project" />
     <orderEntry type="library" name="jfoenix-9.0.10" level="project" />
-    <orderEntry type="library" name="mssql-jdbc-9.2.0.jre15" level="project" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="TrayTester" level="project" />
+    <orderEntry type="library" name="mssql-jdbc-9.2.0.jre15" level="project" />
   </component>
 </module>

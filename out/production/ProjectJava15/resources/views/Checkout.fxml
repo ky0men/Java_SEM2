@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CheckinRoomController">
+<AnchorPane prefHeight="650.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CheckoutController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -27,11 +25,23 @@
                   </Label>
                </children>
             </HBox>
+            <VBox layoutX="20.0" layoutY="60.0" prefWidth="100.0" spacing="20.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <children>
+                  <Label fx:id="roomNumberLabel" alignment="CENTER" prefHeight="17.0" prefWidth="802.0" text="Room 103" textFill="#00699c">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
             <VBox layoutX="20.0" layoutY="160.0" prefWidth="100.0" spacing="20.0" styleClass="information-box">
                <children>
                   <HBox prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Label style="-fx-background-color: white;" text="Customer Information" textFill="#00699c">
+                        <Label style="-fx-background-color: white;" text="Checkout Information" textFill="#00699c">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -56,11 +66,11 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="248.0">
+                              <Label fx:id="cusNameLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" prefWidth="231.0" text="Customer Name">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold Italic" size="14.0" />
                                  </font>
-                              </JFXTextField>
+                              </Label>
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -76,11 +86,11 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="225.0">
+                              <Label fx:id="cusIDLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="ID/Passport">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold Italic" size="14.0" />
                                  </font>
-                              </JFXTextField>
+                              </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -88,51 +98,20 @@
                         </HBox>
                      </children>
                   </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="30.0" />
-               </padding>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="50.0" prefWidth="100.0" spacing="20.0" styleClass="information-box">
-               <children>
-                  <HBox prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Label style="-fx-background-color: white;" text="Booking Room Information" textFill="#00699c">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets top="-20.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="30.0">
+                  <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="51.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0">
                            <children>
-                              <Label maxWidth="100.0" prefWidth="100.0" text="Room Number:">
+                              <Label maxWidth="120.0" prefWidth="120.0" text="Room Type: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField alignment="CENTER_RIGHT" focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
+                              <Label fx:id="roomTypeLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" prefWidth="231.0" text="Room Type">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold Italic" size="14.0" />
                                  </font>
-                              </JFXTextField>
+                              </Label>
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -143,19 +122,16 @@
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0">
                            <children>
-                              <Label maxWidth="100.0" prefWidth="70.0" text="Checkin: ">
+                              <Label maxWidth="100.0" prefWidth="100.0" text="Check In Time: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker editable="false" prefHeight="26.0" prefWidth="245.0">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </DatePicker>
+                              <Label fx:id="checkinTimeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Check in time">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                              </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -163,64 +139,18 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefWidth="200.0" spacing="30.0">
-                     <children>
-                        <HBox alignment="BOTTOM_LEFT" prefHeight="30.0" prefWidth="398.0" spacing="20.0">
-                           <children>
-                              <Label maxWidth="100.0" prefWidth="100.0" text="Room Type:">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0">
-                           <children>
-                              <Label maxWidth="70.0" prefWidth="70.0" text="Check out: ">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <DatePicker editable="false" prefHeight="26.0" prefWidth="245.0">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </DatePicker>
-                           </children>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefWidth="200.0" spacing="30.0">
+                  <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="91.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0">
                            <children>
-                              <Label maxWidth="100.0" prefWidth="100.0" text="Prepaid: ">
+                              <Label maxWidth="120.0" prefWidth="120.0" text="Room Price">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="151.0">
+                              <Label fx:id="roomPriceLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" prefWidth="231.0" text="Room Price">
                                  <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                              <Label layoutX="30.0" layoutY="15.0" text="VND">
-                                 <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold Italic" size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -233,19 +163,14 @@
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0">
                            <children>
-                              <Label maxWidth="70.0" prefWidth="70.0" text="Discount: ">
+                              <Label maxWidth="100.0" prefWidth="100.0" text="Checkout Time: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField focusColor="#00699c" prefHeight="30.0" prefWidth="194.0">
+                              <Label fx:id="checkoutTimeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Check out time">
                                  <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                              <Label layoutX="30.0" layoutY="15.0" text="VND">
-                                 <font>
-                                    <Font size="14.0" />
+                                    <Font name="System Bold Italic" size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -266,7 +191,7 @@
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </VBox>
-            <VBox layoutX="20.0" layoutY="182.0" prefWidth="100.0" spacing="20.0" styleClass="information-box">
+            <VBox layoutX="20.0" layoutY="182.0" prefWidth="100.0" spacing="20.0">
                <children>
                   <HBox prefWidth="200.0" spacing="10.0">
                      <children>
@@ -288,9 +213,9 @@
                   </HBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                            <content>
-                              <TableView prefHeight="148.0" prefWidth="766.0">
+                              <TableView prefHeight="201.0" prefWidth="777.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="C1" />
                                   <TableColumn prefWidth="75.0" text="C2" />

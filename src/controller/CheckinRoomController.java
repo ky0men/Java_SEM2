@@ -549,5 +549,4 @@ public class CheckinRoomController implements Initializable {
         }
         return true;
     }
-
 }

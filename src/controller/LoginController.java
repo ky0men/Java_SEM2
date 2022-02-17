@@ -164,7 +164,7 @@ public class LoginController implements Initializable {
                         messLabel.setStyle("-fx-text-fill: green;");
                         Parent staffParent = null;
                         try {
-                            staffParent = FXMLLoader.load(getClass().getResource("/resources/views/StaffDashboard.fxml"));
+                            staffParent = FXMLLoader.load(getClass().getResource("/resources/views/RoomSetting.fxml"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
