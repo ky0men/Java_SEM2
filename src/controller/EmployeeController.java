@@ -95,7 +95,7 @@ public class EmployeeController implements Initializable {
         btnAddUser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openScene("/resources/views/AddUser.fxml", 400, 100);
+                openScene("/resources/views/AddUser.fxml");
             }
         });
 
@@ -176,7 +176,7 @@ public class EmployeeController implements Initializable {
     }
 
     //Open new Scene
-    private void openScene(String sceneUrl, int x, int y){
+    private void openScene(String sceneUrl){
         FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneUrl));
         Parent parent = null;
         try {
@@ -193,8 +193,6 @@ public class EmployeeController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setX(x);
-        stage.setY(y);
         stage.showAndWait();
     }
 
@@ -268,8 +266,6 @@ public class EmployeeController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setX(400);
-        stage.setY(200);
         stage.showAndWait();
     }
 
@@ -384,8 +380,6 @@ public class EmployeeController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setX(500);
-        stage.setY(250);
         stage.showAndWait();
 
     }
