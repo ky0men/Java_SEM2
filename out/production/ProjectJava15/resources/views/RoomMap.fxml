@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -24,33 +25,45 @@
                      <children>
                         <AnchorPane cacheShape="false" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" style="-fx-background-color: white;">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Search by ">
+                                    <Label prefHeight="37.0" prefWidth="65.0" text="Search by " textFill="#0b50da">
                                        <font>
                                           <Font name="Ubuntu Regular" size="14.0" />
                                        </font>
                                     </Label>
                                     <ChoiceBox fx:id="searchTypeChoiceBox" prefWidth="120.0" />
-                                    <JFXTextField prefHeight="25.0" prefWidth="191.0">
+                                    <JFXTextField fx:id="searchTextField" alignment="CENTER" prefHeight="25.0" prefWidth="191.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font></JFXTextField>
-                                    <JFXButton fx:id="searchRoomBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Search" textFill="WHITE">
+                                    <JFXButton fx:id="searchRoomBtn" defaultButton="true" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Search" textFill="WHITE">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </JFXButton>
-                                    <JFXButton fx:id="showAllRoomBtn" layoutX="549.0" layoutY="32.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Show All Room" textFill="WHITE">
+                                    <JFXButton fx:id="showAllRoomBtn" layoutX="549.0" layoutY="20.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Show All Room" textFill="WHITE">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </JFXButton>
                                  </children>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox fx:id="ouputMessHbox" alignment="CENTER" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label fx:id="outputMess" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="4000.0" text="Ouput mess" textFill="RED">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <ScrollPane fx:id="allRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0" VBox.vgrow="ALWAYS">
+                        <ScrollPane fx:id="allRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0" stylesheets="@../styles/ScrollPane.css" VBox.vgrow="ALWAYS">
                            <content>
                               <HBox fx:id="allRoomHBoxGrid">
                                  <children>
@@ -69,7 +82,7 @@
                <content>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="tab-parent">
                      <children>
-                        <ScrollPane fx:id="availableRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0">
+                        <ScrollPane fx:id="availableRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0" stylesheets="@../styles/ScrollPane.css">
                            <content>
                               <HBox fx:id="availableRoomHBox">
                                  <children>
@@ -86,7 +99,7 @@
                <content>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="tab-parent">
                      <children>
-                        <ScrollPane fx:id="rentedRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0">
+                        <ScrollPane fx:id="rentedRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0" stylesheets="@../styles/ScrollPane.css">
                            <content>
                               <HBox fx:id="rentedRoomHBox">
                                  <children>
@@ -103,7 +116,7 @@
                <content>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="tab-parent">
                      <children>
-                        <ScrollPane fx:id="dirtyRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0">
+                        <ScrollPane fx:id="dirtyRoomScrollPane" hbarPolicy="NEVER" prefHeight="643.0" prefWidth="907.0" stylesheets="@../styles/ScrollPane.css">
                            <content>
                               <HBox fx:id="dirtyRoomHBox">
                                  <children>
