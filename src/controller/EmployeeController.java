@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import models.EmployeeList;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
@@ -248,12 +249,6 @@ public class EmployeeController implements Initializable {
             editInformationController.cbPosition.setItems(positionList);
             editInformationController.defaultEmail = data.getEmail();
             editInformationController.defaultPhone = data.getPhoneNumber();
-            if(deleted.equals("0")){
-                editInformationController.cbStatus.setValue("Use");
-            } else if(deleted.equals(("1"))){
-                editInformationController.cbStatus.setValue("Don't Use");
-            }
-            editInformationController.cbStatus.setItems(statusList);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -292,71 +287,31 @@ public class EmployeeController implements Initializable {
         return userName;
     }
 
-    //Check Delete Status
-    private boolean CheckDeleted(){
+    //Delete Employee
+    private void HandleDelete(ActionEvent event){
         data = tableEmployee.getSelectionModel().getSelectedItem();
-        boolean flag = false;
         String email = data.getEmail();
-        String deleted = null;
-        String query = "SELECT deleted FROM EmployeeInformation WHERE userEmail = '"+ email +"'";
+        String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '"+ email +"'";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
-
         try {
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
-                deleted = rs.getString("deleted");
-            }
+            st.executeUpdate(query);
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        if(deleted.equals("1")){
-            flag = true;
-        }
-        return flag;
-    }
-
-    //Delete Employee
-    private void HandleDelete(ActionEvent event){
-        if(CheckDeleted()){
-            data = tableEmployee.getSelectionModel().getSelectedItem();
-            String email = data.getEmail();
-            String deleteProfile = "DELETE FROM EmployeeInformation WHERE userEmail = '"+ email +"'";
-            String deleteAccount = "DELETE FROM Account WHERE username = '"+ getUsername() +"'";
-
-            DBConnect dbConnect = new DBConnect();
-            dbConnect.readProperties();
-            Connection conn = dbConnect.getDBConnection();
-
-            try {
-                Statement st = conn.createStatement();
-                st.executeUpdate(deleteProfile);
-                st.executeUpdate(deleteAccount);
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            data = tableEmployee.getSelectionModel().getSelectedItem();
-            String name = data.getName();
-            String title = "Successfully deleted information";
-            String mess = "Employee "+ name +" has successfully deleted the information";
-            TrayNotification cancel = new TrayNotification(title, mess, NotificationType.SUCCESS);
-            cancel.setAnimationType(AnimationType.POPUP);
-            cancel.showAndWait();
-            initLoadTable();
-        } else{
-            String name = data.getName();
-            String title = "Failed deleted information";
-            String mess = "Employee "+ name +" is still working";
-            TrayNotification cancel = new TrayNotification(title, mess, NotificationType.ERROR);
-            cancel.setAnimationType(AnimationType.POPUP);
-            cancel.showAndWait();
-        }
-
-
+        data = tableEmployee.getSelectionModel().getSelectedItem();
+        String name = data.getName();
+        String title = "Successfully deleted information";
+        String mess = "Employee "+ name +" has successfully deleted the information";
+        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+        tray.setAnimationType(AnimationType.POPUP);
+        tray.showAndDismiss(Duration.seconds(3));
+        tray.showAndWait();
+        initLoadTable();
     }
 
     //Change Password
@@ -407,7 +362,7 @@ public class EmployeeController implements Initializable {
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
         Statement st  = null;
-        String query = "SELECT EmployeeInformation.fullName, Account.position, EmployeeInformation.userEmail, EmployeeInformation.userPhone FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID";
+        String query = "SELECT EmployeeInformation.fullName, Account.position, EmployeeInformation.userEmail, EmployeeInformation.userPhone FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE deleted = '0' AND username != 'admin'";
         try {
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);

@@ -150,6 +150,11 @@ public class AddUserController implements Initializable {
         txtNoID.getValidators().add(numberIdValidation);
         numberIdValidation.setMessage("ID Number is required!");
 
+        NumberValidator isnumberIDValidator = new NumberValidator();
+        txtNoID.getValidators().add(isnumberIDValidator);
+        String RegexNoID = "^[0-9 \\-]+$";
+        isnumberIDValidator.setMessage("Only Numbers are supported!");
+
         RequiredFieldValidator addressValidation = new RequiredFieldValidator();
         txtAddress.getValidators().add(addressValidation);
         addressValidation.setMessage("Address is required!");
@@ -163,12 +168,14 @@ public class AddUserController implements Initializable {
         phoneNumberValidation.setMessage("Phone Number is required!");
 
         RegexValidator emailRegexValidator = new RegexValidator();
-        emailRegexValidator.setRegexPattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+        String RegexEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        emailRegexValidator.setRegexPattern(RegexEmail);
         emailRegexValidator.setMessage("Your Email is not valid");
         txtEmail.getValidators().add(emailRegexValidator);
 
         RegexValidator phoneRegexValidator = new RegexValidator();
-        phoneRegexValidator.setRegexPattern("(84|0[3|5|7|8|9])+([0-9]{8})\\b");
+        String RegexPhone = "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
+        phoneRegexValidator.setRegexPattern(RegexPhone);
         phoneRegexValidator.setMessage("Your Phone Number is not valid");
         txtPhoneNumber.getValidators().add(phoneRegexValidator);
 
@@ -257,8 +264,9 @@ public class AddUserController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if(txtUserName.getText().equals("") || txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("") ||
-                        txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
-                        txtEmail.getText().equals("") || txtPhoneNumber.getText().equals("")){
+                        txtFullName.getText().equals("") || txtNoID.getText().equals("") || !txtNoID.getText().matches(RegexNoID) || txtAddress.getText().equals("") ||
+                        txtEmail.getText().equals("") || !txtEmail.getText().matches(RegexEmail) ||
+                        txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)){
                         txtUserName.validate();
                         txtPassword.validate();
                         txtReEnterPassword.validate();
@@ -272,7 +280,9 @@ public class AddUserController implements Initializable {
                 checkPassword();
                 emailIsExist();
                 phoneNumberIsExist();
-                if(!userNameisExist() && checkPassword() && !emailIsExist() && !phoneNumberIsExist()){
+                if(!userNameisExist() && checkPassword() && txtNoID.getText().matches(RegexNoID)
+                        && txtEmail.getText().matches(RegexEmail) && !emailIsExist()  &&
+                        txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()){
                     AddTableAccount();
                     AddTableProfile();
                     Node node = (Node)event.getSource();

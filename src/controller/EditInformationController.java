@@ -50,9 +50,6 @@ public class EditInformationController implements Initializable {
     public ComboBox<String> cbPosition;
 
     @FXML
-    public ComboBox<String> cbStatus;
-
-    @FXML
     public JFXTextField txtAddress;
 
     @FXML
@@ -355,15 +352,9 @@ public class EditInformationController implements Initializable {
         String email = txtEmail.getText();
         String phone = txtPhoneNumber.getText();
         String address = txtAddress.getText();
-        String deleted = null;
-        if(cbStatus.getSelectionModel().getSelectedItem().equals("Use")){
-            deleted = "0";
-        }else if(cbStatus.getSelectionModel().getSelectedItem().equals("Don't Use")){
-            deleted = "1";
-        }
         String query = "UPDATE EmployeeInformation SET fullName = '"+ fullName +"', numberId = '"+ numberId +"'," +
                 " birthday = '"+ birthday +"', userEmail = '"+ email +"', userPhone = '"+ phone +"'," +
-                " userAddress = '"+ address +"', deleted = '"+ deleted +"' WHERE userID = '"+ id +"'";
+                " userAddress = '"+ address +"' WHERE userID = '"+ id +"'";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
