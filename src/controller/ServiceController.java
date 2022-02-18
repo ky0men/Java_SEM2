@@ -76,6 +76,9 @@ public class ServiceController implements Initializable {
     @FXML
     private TableColumn<Service, Integer> col_volume;
 
+    @FXML
+    private TableColumn<Service, Integer> col_delete;
+
     int index = -1;
     Connection conn = null;
     ResultSet rs = null;
@@ -92,14 +95,14 @@ public class ServiceController implements Initializable {
         Connection conn = dbConnect.getDBConnection();
         ObservableList<Service> list = FXCollections.observableArrayList();
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Service");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM Service WHERE isDeleted = 0");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
                 list.add(new Service(Integer.parseInt(rs.getString(1)),rs.getString(2),
                         rs.getString(3),Integer.parseInt(rs.getString(4)),
                         rs.getString(5),
-                        Integer.parseInt(rs.getString(6))));
+                        Integer.parseInt(rs.getString(6)),Integer.parseInt(rs.getString(7))));
             }
         }
         catch (Exception e){
@@ -140,7 +143,7 @@ public class ServiceController implements Initializable {
         String id;
         try {
             Service selected = (Service) table_service.getSelectionModel().getSelectedItem();
-            String query = "DELETE FROM Service WHERE ID = ?";
+            String query = "UPDATE Service SET isDeleted = 1 WHERE ID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1,String.valueOf(selected.getID()));
             id = String.valueOf(selected.getID());
@@ -161,6 +164,7 @@ public class ServiceController implements Initializable {
         col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
         col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
         col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
+        col_delete.setCellValueFactory(new PropertyValueFactory<Service, Integer>("isDeleted"));
 
         dataList = ServiceController.getService();
         table_service.setItems(dataList);
@@ -207,6 +211,7 @@ public class ServiceController implements Initializable {
         col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
         col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
         col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
+        col_delete.setCellValueFactory(new PropertyValueFactory<Service, Integer>("isDeleted"));
 
         list = ServiceController.getService();
         table_service.setItems(list);
@@ -224,10 +229,11 @@ public class ServiceController implements Initializable {
         table_service.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
         col_id.setMaxWidth(1f * Integer.MAX_VALUE * 10);
         col_name.setMaxWidth(1f * Integer.MAX_VALUE * 30);
-        col_type.setMaxWidth(1f * Integer.MAX_VALUE * 25);
-        col_price.setMaxWidth(1f * Integer.MAX_VALUE * 10);
-        col_unit.setMaxWidth(1f * Integer.MAX_VALUE * 10);
-        col_volume.setMaxWidth(1f * Integer.MAX_VALUE * 25);
+        col_type.setMaxWidth(1f * Integer.MAX_VALUE * 30);
+        col_price.setMaxWidth(1f * Integer.MAX_VALUE * 15);
+        col_unit.setMaxWidth(1f * Integer.MAX_VALUE * 15);
+        col_volume.setMaxWidth(1f * Integer.MAX_VALUE * 0);
+        col_delete.setMaxWidth(1f * Integer.MAX_VALUE * 0);
 
         col_id.setCellValueFactory(new PropertyValueFactory<Service,Integer>("ID"));
         col_name.setCellValueFactory(new PropertyValueFactory<Service,String>("name"));
@@ -235,6 +241,7 @@ public class ServiceController implements Initializable {
         col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
         col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
         col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
+        col_delete.setCellValueFactory(new PropertyValueFactory<Service, Integer>("isDeleted"));
 
     }
     @Override

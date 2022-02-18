@@ -75,6 +75,7 @@
                               <TableColumn fx:id="col_price" minWidth="0.0" prefWidth="117.0" text="Price" />
                               <TableColumn fx:id="col_unit" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="212.0" sortable="false" text="Unit" />
                               <TableColumn fx:id="col_volume" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="0.0" text="Volume" visible="false" />
+                              <TableColumn fx:id="col_delete" minWidth="0.0" prefWidth="0.0" text="delete" visible="false" />
                           </columns>
                         </TableView>
                      </children>

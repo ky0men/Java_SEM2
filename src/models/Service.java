@@ -10,15 +10,17 @@ public class Service {
      int Price;
      String Unit;
      int Volume;
+     int isDeleted;
 
 
-    public Service(int ID, String name, String type, int price, String unit, int volume) {
+    public Service(int ID, String name, String type, int price, String unit, int volume, int isDeleted) {
         this.ID = ID;
         Name = name;
         Type = type;
         Price = price;
         Unit = unit;
         Volume = volume;
+        isDeleted = isDeleted;
     }
 
     public int getID() {
@@ -69,6 +71,14 @@ public class Service {
         Volume = volume;
     }
 
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
@@ -78,6 +88,7 @@ public class Service {
                 ", Price=" + Price +
                 ", Unit='" + Unit + '\'' +
                 ", Volume=" + Volume +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

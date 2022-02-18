@@ -197,12 +197,13 @@ public class AddServiceController implements Initializable {
         Connection conn = dbConnect.getDBConnection();
         CallableStatement ctsm = null;
         try {
-            ctsm = conn.prepareCall("{call addService(?,?,?,?,?)}");
+            ctsm = conn.prepareCall("{call addService(?,?,?,?,?,?)}");
             ctsm.setString(1,tfName.getText());
             ctsm.setString(2,cmbType.getValue());
             ctsm.setString(3,tfPrice.getText());
             ctsm.setString(4,cmbUnit.getValue());
             ctsm.setString(5,tfVolume.getText());
+            ctsm.setString(6,"");
             ctsm.execute();
 
         } catch (SQLException throwables) {
