@@ -6,18 +6,7 @@ public class RoomSettingModel {
      String status;
      int floor1;
      String price;
-    String perHours;
-
-
-
-
-    public String getPerHours() {
-        return perHours;
-    }
-
-    public void setPerHours(String perHours) {
-        this.perHours = perHours;
-    }
+     String perHours;
 
 
     public RoomSettingModel(String number, String type, String status, int floor1, String price, String perHours) {
@@ -28,35 +17,6 @@ public class RoomSettingModel {
         this.price = price;
         this.perHours = perHours;
     }
-
-    public String getPricePerHours() {
-        return pricePerHours;
-    }
-
-    public void setPricePerHours(String pricePerHours) {
-        this.pricePerHours = pricePerHours;
-    }
-
-    String pricePerHours;
-    public int getFloor1() {
-        return floor1;
-    }
-
-    public void setFloor1(int floor1) {
-        this.floor1 = floor1;
-    }
-
-
-
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
 
 
     public String getNumber() {
@@ -82,6 +42,32 @@ public class RoomSettingModel {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public int getFloor1() {
+        return floor1;
+    }
+
+    public void setFloor1(int floor1) {
+        this.floor1 = floor1;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getPerHours() {
+        return perHours;
+    }
+
+    public void setPerHours(String perHours) {
+        this.perHours = perHours;
+    }
+
+
 
 
 }

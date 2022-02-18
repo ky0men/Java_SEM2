@@ -1,19 +1,21 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import com.sun.javafx.charts.Legend;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import models.RoomSettingModel;
 import models.RoomSettingTypeModel;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,6 +44,9 @@ public class RoomSettingController implements Initializable {
     private TableColumn<?, ?> price;
 
     @FXML
+    private TableColumn<?,?> perHours;
+
+    @FXML
     private JFXTextField roomNumber;
 
     @FXML
@@ -64,22 +69,24 @@ public class RoomSettingController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> name;
-
     @FXML
-    private TableColumn<?,?> perHours;
+    private ComboBox comboBox;
+
+
 
 
     ObservableList<RoomSettingModel> oblist = FXCollections.observableArrayList();
     ObservableList<RoomSettingTypeModel> oblist1 = FXCollections.observableArrayList();
+    
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        comboBox.getItems().addAll("Option A", "Option B", "Option C");
         try {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID");
             while(rs.next()){
                 oblist.add(new RoomSettingModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
             }
@@ -104,7 +111,7 @@ public class RoomSettingController implements Initializable {
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         floor1.setCellValueFactory(new PropertyValueFactory<>("floor1"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
-
+        perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
 
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -120,7 +127,13 @@ public class RoomSettingController implements Initializable {
                 roomType.setText(table.getSelectionModel().getSelectedItem().getType());
                 roomFloor.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getFloor1()));
                 roomPrice.setText(table.getSelectionModel().getSelectedItem().getPrice());
-                pricePerHours.setText(table.getSelectionModel().getSelectedItem().getPricePerHours());
+                pricePerHours.setText(table.getSelectionModel().getSelectedItem().getPerHours());
+            }
+        });
+
+        table1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
 
             }
         });

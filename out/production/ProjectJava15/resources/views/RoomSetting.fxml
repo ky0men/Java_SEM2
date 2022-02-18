@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -57,6 +58,7 @@
                                        </font>
                                     </Label>
                                     <JFXTextField fx:id="roomType" />
+                                    <ComboBox fx:id="comboBox" prefWidth="150.0" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
