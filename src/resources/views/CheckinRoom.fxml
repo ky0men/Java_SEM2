@@ -126,7 +126,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXComboBox fx:id="roomNameComboBox" prefHeight="25.0" prefWidth="229.0" />
+                              <JFXComboBox fx:id="roomNameComboBox" prefHeight="25.0" prefWidth="205.0" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -166,7 +166,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="roomType" editable="false" focusColor="#00699c" prefHeight="30.0" prefWidth="230.0">
+                              <JFXTextField fx:id="roomType" editable="false" focusColor="#00699c" prefHeight="30.0" prefWidth="206.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -200,14 +200,14 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefWidth="200.0" spacing="30.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" prefHeight="30.0" prefWidth="403.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0">
                            <children>
                               <Label maxWidth="100.0" prefWidth="100.0" text="Prepaid: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="prepaidField" focusColor="#00699c" prefHeight="30.0" prefWidth="181.0" text="0">
+                              <JFXTextField fx:id="prepaidField" focusColor="#00699c" prefHeight="30.0" prefWidth="151.0" text="0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
