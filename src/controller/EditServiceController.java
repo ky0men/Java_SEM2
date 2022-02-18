@@ -3,6 +3,7 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.beans.value.ChangeListener;
@@ -236,5 +237,15 @@ public class EditServiceController implements Initializable {
                 }
             }
         });
+
+        RegexValidator priceRegexValidator = new RegexValidator();
+        priceRegexValidator.setRegexPattern("^\\d+$");
+        priceRegexValidator.setMessage("Price is only number");
+        tfPrice.getValidators().add(priceRegexValidator);
+
+        RegexValidator volumeRegexValidator = new RegexValidator();
+        volumeRegexValidator.setRegexPattern("^\\d+$");
+        volumeRegexValidator.setMessage("Volume is only number");
+        tfVolume.getValidators().add(volumeRegexValidator);
     }
 }
