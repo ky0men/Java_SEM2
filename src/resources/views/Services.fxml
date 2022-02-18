@@ -73,8 +73,8 @@
                             <TableColumn fx:id="col_name" prefWidth="190.0" text="Service Name" />
                               <TableColumn fx:id="col_type" prefWidth="151.0" text="Type of Service" />
                               <TableColumn fx:id="col_price" minWidth="0.0" prefWidth="117.0" text="Price" />
-                              <TableColumn fx:id="col_unit" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="71.0" sortable="false" text="Unit" />
-                              <TableColumn fx:id="col_volume" maxWidth="1.7976931348623157E308" prefWidth="160.79998779296875" text="Volume" />
+                              <TableColumn fx:id="col_unit" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="212.0" sortable="false" text="Unit" />
+                              <TableColumn fx:id="col_volume" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="0.0" text="Volume" visible="false" />
                           </columns>
                         </TableView>
                      </children>
