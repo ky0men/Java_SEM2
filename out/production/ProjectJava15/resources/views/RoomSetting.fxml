@@ -1,15 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RoomSettingController">
+<AnchorPane prefHeight="614.0" prefWidth="742.0" style="-fx-background-color: white; -fx-background-radius: 10;" stylesheets="@../styles/RoomMap.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RoomSettingController">
    <children>
-      <Label layoutX="173.0" layoutY="264.0" text="Room Setting Content" textFill="#00699c">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
+      <JFXTabPane layoutX="14.0" layoutY="14.0" prefHeight="619.0" prefWidth="742.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <tabs>
+            <Tab text="Room Setting">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="742.0">
+                     <children>
+                        <JFXTextField layoutX="608.0" layoutY="4.0" prefHeight="25.0" prefWidth="94.0" />
+                        <FontIcon iconLiteral="gmi-search" layoutX="710.0" layoutY="29.0">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </FontIcon>
+                        <TableView fx:id="table" layoutX="30.0" layoutY="35.0" prefHeight="408.0" stylesheets="@../styles/TableView.css" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                          <columns>
+                              <TableColumn fx:id="number" prefWidth="85.0" text="Room Number" />
+                              <TableColumn fx:id="type" prefWidth="116.0" text="Room Type" />
+                              <TableColumn fx:id="status" prefWidth="125.0" text="Room Status" />
+                              <TableColumn fx:id="floor1" prefWidth="124.0" text="Room Floor" />
+                              <TableColumn fx:id="price" prefWidth="139.0" text="Room Price" />
+                              <TableColumn fx:id="perHours" prefWidth="131.0" text="Price per hours" />
+                          </columns>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TableView>
+                        <VBox prefHeight="140.0" prefWidth="722.0" spacing="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <HBox alignment="BOTTOM_CENTER" prefWidth="742.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Room Number:" textFill="#00699c">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="roomNumber" />
+                                    <Label text="Room Type:" textFill="#00699c">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="roomType" />
+                                    <Label text="Room Floor:" textFill="#00699c">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="roomFloor" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_CENTER" prefWidth="742.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Room Price:" textFill="#00699c">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="roomPrice" prefHeight="27.0" prefWidth="250.0" />
+                                    <Label text="Price per Hours:" textFill="#00699c">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="pricePerHours" prefWidth="260.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
+                                    <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Confirm" />
+                                    <JFXButton styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Room Type Setting">
+               <content>
+                  <AnchorPane prefHeight="583.0" prefWidth="762.0">
+                     <children>
+                        <TableView fx:id="table1" prefHeight="512.0" stylesheets="@../styles/TableView.css" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                          <columns>
+                            <TableColumn fx:id="id" prefWidth="145.0" text="Number" />
+                            <TableColumn fx:id="name" minWidth="5.0" prefWidth="596.0" text="Room Type Name" />
+                          </columns>
+                        </TableView>
+                        <HBox alignment="CENTER" prefHeight="90.0" prefWidth="702.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label text="Room Type Name" />
+                              <JFXTextField />
+                              <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
+                              <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Confirm" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </AnchorPane>
+               </content></Tab>
+         </tabs>
+      </JFXTabPane>
    </children>
 </AnchorPane>
