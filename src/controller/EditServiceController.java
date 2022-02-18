@@ -143,10 +143,13 @@ public class EditServiceController implements Initializable {
             GaussianBlur blur = new GaussianBlur(0);
             LoginController.stage.getScene().getRoot().setEffect(blur);
         }else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Complete Data");
-            alert.setHeaderText("Please complete the service form.");
-            alert.show();
+            String title = "Incomplete Data";
+            String mess = "Please fill the data";
+            TrayNotification tray = new TrayNotification(title, mess, NotificationType.WARNING);
+            tray.setAnimationType(AnimationType.POPUP);
+            tray.showAndDismiss(Duration.seconds(3));
+            tray.showAndWait();
+            System.out.println("Incomplete Data.");
         }
     }
     @Override

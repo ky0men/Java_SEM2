@@ -21,7 +21,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import models.Service;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -252,11 +256,13 @@ public class ServiceController implements Initializable {
                 Optional <ButtonType> result = alert.showAndWait();
                 if(result.get() == btnTypeYes){
                     DeleteServiceAction();
-                    Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert1.setTitle("Delete Confirmation");
-                    alert1.setHeaderText("This row was deleted.");
-                    alert1.show();
-                    System.out.println("Delete completed!");
+                    String title = "Notify";
+                    String mess = "This row was deleted";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                    System.out.println("Delete completed");
                 }
                 else {
                     System.out.println("No delete the row.");

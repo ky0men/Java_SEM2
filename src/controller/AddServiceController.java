@@ -191,15 +191,6 @@ public class AddServiceController implements Initializable {
         LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
-//    private boolean formNotNull(){
-//        if(tfName.getText().equals("") || tfPrice.getText() == ""
-//                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
-//            return false;
-//        }else {
-//            return true;
-//        }
-//    }
-
     private void AddServiceTable(){
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
