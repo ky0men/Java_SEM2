@@ -1,7 +1,6 @@
 package controller;
 
 
-import com.jfoenix.controls.JFXButton;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,8 +40,8 @@ import java.util.ResourceBundle;
 import static controller.LoginController.stage;
 
 public class EmployeeController implements Initializable {
-    ObservableList<String> positionList = FXCollections.observableArrayList( "Manager","Front Office");
-    ObservableList<String> statusList = FXCollections.observableArrayList( "Use","Don't Use");
+    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office");
+    ObservableList<String> statusList = FXCollections.observableArrayList("Use", "Don't Use");
 
     @FXML
     private Button btnAddUser;
@@ -71,26 +71,38 @@ public class EmployeeController implements Initializable {
     private TableColumn<?, ?> columnPhoneNumber;
 
     @FXML
-    private TableColumn<?, ?> columnAction;
+    private Button btnEdit;
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnChangePassword;
 
     @FXML
     private Label lbTotalEmployee;
 
     EmployeeList data = null;
 
-    private ButtonBar[] buttonBar = new ButtonBar[100];
-    private JFXButton[] btnEdit = new JFXButton[100];
-    private JFXButton[] btnDelete = new JFXButton[100];
-    private JFXButton[] btnChangePassword = new JFXButton[100];
-
-
-
-
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         initLoadTable();
         initTotalEmployee();
+
+        //Style Button
+        ImageView editImg = new ImageView("/resources/images/edit.png");
+        editImg.setFitHeight(16);
+        btnEdit.setGraphic(editImg);
+
+        ImageView deleteImg = new ImageView("/resources/images/delete.png");
+        deleteImg.setFitHeight(16);
+        btnDelete.setGraphic(deleteImg);
+
+        ImageView changePasswordImg = new ImageView("/resources/images/synchronize.png");
+        changePasswordImg.setFitHeight(16);
+        btnChangePassword.setGraphic(changePasswordImg);
+
 
         //Add Employee
         btnAddUser.setOnAction(new EventHandler<ActionEvent>() {
@@ -108,12 +120,166 @@ public class EmployeeController implements Initializable {
                 initTotalEmployee();
             }
         });
+
+        //Edit Information
+        btnEdit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                data = tableEmployee.getSelectionModel().getSelectedItem();
+                if(data == null){
+                    String title = "Choose employee";
+                    String mess = "Please choose Employee";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                }else{
+                    String email = data.getEmail();
+                    int id = 0;
+                    String numberId = null;
+                    String birthday;
+                    int day = 0;
+                    int month = 0;
+                    int year = 0;
+                    String address = null;
+                    String deleted = null;
+                    String status;
+                    String query = "SELECT Account.id, EmployeeInformation.numberId, EmployeeInformation.birthday, EmployeeInformation.userAddress, EmployeeInformation.deleted  FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE EmployeeInformation.userEmail = '" + email + "'";
+
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+
+                    try {
+                        Statement st = conn.createStatement();
+                        ResultSet rs = st.executeQuery(query);
+                        while (rs.next()) {
+                            id = rs.getInt("id");
+                            numberId = rs.getString("numberId");
+                            birthday = rs.getString("birthday");
+                            String[] dateParts = birthday.split("-");
+                            day = Integer.parseInt(dateParts[2]);
+                            month = Integer.parseInt(dateParts[1]);
+                            year = Integer.parseInt(dateParts[0]);
+                            address = rs.getString("userAddress");
+                            deleted = rs.getString("deleted");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/EditInformation.fxml"));
+                    Parent parent = null;
+                    try {
+                        parent = (Parent) loader.load();
+                        EditInformationController editInformationController = loader.getController();
+                        editInformationController.id = id;
+                        editInformationController.txtEmail.setText(data.getEmail());
+                        editInformationController.txtNoID.setText(numberId);
+                        editInformationController.txtPhoneNumber.setText(data.getPhoneNumber());
+                        editInformationController.txtFullName.setText(data.getName());
+                        editInformationController.dpBirthday.setValue(LocalDate.of(year, month, day));
+                        editInformationController.txtAddress.setText(address);
+                        editInformationController.cbPosition.setValue(data.getPosition());
+                        editInformationController.cbPosition.setItems(positionList);
+                        editInformationController.defaultEmail = data.getEmail();
+                        editInformationController.defaultPhone = data.getPhoneNumber();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    GaussianBlur blurEffect = new GaussianBlur(10);
+                    stage.getScene().getRoot().setEffect(blurEffect);
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(parent);
+                    scene.setFill(Color.TRANSPARENT);
+                    stage.setScene(scene);
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.showAndWait();
+                }
+            }
+        });
+
+        btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                data = tableEmployee.getSelectionModel().getSelectedItem();
+                if(data == null){
+                    String title = "Choose employee";
+                    String mess = "Please choose Employee";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                }else{
+                    String email = data.getEmail();
+                    String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '" + email + "'";
+
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+                    try {
+                        Statement st = conn.createStatement();
+                        st.executeUpdate(query);
+                        conn.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    data = tableEmployee.getSelectionModel().getSelectedItem();
+                    String name = data.getName();
+                    String title = "Successfully deleted information";
+                    String mess = "Employee " + name + " has successfully deleted the information";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                    initLoadTable();
+                    initTotalEmployee();
+                }
+            }
+        });
+
+        btnChangePassword.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                data = tableEmployee.getSelectionModel().getSelectedItem();
+                if(data == null){
+                    String title = "Choose employee";
+                    String mess = "Please choose Employee";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                }else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/ChangePassword.fxml"));
+                    Parent parent = null;
+                    try {
+                        parent = loader.load();
+                        ChangePasswordController changePasswordController = loader.getController();
+                        changePasswordController.email = data.getEmail();
+                        changePasswordController.fullName = data.getName();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    GaussianBlur blurEffect = new GaussianBlur(10);
+                    stage.getScene().getRoot().setEffect(blurEffect);
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(parent);
+                    scene.setFill(Color.TRANSPARENT);
+                    stage.setScene(scene);
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.showAndWait();
+                }
+            }
+        });
     }
 
+
     //Load Total Employee
-    private void initTotalEmployee(){
+    private void initTotalEmployee() {
         int totalEmployee = 0;
-        String query = "SELECT COUNT(userID) AS TotalEmployee FROM EmployeeInformation";
+        String query = "SELECT COUNT(userID) AS TotalEmployee FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE deleted = '0' AND username != 'admin'";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
@@ -122,7 +288,7 @@ public class EmployeeController implements Initializable {
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 totalEmployee = rs.getInt("TotalEmployee");
             }
             lbTotalEmployee.setText(String.valueOf(totalEmployee));
@@ -132,20 +298,9 @@ public class EmployeeController implements Initializable {
     }
 
     //Load TableView
-    private void initLoadTable(){
+    private void initLoadTable() {
         employeeLists = FXCollections.observableArrayList();
         setCellValue();
-        for (int i = 0; i < buttonBar.length; i++) {
-            buttonBar[i] = new ButtonBar();
-            btnEdit[i] = new JFXButton();
-
-            btnEdit[i].setOnAction(this::HandleEdit);
-            btnDelete[i] = new JFXButton();
-            btnDelete[i].setOnAction(this::HandleDelete);
-            btnChangePassword[i] = new JFXButton();
-            btnChangePassword[i].setOnAction(this::HandleChangePassword);
-            buttonBar[i].getButtons().addAll(btnChangePassword[i],btnDelete[i],btnEdit[i] );
-        }
         loadEmployeeTable();
         SearchAction();
     }
@@ -155,29 +310,29 @@ public class EmployeeController implements Initializable {
         FilteredList<EmployeeList> employeeListsData = new FilteredList<>(employeeLists, b -> true);
         txtSearch.textProperty().addListener((observableValue, oldvalue, newvalue) -> {
             employeeListsData.setPredicate(employeeList -> {
-                if(newvalue.isEmpty() || newvalue.isBlank() || newvalue == null){
+                if (newvalue.isEmpty() || newvalue.isBlank() || newvalue == null) {
                     return true;
                 }
 
                 String keyword = newvalue.toLowerCase(Locale.ROOT);
-                if((employeeList.getName().toLowerCase().indexOf(keyword) > -1)){
+                if ((employeeList.getName().toLowerCase().indexOf(keyword) > -1)) {
                     return true;
-                }else if ((employeeList.getEmail().toLowerCase().indexOf(keyword) > -1)) {
+                } else if ((employeeList.getEmail().toLowerCase().indexOf(keyword) > -1)) {
                     return true;
-                }else if ((employeeList.getPhoneNumber().toLowerCase().indexOf(keyword) > -1)) {
+                } else if ((employeeList.getPhoneNumber().toLowerCase().indexOf(keyword) > -1)) {
                     return true;
-                }else {
+                } else {
                     return false;
                 }
             });
-        } );
+        });
         SortedList<EmployeeList> sortedList = new SortedList<>(employeeListsData);
         sortedList.comparatorProperty().bind(tableEmployee.comparatorProperty());
         tableEmployee.setItems(sortedList);
     }
 
     //Open new Scene
-    private void openScene(String sceneUrl){
+    private void openScene(String sceneUrl) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneUrl));
         Parent parent = null;
         try {
@@ -197,79 +352,12 @@ public class EmployeeController implements Initializable {
         stage.showAndWait();
     }
 
-    //Edit Information
-    private void HandleEdit(ActionEvent event){
-        data = tableEmployee.getSelectionModel().getSelectedItem();
-        String email = data.getEmail();
-        int id = 0;
-        String numberId = null;
-        String birthday;
-        int day = 0;
-        int month = 0;
-        int year = 0;
-        String address = null;
-        String deleted = null;
-        String status;
-        String query = "SELECT Account.id, EmployeeInformation.numberId, EmployeeInformation.birthday, EmployeeInformation.userAddress, EmployeeInformation.deleted  FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE EmployeeInformation.userEmail = '"+ email +"'";
-
-        DBConnect dbConnect = new DBConnect();
-        dbConnect.readProperties();
-        Connection conn = dbConnect.getDBConnection();
-
-        try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
-                id = rs.getInt("id");
-                numberId = rs.getString("numberId");
-                birthday = rs.getString("birthday");
-                String [] dateParts = birthday.split("-");
-                day = Integer.parseInt(dateParts[2]);
-                month = Integer.parseInt(dateParts[1]);
-                year = Integer.parseInt(dateParts[0]);
-                address = rs.getString("userAddress");
-                deleted = rs.getString("deleted");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/EditInformation.fxml"));
-        Parent parent = null;
-        try {
-            parent =(Parent) loader.load();
-            EditInformationController editInformationController = loader.getController();
-            editInformationController.id = id;
-            editInformationController.txtEmail.setText(data.getEmail());
-            editInformationController.txtNoID.setText(numberId);
-            editInformationController.txtPhoneNumber.setText(data.getPhoneNumber());
-            editInformationController.txtFullName.setText(data.getName());
-            editInformationController.dpBirthday.setValue(LocalDate.of(year, month, day));;
-            editInformationController.txtAddress.setText(address);
-            editInformationController.cbPosition.setValue(data.getPosition());
-            editInformationController.cbPosition.setItems(positionList);
-            editInformationController.defaultEmail = data.getEmail();
-            editInformationController.defaultPhone = data.getPhoneNumber();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        GaussianBlur blurEffect = new GaussianBlur(10);
-        stage.getScene().getRoot().setEffect(blurEffect);
-        Stage stage = new Stage();
-        Scene scene = new Scene(parent);
-        scene.setFill(Color.TRANSPARENT);
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
-    }
-
     //Get User Name for TableView
-    private String getUsername(){
+    private String getUsername() {
         data = tableEmployee.getSelectionModel().getSelectedItem();
         String email = data.getEmail();
         String userName = null;
-        String query = "SELECT username FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE userEmail = '"+ email +"'";
+        String query = "SELECT username FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE userEmail = '" + email + "'";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
@@ -278,7 +366,7 @@ public class EmployeeController implements Initializable {
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 userName = rs.getString("username");
             }
         } catch (SQLException throwables) {
@@ -287,88 +375,34 @@ public class EmployeeController implements Initializable {
         return userName;
     }
 
-    //Delete Employee
-    private void HandleDelete(ActionEvent event){
-        data = tableEmployee.getSelectionModel().getSelectedItem();
-        String email = data.getEmail();
-        String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '"+ email +"'";
-
-        DBConnect dbConnect = new DBConnect();
-        dbConnect.readProperties();
-        Connection conn = dbConnect.getDBConnection();
-        try {
-            Statement st = conn.createStatement();
-            st.executeUpdate(query);
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        data = tableEmployee.getSelectionModel().getSelectedItem();
-        String name = data.getName();
-        String title = "Successfully deleted information";
-        String mess = "Employee "+ name +" has successfully deleted the information";
-        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-        tray.setAnimationType(AnimationType.POPUP);
-        tray.showAndDismiss(Duration.seconds(3));
-        tray.showAndWait();
-        initLoadTable();
-    }
-
-    //Change Password
-    private void HandleChangePassword(ActionEvent event){
-        data = tableEmployee.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/ChangePassword.fxml"));
-        Parent parent = null;
-        try {
-            parent = loader.load();
-            ChangePasswordController changePasswordController = loader.getController();
-            changePasswordController.email = data.getEmail();
-            changePasswordController.fullName = data.getName();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        GaussianBlur blurEffect = new GaussianBlur(10);
-        stage.getScene().getRoot().setEffect(blurEffect);
-        Stage stage = new Stage();
-        Scene scene = new Scene(parent);
-        scene.setFill(Color.TRANSPARENT);
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
-
-    }
-
     //Set Cell Value for TableView
-    public void setCellValue(){
-        tableEmployee.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY );
-        columnName.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
-        columnPosition.setMaxWidth( 1f * Integer.MAX_VALUE * 16  );
-        columnEmail.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
-        columnPhoneNumber.setMaxWidth( 1f * Integer.MAX_VALUE * 22 );
-        columnAction.setMaxWidth( 1f * Integer.MAX_VALUE * 18 );
+    public void setCellValue() {
+        tableEmployee.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        columnName.setMaxWidth(1f * Integer.MAX_VALUE * 25);
+        columnPosition.setMaxWidth(1f * Integer.MAX_VALUE * 20);
+        columnEmail.setMaxWidth(1f * Integer.MAX_VALUE * 30);
+        columnPhoneNumber.setMaxWidth(1f * Integer.MAX_VALUE * 25);
 
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        columnAction.setCellValueFactory(new PropertyValueFactory<>("buttonBar"));
 
     }
 
     //Load Employee from Database
-    public void loadEmployeeTable(){
+    public void loadEmployeeTable() {
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
-        Statement st  = null;
+        Statement st = null;
         String query = "SELECT EmployeeInformation.fullName, Account.position, EmployeeInformation.userEmail, EmployeeInformation.userPhone FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE deleted = '0' AND username != 'admin'";
         try {
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             int i = 0;
-            while (rs.next()){
-                employeeLists.add(new EmployeeList(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), buttonBar[i], btnEdit[i], btnDelete[i], btnChangePassword[i]));
+            while (rs.next()) {
+                employeeLists.add(new EmployeeList(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
                 i++;
             }
         } catch (SQLException throwables) {
