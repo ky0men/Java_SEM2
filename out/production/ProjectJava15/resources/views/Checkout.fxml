@@ -37,7 +37,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox layoutX="20.0" layoutY="160.0" prefWidth="100.0" spacing="10.0" styleClass="information-box">
+            <VBox layoutX="20.0" layoutY="160.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <HBox prefWidth="200.0" spacing="10.0">
                      <children>
@@ -100,14 +100,14 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="51.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0">
                            <children>
-                              <Label maxWidth="120.0" prefWidth="120.0" text="Room Type: ">
+                              <Label maxWidth="140.0" prefHeight="20.0" prefWidth="139.0" text="Room Type: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="roomTypeLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" prefWidth="231.0" text="Room Type">
+                              <Label fx:id="roomTypeLabel" alignment="TOP_LEFT" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" text="Room Type">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
@@ -141,14 +141,19 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="91.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0">
                            <children>
-                              <Label maxWidth="120.0" prefWidth="120.0" text="Day Price:">
+                              <Label maxWidth="146.0" prefHeight="20.0" prefWidth="138.0" text="Day Price:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="roomPriceLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" prefWidth="231.0" text="Room Price">
+                              <Label fx:id="roomPriceLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" text="Room Price">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="170.0" layoutY="10.0" maxWidth="231.0" prefHeight="20.0" prefWidth="126.0" text=" VND">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
@@ -182,14 +187,19 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="171.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0">
                            <children>
-                              <Label maxWidth="120.0" prefWidth="120.0" text="Time Price">
+                              <Label maxWidth="150.0" prefWidth="138.0" text="Time Price">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="timePriceLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" prefWidth="231.0" text="Time Price">
+                              <Label fx:id="timePriceLabel" layoutX="30.0" layoutY="20.0" maxWidth="231.0" prefHeight="20.0" text="Time Price">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="150.0" layoutY="10.0" maxWidth="231.0" prefHeight="20.0" text=" VND">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
@@ -214,7 +224,7 @@
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="150.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" day ">
+                              <Label layoutX="150.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" days ">
                                  <font>
                                     <Font name="System Italic" size="14.0" />
                                  </font>
@@ -248,7 +258,7 @@
                   </HBox>
                </children>
                <padding>
-                  <Insets bottom="30.0" />
+                  <Insets bottom="10.0" />
                </padding>
                <opaqueInsets>
                   <Insets />
@@ -289,7 +299,7 @@
                               <TableColumn fx:id="priceCol" prefWidth="151.0" text="Price" />
                               <TableColumn fx:id="quantityCol" text="Quantity" />
                               <TableColumn fx:id="unitCol" prefWidth="94.0" text="Unit" />
-                              <TableColumn fx:id="sumCol" prefWidth="167.0" text="Sum" />
+                              <TableColumn fx:id="sumCol" prefWidth="167.0" text="Amount" />
                           </columns>
                         </TableView>
                      </children>
@@ -307,138 +317,193 @@
             </VBox>
             <VBox layoutX="20.0" layoutY="347.0" prefWidth="100.0">
                <children>
-                  <HBox prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Label style="-fx-background-color: white;" text="Total" textFill="#00699c">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets top="-10.0" />
-                     </VBox.margin>
-                  </HBox>
                   <VBox prefWidth="100.0" spacing="8.0">
                      <children>
-                        <HBox alignment="BOTTOM_RIGHT" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0" text="Room Charge: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="roomChargeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Room Charge">
+                              <Label fx:id="roomChargeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="150.0" text="Room Charge">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
+                              </Label>
+                              <Label layoutX="656.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" VND">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="112.0" prefHeight="20.0" prefWidth="110.0" text="Services Charge: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="serviceChargeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Service Charge">
+                              <Label fx:id="serviceChargeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="150.0" text="Service Charge">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
+                              </Label>
+                              <Label fx:id="serviceChargeLabel1" layoutX="658.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" VND">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="30.0" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="30.0" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0" text="Prepaid: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="prepaidLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Prepaid">
+                              <Label fx:id="prepaidLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="150.0" text="Prepaid">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
+                              </Label>
+                              <Label fx:id="prepaidLabel1" layoutX="658.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" VND">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="70.0" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="70.0" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0" text="Discount: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="discountLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Discount">
+                              <Label fx:id="discountLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="150.0" text="Discount">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
+                              </Label>
+                              <Label fx:id="discountLabel1" layoutX="561.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" VND">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="100.0" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="100.0" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0" text="Total: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="totalLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Total" textFill="BLUE">
+                              <Label fx:id="totalLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="150.0" text="Total" textFill="BLUE">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
                                  </font>
+                              </Label>
+                              <Label fx:id="totalLabel1" layoutX="561.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" VND" textFill="BLUE">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="130.0" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="130.0" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0" text="Cash:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField prefWidth="197.0">
+                              <JFXTextField fx:id="customerCash" prefHeight="25.0" prefWidth="154.0">
                                  <HBox.margin>
-                                    <Insets right="50.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </JFXTextField>
+                              <Label fx:id="cashValidateLabel" layoutX="441.0" layoutY="15.0" maxWidth="178.0" prefHeight="20.0" text=" VND">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="130.0" prefWidth="400.0" spacing="20.0">
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="130.0" prefWidth="400.0" spacing="10.0">
                            <children>
                               <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0" text="Change:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="changeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="247.0" text="Change" textFill="RED">
+                              <Label fx:id="changeLabel" layoutX="30.0" layoutY="20.0" maxWidth="247.0" prefHeight="20.0" prefWidth="150.0" text="Change" textFill="RED">
                                  <font>
                                     <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="changeLabel1" layoutX="561.0" layoutY="10.0" maxWidth="247.0" prefHeight="20.0" text=" VND" textFill="RED">
+                                 <font>
+                                    <Font name="System Bold Italic" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="BOTTOM_RIGHT" layoutX="10.0" layoutY="183.0" prefWidth="400.0" spacing="20.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="110.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="changeValidateLabel" layoutX="30.0" layoutY="20.0" maxWidth="272.0" prefHeight="20.0" prefWidth="272.0" text="Change must be great or equal than zero" textFill="RED" visible="false">
+                                 <font>
+                                    <Font size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -448,7 +513,7 @@
                         </HBox>
                      </children>
                      <VBox.margin>
-                        <Insets top="-15.0" />
+                        <Insets />
                      </VBox.margin>
                   </VBox>
                </children>

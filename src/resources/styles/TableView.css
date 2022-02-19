@@ -28,10 +28,10 @@
      -fx-padding: 2 0 2 10px;
      -fx-alignment: CENTER;
  }
-.table-row-cell:focused{
-    -fx-background-color: #93f9b911;
-    -fx-text-background-color: #474787;
-}
+/*.table-row-cell:focused{*/
+/*    -fx-background-color: #93f9b911;*/
+/*    -fx-text-background-color: #474787;*/
+/*}*/
 .table-view .table-cell{
     -fx-border-color: transparent;
     -fx-padding: 2 0 2 10px;

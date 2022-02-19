@@ -161,8 +161,6 @@ public class AdminDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Font.loadFont(getClass().getResourceAsStream("/resources/fonts/DancingScript-Regular.ttf"), 14);
-        Font.loadFont(getClass().getResourceAsStream("/resources/fonts/Roboto-Regular.ttf"), 14);
         changeContentScene("/resources/views/RoomMap.fxml");
 //        System.out.println("admin loaded");
 

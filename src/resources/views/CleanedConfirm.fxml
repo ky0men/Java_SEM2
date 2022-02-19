@@ -15,7 +15,7 @@
          <children>
             <HBox fx:id="titleBar" alignment="CENTER" prefHeight="30.0" prefWidth="200.0" styleClass="title-name">
                <children>
-                  <Label text="Room Cleaned Comfirm" textFill="WHITE">
+                  <Label text="Room Cleaned Confirm" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>

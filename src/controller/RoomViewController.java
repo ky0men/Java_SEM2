@@ -1,5 +1,11 @@
 package controller;
 
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Table;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Room;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -82,7 +89,6 @@ public class RoomViewController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (actionBtn.getText().equals("Check in")) {
-                    System.out.println("Book Room");
                     //Get column and row of gridpane
                     col = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
                     row = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
@@ -93,7 +99,6 @@ public class RoomViewController implements Initializable {
                     //Show booking room stage
                     showAction("/resources/views/CheckinRoom.fxml");
                 } else if (actionBtn.getText().equals("Check Out")) {
-                    System.out.println("Check out");
                     //Get column and row of gridpane
                     col = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
                     row = (Integer) actionBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
@@ -124,7 +129,8 @@ public class RoomViewController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 GaussianBlur blurEffect = new GaussianBlur(10);
-                stage.getScene().getRoot().setEffect(blurEffect);
+                servicesBtn.getScene().getRoot().setEffect(blurEffect);
+//                stage.getScene().getRoot().setEffect(blurEffect);
                 //Get column and row of gridpane
                 col = (Integer) servicesBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
                 row = (Integer) servicesBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
@@ -133,7 +139,6 @@ public class RoomViewController implements Initializable {
                 showAction("/resources/views/BookingService.fxml");
             }
         });
-
 
     }
 
@@ -166,4 +171,6 @@ public class RoomViewController implements Initializable {
     public String getGridRoomType(){
         return gridRoomType;
     }
+    
+
 }

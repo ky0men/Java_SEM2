@@ -1,9 +1,29 @@
 package controller;
 
+
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.IBlockElement;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import dao.DBConnect;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +43,14 @@ import javafx.stage.Stage;
 import models.Room;
 import models.UsedServices;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -123,9 +147,17 @@ public class CheckoutController implements Initializable {
     @FXML
     private Label usedMinsLabel;
 
+    @FXML
+    private JFXTextField customerCash;
+
+    @FXML
+    private Label changeValidateLabel;
+
     private double x, y;
     Stage stage;
     double serviceCharge;
+    double change;
+    double roomPriceDouble, roomTimePriceDouble, roomChargeDouble, prepaidDouble, discountDouble, totalDouble;
 
     ObservableList<UsedServices> usedServicesData = FXCollections.observableArrayList();
 
@@ -167,29 +199,67 @@ public class CheckoutController implements Initializable {
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
 
+        roomPriceDouble = Double.parseDouble(getRoomPrice(conn, getRoomName()));
+        roomTimePriceDouble = Double.parseDouble(getRoomTimePrice(conn, getRoomName()));
+
+
+        changeValidateLabel.setVisible(false);
         roomNumberLabel.setText("Room " + getRoomName());
         roomTypeLabel.setText(getRoomType(conn, getRoomName()));
-        roomPriceLabel.setText(getRoomPrice(conn, getRoomName()));
+        roomPriceLabel.setText(formatCurrency(getRoomPrice(conn, getRoomName())));
         cusIDLabel.setText(getDataFromCheckin(conn, getRoomName(), "cusIdentityNumber"));
         cusNameLabel.setText(getCustomerName(conn, getDataFromCheckin(conn, getRoomName(), "cusIdentityNumber")));
         checkinTimeLabel.setText(getDataFromCheckin(conn, getRoomName(), "checkinDate"));
 
         checkoutTimeLabel.setText(getCurrentTimeStamp());
-        timePriceLabel.setText(getRoomTimePrice(conn, getRoomName()));
+        timePriceLabel.setText(formatCurrency(getRoomTimePrice(conn, getRoomName())));
 
         calculateTime();
-        calculateRoomCharge();
+        roomChargeDouble = calculateRoomCharge();
 
 
         //Populate data to table
 
         buildDataForTable(conn, getRoomName());
 
-        roomChargeLabel.setText(String.valueOf(calculateRoomCharge()));
-        prepaidLabel.setText(getDataFromCheckin(conn, getRoomName(), "prepaid"));
-        discountLabel.setText(getDataFromCheckin(conn, getRoomName(), "discount"));
-        serviceChargeLabel.setText(String.valueOf(serviceCharge));
-        totalLabel.setText(String.valueOf(getTotal()));
+        prepaidDouble = Double.parseDouble(getDataFromCheckin(conn, getRoomName(), "prepaid"));
+        discountDouble = Double.parseDouble(getDataFromCheckin(conn, getRoomName(), "discount"));
+
+        roomChargeLabel.setText(formatCurrency(String.valueOf(calculateRoomCharge())));
+        prepaidLabel.setText(formatCurrency(getDataFromCheckin(conn, getRoomName(), "prepaid")));
+        discountLabel.setText(formatCurrency(getDataFromCheckin(conn, getRoomName(), "discount")));
+        serviceChargeLabel.setText(formatCurrency(String.valueOf(serviceCharge)));
+        totalLabel.setText(formatCurrency(String.valueOf(getTotal())));
+        totalDouble = getTotal();
+
+
+        //Print bill action
+        printBillBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                printBill();
+            }
+        });
+
+        customerCash.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!isInteger(newValue)){
+                    changeValidateLabel.setVisible(true);
+                    changeValidateLabel.setText("Please input number!");
+                }else{
+                    changeValidateLabel.setVisible(false);
+                    change = Double.parseDouble(customerCash.getText()) - totalDouble;
+                    if(change >= 0){
+                        changeLabel.setText(formatCurrency(String.valueOf(change)));
+                        changeValidateLabel.setVisible(false);
+                    }else{
+                        changeValidateLabel.setVisible(true);
+                        changeValidateLabel.setText("Change must be great or equal than zero!");
+                    }
+                }
+            }
+        });
     }
 
     public String getRoomName() {
@@ -387,6 +457,12 @@ public class CheckoutController implements Initializable {
     public String getCurrentTimeStamp() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
+    public String getCurrentDate() {
+        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    }
+    public String getCurrentTimeForInvoiceName() {
+        return new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+    }
 
     public void buildDataForTable(Connection conn, String roomNumber) {
         ResultSet rs = null;
@@ -517,8 +593,8 @@ public class CheckoutController implements Initializable {
         Double usedDays = Double.parseDouble(usedDaysLabel.getText());
         Double usedHours = Double.parseDouble(usedHoursLable.getText());
         Double usedMins = Double.parseDouble(usedMinsLabel.getText());
-        Double roomPrice = Double.parseDouble(roomPriceLabel.getText());
-        Double roomTimePrice = Double.parseDouble(timePriceLabel.getText());
+        Double roomPrice = roomPriceDouble;
+        Double roomTimePrice = roomTimePriceDouble;
         Double roomCharge = 0.0;
         if (usedMins > 15) {
             usedHours++;
@@ -530,18 +606,175 @@ public class CheckoutController implements Initializable {
         if (usedHours != 0) {
             roomCharge = usedDays * roomPrice + roomTimePrice + (usedHours - 1) * 30000;
 
-        }else{
+        } else {
             roomCharge = usedDays * roomPrice;
         }
 //        System.out.println(roomCharge);
         return roomCharge;
     }
 
-    public double getTotal(){
-        Double roomCharge = Double.valueOf(roomChargeLabel.getText());
-        Double prepaid = Double.valueOf(prepaidLabel.getText());
-        Double discount = Double.valueOf(discountLabel.getText());
+    public double getTotal() {
+        Double roomCharge = roomChargeDouble;
+        Double prepaid = prepaidDouble;
+        Double discount = discountDouble;
         double total = roomCharge + serviceCharge - prepaid - discount;
         return total;
+    }
+
+    //Print bill function
+    public void printBill() {
+//        String path = "D:\\invoice.pdf";
+        File path = new File("Invoice_" + getCurrentTimeForInvoiceName() + ".pdf");
+
+        try {
+            PdfWriter pdfWriter = new PdfWriter(String.valueOf(path));
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            Document document = new Document(pdfDocument);
+            pdfDocument.setDefaultPageSize(PageSize.A4);
+
+            float col = 280f;
+            float columnWidth[] = {col, col, col};
+            Table table = new Table(columnWidth);
+
+            // Load hotel image logo
+            com.itextpdf.layout.element.Image logo = null;
+            ImageData imageData = ImageDataFactory.create(getClass().getResource("/resources/images/hotel-icon.png"));
+            logo = new com.itextpdf.layout.element.Image(imageData);
+            logo.scaleToFit(100f, 100f);
+
+            table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+            table.addCell(new Cell().add("INVOICE").setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setMarginTop(10f)
+                    .setMarginBottom(10f)
+                    .setFontSize(20f)
+                    .setBorder(Border.NO_BORDER));
+            table.addCell(new Cell().add(logo)
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setBorder(Border.NO_BORDER)
+                    .setMarginLeft(10f));
+            table.addCell(new Cell().add("LOTUS HOTEL \n Address: 38 Yen Bai,\nHai Chau, Da Nang \n Phone: 0901234567")
+                    .setTextAlignment(TextAlignment.RIGHT)
+                    .setMarginTop(10f)
+                    .setMarginBottom(10f)
+                    .setBorder(Border.NO_BORDER)
+                    .setMarginRight(10f));
+
+
+            //Body invoice
+            float colWidth[] = {140, 300, 100, 80};
+            Table customerInfoTable = new Table(colWidth);
+
+            customerInfoTable.addCell(new Cell(0, 4).add("Customer Information").setBold().setBorder(Border.NO_BORDER));
+
+            customerInfoTable.addCell(new Cell().add("Customer Name: ").setBorder(Border.NO_BORDER));
+            customerInfoTable.addCell(new Cell().add(cusNameLabel.getText()).setBold().setItalic().setBorder(Border.NO_BORDER));
+            customerInfoTable.addCell(new Cell().add("Invoice No:  ").setBorder(Border.NO_BORDER));
+            customerInfoTable.addCell(new Cell().add("01546").setBold().setItalic().setBorder(Border.NO_BORDER));
+
+            customerInfoTable.addCell(new Cell().add("Room Number: ").setBorder(Border.NO_BORDER));
+            customerInfoTable.addCell(new Cell().add(roomNumberLabel.getText()).setBold().setItalic().setBorder(Border.NO_BORDER));
+            customerInfoTable.addCell(new Cell().add("Date: ").setBorder(Border.NO_BORDER));
+            customerInfoTable.addCell(new Cell().add(getCurrentDate()).setBold().setItalic().setBorder(Border.NO_BORDER));
+
+            float itemInfoColWidth[] = {10, 150, 100, 100, 50, 100};
+            Table itemInfoTable = new Table(itemInfoColWidth);
+
+            itemInfoTable.addCell(new Cell().add("No").setBackgroundColor(new DeviceRgb(63, 169, 219)));
+            itemInfoTable.addCell(new Cell().add("Service Name").setBackgroundColor(new DeviceRgb(63, 169, 219)));
+            itemInfoTable.addCell(new Cell().add("Price").setBackgroundColor(new DeviceRgb(63, 169, 219)));
+            itemInfoTable.addCell(new Cell().add("Quantity").setBackgroundColor(new DeviceRgb(63, 169, 219)));
+            itemInfoTable.addCell(new Cell().add("Unit").setBackgroundColor(new DeviceRgb(63, 169, 219)));
+            itemInfoTable.addCell(new Cell().add("Amount").setBackgroundColor(new DeviceRgb(63, 169, 219)));
+
+
+            itemInfoTable.addCell(new Cell().add("1"));
+            itemInfoTable.addCell(new Cell().add("Room Charge"));
+            itemInfoTable.addCell(new Cell().add(roomPriceLabel.getText()));
+            itemInfoTable.addCell(new Cell().add(usedDaysLabel.getText() + " days " + usedHoursLable.getText() + " hours " + usedMinsLabel.getText() + "mins"));
+            itemInfoTable.addCell(new Cell().add("room"));
+            itemInfoTable.addCell(new Cell().add(roomChargeLabel.getText()));
+
+            usedServicesData.forEach(usedServices -> {
+                itemInfoTable.addCell(new Cell().add(String.valueOf(usedServices.getId() + 1)));
+                itemInfoTable.addCell(new Cell().add(usedServices.getServiceName()));
+                itemInfoTable.addCell(new Cell().add(String.valueOf(usedServices.getPrice())));
+                itemInfoTable.addCell(new Cell().add(String.valueOf(usedServices.getQuantity())));
+                itemInfoTable.addCell(new Cell().add(usedServices.getUnit()));
+                itemInfoTable.addCell(new Cell().add(String.valueOf(usedServices.getSum())));
+            });
+
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("Prepaid: ").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add(prepaidLabel.getText()).setBorder(Border.NO_BORDER));
+
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("Discount: ").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add(discountLabel.getText()).setBorder(Border.NO_BORDER));
+
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("Total: ").setBorder(Border.NO_BORDER).setBold().setFontColor(com.itextpdf.kernel.color.Color.BLUE));
+            itemInfoTable.addCell(new Cell().add(totalLabel.getText()).setBorder(Border.NO_BORDER));
+
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("Cash: ").setBorder(Border.NO_BORDER).setBold().setFontColor(com.itextpdf.kernel.color.Color.RED));
+            itemInfoTable.addCell(new Cell().add(customerCash.getText()).setBorder(Border.NO_BORDER));
+
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("").setBorder(Border.NO_BORDER));
+            itemInfoTable.addCell(new Cell().add("Change: ").setBorder(Border.NO_BORDER).setBold().setItalic());
+            itemInfoTable.addCell(new Cell().add(changeLabel.getText()).setBorder(Border.NO_BORDER));
+
+            float signColWidth[] = {280f, 280f};
+            Table signTable = new Table(signColWidth);
+
+            signTable.addCell(new Cell().add("Employee").setItalic().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+            signTable.addCell(new Cell().add("Customer").setItalic().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+
+
+            document.add(table);
+            document.add(new Paragraph("\n"));
+            document.add(customerInfoTable);
+            document.add(new Paragraph("\n"));
+            document.add(itemInfoTable);
+            document.add(new Paragraph("\n\n"));
+            document.add(signTable);
+            document.close();
+            System.out.println("PDF Created");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public String formatCurrency(String inputString){
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        String newValueStr = formatter.format(Double.parseDouble(inputString));
+        return newValueStr;
     }
 }
