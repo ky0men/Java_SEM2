@@ -44,30 +44,39 @@
                         <Insets top="-20.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefWidth="200.0">
+                  <VBox prefHeight="74.0" prefWidth="777.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                            <children>
-                              <Label maxWidth="120.0" prefHeight="20.0" prefWidth="92.0" text="Service Name: ">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <JFXTextField fx:id="tfName" focusColor="#00699c" prefHeight="30.0" prefWidth="630.0">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
+                              <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxWidth="120.0" prefHeight="20.0" prefWidth="92.0" text="Service Name: ">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="tfName" focusColor="#00699c" prefHeight="30.0" prefWidth="630.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXTextField>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </HBox>
                            </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
                         </HBox>
+                        <Label fx:id="svNameValidation" prefHeight="34.0" prefWidth="348.0">
+                           <VBox.margin>
+                              <Insets left="132.0" />
+                           </VBox.margin>
+                        </Label>
                      </children>
-                  </HBox>
+                  </VBox>
                   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="52.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
@@ -77,7 +86,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXComboBox fx:id="cmbType" prefHeight="26.0" prefWidth="201.0" promptText="Food Service" />
+                              <JFXComboBox fx:id="cmbType" prefHeight="26.0" prefWidth="201.0" />
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -90,7 +99,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tfPrice" focusColor="#00699c" prefHeight="30.0" prefWidth="169.0" promptText="100.000">
+                              <JFXTextField fx:id="tfPrice" focusColor="#00699c" prefHeight="30.0" prefWidth="169.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -115,7 +124,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXComboBox fx:id="cmbUnit" prefHeight="26.0" prefWidth="200.0" promptText="person" />
+                              <JFXComboBox fx:id="cmbUnit" prefHeight="26.0" prefWidth="200.0" />
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -128,7 +137,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tfVolume" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0" promptText="100">
+                              <JFXTextField fx:id="tfVolume" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

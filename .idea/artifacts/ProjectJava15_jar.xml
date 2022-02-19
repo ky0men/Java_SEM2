@@ -61,13 +61,7 @@
         <element id="file-copy" path="C:/javafx-sdk-15.0.1/bin/ucrtbase.dll" />
         <element id="file-copy" path="C:/javafx-sdk-15.0.1/bin/vcruntime140.dll" />
       </element>
-      <element id="directory" name="lib">
-        <element id="library" level="project" name="ikonli-core-12.2.0" />
-        <element id="library" level="project" name="jfoenix-9.0.10" />
-        <element id="library" level="project" name="lib" />
-        <element id="library" level="project" name="mssql-jdbc-9.2.0.jre15" />
-        <element id="library" level="project" name="TrayTester" />
-      </element>
+      <element id="directory" name="lib" />
     </root>
   </artifact>
 </component>

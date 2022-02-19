@@ -3,6 +3,7 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.beans.value.ChangeListener;
@@ -58,6 +59,21 @@ public class AddServiceController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
+    @FXML
+    private Label svNameValidation;
+
+    @FXML
+    private Label svTypeValidation;
+
+    @FXML
+    private Label svPriceValidation;
+
+    @FXML
+    private Label svVolumeValidation;
+
+    @FXML
+    private Label svUnitValidation;
+
     ObservableList<String> typeService = FXCollections.observableArrayList( "Food Service","Traveling Service","Relaxing Service","Sport - Entertainment Service","Others Service");
     ObservableList<String> unit = FXCollections.observableArrayList( "bottle","can","person","time","date");
     Connection conn = null;
@@ -90,28 +106,52 @@ public class AddServiceController implements Initializable {
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
 
+        RequiredFieldValidator svNameValidation = new RequiredFieldValidator();
+        tfName.getValidators().add(svNameValidation);
+        svNameValidation.setMessage("Service Name is required!");
+
+        RequiredFieldValidator svTypeValidation = new RequiredFieldValidator();
+        cmbType.getValidators().add(svTypeValidation);
+        svTypeValidation.setMessage("Type of Service is required!");
+
+        RequiredFieldValidator svPriceValidation = new RequiredFieldValidator();
+        tfPrice.getValidators().add(svPriceValidation);
+        svPriceValidation.setMessage("Price is required!");
+
+        RequiredFieldValidator svVolumeValidation = new RequiredFieldValidator();
+        tfVolume.getValidators().add(svVolumeValidation);
+        svVolumeValidation.setMessage("Volume is required!");
+
+        RequiredFieldValidator svUnitValidation = new RequiredFieldValidator();
+        cmbUnit.getValidators().add(svUnitValidation);
+        svUnitValidation.setMessage("Unit is required!");
+
+        RegexValidator priceRegexValidator = new RegexValidator();
+        priceRegexValidator.setRegexPattern("^\\d+$");
+        priceRegexValidator.setMessage("Price is only number");
+        tfPrice.getValidators().add(priceRegexValidator);
+
+        RegexValidator volumeRegexValidator = new RegexValidator();
+        volumeRegexValidator.setRegexPattern("^\\d+$");
+        volumeRegexValidator.setMessage("Volume is only number");
+        tfVolume.getValidators().add(volumeRegexValidator);
         //Validate form
         RequiredFieldValidator validator = new RequiredFieldValidator();
-        tfName.getValidators().add(validator);
-        tfVolume.getValidators().add(validator);
-        tfPrice.getValidators().add(validator);
-        cmbType.getValidators().add(validator);
-        cmbUnit.getValidators().add(validator);
+
 
         tfName.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
-                    validator.setMessage("Service Name is required!");
+                if (!newValue) {
                     tfName.validate();
                 }
+                svNameisExist();
             }
         });
         tfPrice.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
-                    validator.setMessage("Price is required!");
+                if (!newValue) {
                     tfPrice.validate();
                 }
             }
@@ -120,7 +160,6 @@ public class AddServiceController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue){
-                    validator.setMessage("Service Type is required!");
                     cmbType.validate();
                 }
             }
@@ -129,7 +168,6 @@ public class AddServiceController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue){
-                    validator.setMessage("Unit is required!");
                     cmbUnit.validate();
                 }
             }
@@ -138,7 +176,6 @@ public class AddServiceController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if (!newValue){
-                    validator.setMessage("Volume is required!");
                     tfVolume.validate();
                 }
             }
@@ -154,27 +191,19 @@ public class AddServiceController implements Initializable {
         LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
-    private boolean formNotNull(){
-        if(tfName.getText().equals("") || tfPrice.getText() == ""
-                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
-            return false;
-        }else {
-            return true;
-        }
-    }
-
     private void AddServiceTable(){
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
         CallableStatement ctsm = null;
         try {
-            ctsm = conn.prepareCall("{call addService(?,?,?,?,?)}");
+            ctsm = conn.prepareCall("{call addService(?,?,?,?,?,?)}");
             ctsm.setString(1,tfName.getText());
             ctsm.setString(2,cmbType.getValue());
             ctsm.setString(3,tfPrice.getText());
             ctsm.setString(4,cmbUnit.getValue());
             ctsm.setString(5,tfVolume.getText());
+            ctsm.setString(6,"");
             ctsm.execute();
 
         } catch (SQLException throwables) {
@@ -184,25 +213,38 @@ public class AddServiceController implements Initializable {
 
     @FXML
     void AddService(ActionEvent event) {
-        if(formNotNull() == true){
+        if(tfName.getText().equals("") || tfPrice.getText().equals("")
+                || tfVolume.getText().equals("")|| cmbType.getSelectionModel().getSelectedItem().equals("")
+                || cmbUnit.getSelectionModel().getSelectedItem().equals("")) {
+            tfName.validate();
+            cmbType.validate();
+            cmbUnit.validate();
+            tfPrice.validate();
+            tfVolume.validate();
+        }
+        else if(svNameisExist() == true || tfPrice.getText().equals("")
+                || tfVolume.getText().equals("")|| cmbType.getSelectionModel().getSelectedItem().equals("")
+                || cmbUnit.getSelectionModel().getSelectedItem().equals("")){
+            svNameValidation.setText("Service Name is Exist");
+            cmbType.validate();
+            cmbUnit.validate();
+            tfPrice.validate();
+            tfVolume.validate();
+        }
+        else {
             AddServiceTable();
-            Node node = (Node)event.getSource();
-            Stage stage = (Stage)node.getScene().getWindow();
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
             stage.close();
             String serviceText = tfName.getText();
             String title = "Successfully added service";
-            String mess = "Service "+ serviceText +" has been successfully added";
+            String mess = "Service " + serviceText + " has been successfully added";
             TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
             tray.setAnimationType(AnimationType.POPUP);
             tray.showAndDismiss(Duration.seconds(3));
             tray.showAndWait();
             GaussianBlur blur = new GaussianBlur(0);
             LoginController.stage.getScene().getRoot().setEffect(blur);
-        }else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Complete Data");
-            alert.setHeaderText("Please complete the service form.");
-            alert.show();
         }
     }
     public void setService(Service service){
@@ -211,5 +253,31 @@ public class AddServiceController implements Initializable {
         tfPrice.setText(String.valueOf(service.getPrice()));
         cmbType.setValue(service.getType());
         cmbUnit.setValue(service.getUnit());
+    }
+
+    private boolean svNameisExist(){
+        String svName = tfName.getText();
+        boolean flag = false;
+        String query = "SELECT ServiceName FROM Service WHERE ServiceName = '"+svName+"'";
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if(rs.next()){
+                svNameValidation.setText("Service Name is Exist");
+                tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                svNameValidation.setStyle("-fx-text-background-color: #D34437;");
+                flag = true;
+            }else {
+                svNameValidation.setText("");
+                tfName.setStyle("");
+                flag = false;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return flag;
     }
 }

@@ -3,6 +3,7 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.beans.value.ChangeListener;
@@ -142,10 +143,13 @@ public class EditServiceController implements Initializable {
             GaussianBlur blur = new GaussianBlur(0);
             LoginController.stage.getScene().getRoot().setEffect(blur);
         }else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Complete Data");
-            alert.setHeaderText("Please complete the service form.");
-            alert.show();
+            String title = "Incomplete Data";
+            String mess = "Please fill the data";
+            TrayNotification tray = new TrayNotification(title, mess, NotificationType.WARNING);
+            tray.setAnimationType(AnimationType.POPUP);
+            tray.showAndDismiss(Duration.seconds(3));
+            tray.showAndWait();
+            System.out.println("Incomplete Data.");
         }
     }
     @Override
@@ -236,5 +240,15 @@ public class EditServiceController implements Initializable {
                 }
             }
         });
+
+        RegexValidator priceRegexValidator = new RegexValidator();
+        priceRegexValidator.setRegexPattern("^\\d+$");
+        priceRegexValidator.setMessage("Price is only number");
+        tfPrice.getValidators().add(priceRegexValidator);
+
+        RegexValidator volumeRegexValidator = new RegexValidator();
+        volumeRegexValidator.setRegexPattern("^\\d+$");
+        volumeRegexValidator.setMessage("Volume is only number");
+        tfVolume.getValidators().add(volumeRegexValidator);
     }
 }

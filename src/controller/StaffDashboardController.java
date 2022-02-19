@@ -102,8 +102,6 @@ public class StaffDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Font.loadFont(getClass().getResourceAsStream("/resources/fonts/DancingScript-Regular.ttf"), 14);
-        Font.loadFont(getClass().getResourceAsStream("/resources/fonts/Roboto-Regular.ttf"), 14);
         changeContentScene("/resources/views/RoomMap.fxml");
         resetButton();
         roomMapBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill: #16314f; -fx-background-radius: 20 0 0 20;");
