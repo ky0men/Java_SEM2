@@ -57,7 +57,6 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomType" />
                                     <ComboBox fx:id="comboBox" prefWidth="150.0" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
@@ -85,7 +84,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="15.0">
                                  <children>
-                                    <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
+                                    <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
                                     <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Confirm" />
                                     <JFXButton styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
                                  </children>
