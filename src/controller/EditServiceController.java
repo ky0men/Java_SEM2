@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
@@ -47,22 +48,31 @@ public class EditServiceController implements Initializable {
     private JFXTextField tfName;
 
     @FXML
-    private JFXComboBox<String> cmbType;
-
-    @FXML
     private JFXTextField tfPrice;
-
-    @FXML
-    private JFXComboBox<String> cmbUnit;
 
     @FXML
     private JFXTextField tfVolume;
 
     @FXML
-    private JFXButton btnEdit;
+    private JFXComboBox<String> cmbUnit;
 
     @FXML
-    private JFXButton btnCancel;
+    private Label svUnitValidation;
+
+    @FXML
+    private Label svNameValidation;
+
+    @FXML
+    private JFXComboBox<String> cmbType;
+
+    @FXML
+    private Label svTypeValidation;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnCancel;
 
 
 
@@ -128,7 +138,20 @@ public class EditServiceController implements Initializable {
 
     @FXML
     void EditService(ActionEvent event) {
-        if(formNotNull() == true){
+        if(checkDuplicateData() == true){
+            svUnitValidation.setText("This unit has been existed.");
+            cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+            svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
+
+            svNameValidation.setText("This name has been existed.");
+            tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+            svNameValidation.setStyle("-fx-text-background-color: #D34437;");
+
+            svTypeValidation.setText("This type has been existed.");
+            cmbType.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+            svTypeValidation.setStyle("-fx-text-background-color: #D34437;");
+        }
+        else if(formNotNull() == true){
             EditServiceTable();
             Node node = (Node)event.getSource();
             Stage stage = (Stage)node.getScene().getWindow();
@@ -143,6 +166,12 @@ public class EditServiceController implements Initializable {
             GaussianBlur blur = new GaussianBlur(0);
             LoginController.stage.getScene().getRoot().setEffect(blur);
         }else {
+            svNameValidation.setText("");
+            tfName.setStyle("");
+            svTypeValidation.setText("");
+            cmbType.setStyle("");
+            svUnitValidation.setText("");
+            cmbUnit.setStyle("");
             String title = "Incomplete Data";
             String mess = "Please fill the data";
             TrayNotification tray = new TrayNotification(title, mess, NotificationType.WARNING);
@@ -250,5 +279,30 @@ public class EditServiceController implements Initializable {
         volumeRegexValidator.setRegexPattern("^\\d+$");
         volumeRegexValidator.setMessage("Volume is only number");
         tfVolume.getValidators().add(volumeRegexValidator);
+    }
+
+    private boolean checkDuplicateData(){
+            String name = tfName.getText();
+            String type = cmbType.getValue();
+            String unit = cmbUnit.getValue();
+            boolean flag = false;
+            String query = "SELECT ServiceName, ServiceType,Unit FROM Service WHERE Unit = '" + unit + "' AND ServiceName = '"+name+"' AND ServiceType = '"+type+"' AND isDeleted = 0";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                if (rs.next()) {
+                    flag = true;
+                } else {
+                    svUnitValidation.setText("");
+                    cmbUnit.setStyle("");
+                    flag = false;
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        return flag;
     }
 }

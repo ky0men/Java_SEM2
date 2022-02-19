@@ -129,12 +129,15 @@ INSERT INTO Service VALUES ('Laundry Service','Others Service',100000,'time',100
 SELECT * FROM ServiceType
 SELECT * FROM Service
 
+Select ServiceName, ServiceType, Unit FROM Service
+            WHERE ServiceName = 'Beverage - Coca'AND (ServiceType = 'Food Service') AND (Unit = 'bottle') AND isDeleted = 0;
+
 
 --Procedure update service
 CREATE PROC updateService @id int, @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20), @volume int AS
-    UPDATE Service SET ServiceName = @serviceName, ServiceType = @serviceType, Price = @price, Unit = @unit, Volume = @volume WHERE ID = @id
+    UPDATE Service SET ServiceName = @serviceName, ServiceType = @serviceType, Price = @price, Unit = @unit, Volume = @volume , isDeleted = '0' WHERE ID = @id
     GO
-
+--DROP PROC updateService
 --Procedure add service
 CREATE PROC addService  @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20), @volume int, @isdeleted int AS
 	INSERT INTO Service VALUES (@serviceName, @serviceType, @price, @unit, @volume, '')

@@ -86,7 +86,7 @@ public class ServiceController implements Initializable {
 
     ObservableList<Service> list;
     ObservableList<Service> dataList;
-
+    Service data = null;
     static Service selected;
 
     public static ObservableList<Service> getService(){
@@ -132,7 +132,6 @@ public class ServiceController implements Initializable {
     @FXML
     void AddServiceAction(ActionEvent event) {
         openScene("/resources/views/AddService1.fxml");
-
     }
 
     @FXML
@@ -221,8 +220,19 @@ public class ServiceController implements Initializable {
 
     @FXML
     public void Edit_Action(ActionEvent event) throws  IOException{
+        data = table_service.getSelectionModel().getSelectedItem();
+        if(data == null){
+            String title = "Choose Service";
+            String mess = "Please choose service you want to edit";
+            TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+            tray.setAnimationType(AnimationType.POPUP);
+            tray.showAndDismiss(Duration.seconds(3));
+            tray.showAndWait();
+            System.out.println("Please choose service to edit");
+        }else{
         selected = table_service.getSelectionModel().getSelectedItem();
-        openScene("/resources/views/EditService.fxml");
+        openScene("/resources/views/EditService1.fxml");
+        }
     }
 
     public void setCellValue(){
@@ -254,25 +264,35 @@ public class ServiceController implements Initializable {
         btnDelete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Alert alert =  new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Delete Confirmation");
-                alert.setHeaderText("Are you sure you want to permanently delete this row?");
-                ButtonType btnTypeYes =  new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType btnTypeNo = new ButtonType("No", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(btnTypeYes,btnTypeNo);
-                Optional <ButtonType> result = alert.showAndWait();
-                if(result.get() == btnTypeYes){
-                    DeleteServiceAction();
-                    String title = "Notify";
-                    String mess = "This row was deleted";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                data = table_service.getSelectionModel().getSelectedItem();
+                if(data == null){
+                    String title = "Choose Service";
+                    String mess = "Please choose service you want to delete";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
                     tray.setAnimationType(AnimationType.POPUP);
                     tray.showAndDismiss(Duration.seconds(3));
                     tray.showAndWait();
-                    System.out.println("Delete completed");
-                }
-                else {
-                    System.out.println("No delete the row.");
+                    System.out.println("Please choose Service to delete");
+                }else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Delete Confirmation");
+                    alert.setHeaderText("Are you sure you want to permanently delete this row?");
+                    ButtonType btnTypeYes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                    ButtonType btnTypeNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+                    alert.getButtonTypes().setAll(btnTypeYes, btnTypeNo);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == btnTypeYes) {
+                        DeleteServiceAction();
+                        String title = "Notify";
+                        String mess = "This row was deleted";
+                        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                        tray.setAnimationType(AnimationType.POPUP);
+                        tray.showAndDismiss(Duration.seconds(3));
+                        tray.showAndWait();
+                        System.out.println("Delete completed");
+                    } else {
+                        System.out.println("No delete the row.");
+                    }
                 }
             }
         });
