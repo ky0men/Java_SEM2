@@ -58,19 +58,13 @@ public class ChangePasswordController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Window move action
-        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                x = event.getSceneX();
-                y = event.getSceneY();
-            }
+        titleBar.setOnMousePressed(event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
         });
-        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
-                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
-            }
+        titleBar.setOnMouseDragged(event -> {
+            titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+            titleBar.getScene().getWindow().setY(event.getScreenY() - y);
         });
 
         //Validate
@@ -83,73 +77,60 @@ public class ChangePasswordController implements Initializable {
         txtReEnterPassword.getValidators().add(confirmPassValidation);
         confirmPassValidation.setMessage("Confirm Password is required!");
 
-        txtPassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtPassword.validate();
-                }
+        txtPassword.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtPassword.validate();
             }
         });
 
-        txtReEnterPassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtReEnterPassword.validate();
-                }
-                checkPassword();
+        txtReEnterPassword.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtReEnterPassword.validate();
             }
+            checkPassword();
         });
 
-        btnSave.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("")){
-                    txtPassword.validate();
-                    txtReEnterPassword.validate();
-                }
-                checkPassword();
-                if(checkPassword()){
-                    String password = txtPassword.getText();
-                    String query = "UPDATE Account SET passwordHash = HASHBYTES('SHA2_512', '"+ password +"') WHERE username = '"+ getUsername() +"'";
-
-                    DBConnect dbConnect = new DBConnect();
-                    dbConnect.readProperties();
-                    Connection conn = dbConnect.getDBConnection();
-                    try {
-                        Statement st = conn.createStatement();
-                        st.executeUpdate(query);
-                        conn.close();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-
-                    String fullNameText = fullName;
-                    String title = "Change password successfully";
-                    String mess = "Employee "+ fullName +" has changed his password";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
-                    Node node = (Node)event.getSource();
-                    Stage stage = (Stage)node.getScene().getWindow();
-                    stage.close();
-                    GaussianBlur blur = new GaussianBlur(0);
-                    LoginController.stage.getScene().getRoot().setEffect(blur);
-                }
+        btnSave.setOnAction(event -> {
+            if(txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("")){
+                txtPassword.validate();
+                txtReEnterPassword.validate();
             }
-        });
+            checkPassword();
+            if(checkPassword()){
+                String password = txtPassword.getText();
+                String query = "UPDATE Account SET passwordHash = HASHBYTES('SHA2_512', '"+ password +"') WHERE username = '"+ getUsername() +"'";
 
-        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+                DBConnect dbConnect = new DBConnect();
+                dbConnect.readProperties();
+                Connection conn = dbConnect.getDBConnection();
+                try {
+                    Statement st = conn.createStatement();
+                    st.executeUpdate(query);
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                String title = "Change password successfully";
+                String mess = "Employee "+ fullName +" has changed his password";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
                 Node node = (Node)event.getSource();
                 Stage stage = (Stage)node.getScene().getWindow();
                 stage.close();
                 GaussianBlur blur = new GaussianBlur(0);
                 LoginController.stage.getScene().getRoot().setEffect(blur);
             }
+        });
+
+        btnCancel.setOnAction(event -> {
+            Node node = (Node)event.getSource();
+            Stage stage = (Stage)node.getScene().getWindow();
+            stage.close();
+            GaussianBlur blur = new GaussianBlur(0);
+            LoginController.stage.getScene().getRoot().setEffect(blur);
         });
     }
 
@@ -173,18 +154,6 @@ public class ChangePasswordController implements Initializable {
         }
         return flag;
     }
-
-//    private boolean formNotNull(){
-//        if(txtPassword.getText() == "" || txtReEnterPassword.getText() == "" ){
-//            iconWarning.setVisible(true);
-//            lbWarning.setText("Please complete all information");
-//            return false;
-//        }else {
-//            iconWarning.setVisible(false);
-//            lbWarning.setText("");
-//            return true;
-//        }
-//    }
 
     private String getUsername(){
         String userName = null;

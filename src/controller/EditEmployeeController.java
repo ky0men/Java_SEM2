@@ -30,7 +30,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class EditInformationController implements Initializable {
+public class EditEmployeeController implements Initializable {
     @FXML
     private HBox titleBar;
 
@@ -90,19 +90,13 @@ public class EditInformationController implements Initializable {
         });
 
         //Window move action
-        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                x = event.getSceneX();
-                y = event.getSceneY();
-            }
+        titleBar.setOnMousePressed(event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
         });
-        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
-                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
-            }
+        titleBar.setOnMouseDragged(event -> {
+            titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+            titleBar.getScene().getWindow().setY(event.getScreenY() - y);
         });
 
         //Validate
@@ -138,95 +132,74 @@ public class EditInformationController implements Initializable {
         phoneRegexValidator.setMessage("Your Phone Number is not valid");
         txtPhoneNumber.getValidators().add(phoneRegexValidator);
 
-        txtFullName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtFullName.validate();
-                }
+        txtFullName.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtFullName.validate();
             }
         });
 
-        txtNoID.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtNoID.validate();
-                }
+        txtNoID.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtNoID.validate();
             }
         });
 
-        txtAddress.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtAddress.validate();
-                }
+        txtAddress.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtAddress.validate();
             }
         });
 
-        txtEmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtEmail.validate();
-                }
-                emailIsExist();
+        txtEmail.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtEmail.validate();
             }
+            emailIsExist();
         });
 
-        txtPhoneNumber.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtPhoneNumber.validate();
-                }
-                phoneNumberIsExist();
+        txtPhoneNumber.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtPhoneNumber.validate();
             }
+            phoneNumberIsExist();
         });
 
-        btnSave.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
-                        txtEmail.getText().equals("") || !txtEmail.getText().matches(RegexEmail) ||
-                        txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)) {
-                    txtFullName.validate();
-                    txtNoID.validate();
-                    txtAddress.validate();
-                    txtEmail.validate();
-                    txtPhoneNumber.validate();
-                }
-                emailIsExist();
-                phoneNumberIsExist();
-                if (txtEmail.getText().matches(RegexEmail) && !emailIsExist() &&
-                        txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()) {
-                    UpdateTableAccount();
-                    UpdateTableProfile();
-                    Node node = (Node) event.getSource();
-                    Stage stage = (Stage) node.getScene().getWindow();
-                    stage.close();
-                    String title = "Successfully changed information";
-                    String mess = "Employee " + txtFullName.getText() + " has successfully \n changed information";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
-                    GaussianBlur blur = new GaussianBlur(0);
-                    LoginController.stage.getScene().getRoot().setEffect(blur);
-                }
+        btnSave.setOnAction(event -> {
+            if (txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
+                    txtEmail.getText().equals("") || !txtEmail.getText().matches(RegexEmail) ||
+                    txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)) {
+                txtFullName.validate();
+                txtNoID.validate();
+                txtAddress.validate();
+                txtEmail.validate();
+                txtPhoneNumber.validate();
             }
-        });
-
-        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+            emailIsExist();
+            phoneNumberIsExist();
+            if (txtEmail.getText().matches(RegexEmail) && !emailIsExist() &&
+                    txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()) {
+                UpdateTableAccount();
+                UpdateTableProfile();
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
+                String title = "Successfully changed information";
+                String mess = "Employee " + txtFullName.getText() + " has successfully \n changed information";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
                 GaussianBlur blur = new GaussianBlur(0);
                 LoginController.stage.getScene().getRoot().setEffect(blur);
             }
+        });
+
+        btnCancel.setOnAction(event -> {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+            GaussianBlur blur = new GaussianBlur(0);
+            LoginController.stage.getScene().getRoot().setEffect(blur);
         });
     }
 
@@ -318,9 +291,9 @@ public class EditInformationController implements Initializable {
         String email = txtEmail.getText();
         String phone = txtPhoneNumber.getText();
         String address = txtAddress.getText();
-        String query = "UPDATE EmployeeInformation SET fullName = '" + fullName + "', numberId = '" + numberId + "'," +
+        String query = "UPDATE EmployeeInformation SET fullName = N'" + fullName + "', numberId = '" + numberId + "'," +
                 " birthday = '" + birthday + "', userEmail = '" + email + "', userPhone = '" + phone + "'," +
-                " userAddress = '" + address + "' WHERE userID = '" + id + "'";
+                " userAddress = N'" + address + "' WHERE userID = '" + id + "'";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();

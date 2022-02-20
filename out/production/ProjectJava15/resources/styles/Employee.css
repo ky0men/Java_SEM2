@@ -30,7 +30,7 @@
  }
 .table-row-cell:focused{
     -fx-background-color: #93f9b911;
-    -fx-text-background-color: #474787;
+    -fx-text-background-color: blue;
 }
 .table-view .table-cell{
     -fx-border-color: transparent;

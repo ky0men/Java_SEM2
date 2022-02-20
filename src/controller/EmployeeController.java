@@ -41,14 +41,12 @@ import static controller.LoginController.stage;
 
 public class EmployeeController implements Initializable {
     ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office");
-    ObservableList<String> statusList = FXCollections.observableArrayList("Use", "Don't Use");
 
     @FXML
     private Button btnAddUser;
 
     @FXML
     private Button btnRefresh;
-
 
     @FXML
     private TextField txtSearch;
@@ -105,20 +103,12 @@ public class EmployeeController implements Initializable {
 
 
         //Add Employee
-        btnAddUser.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                openScene("/resources/views/AddUser.fxml");
-            }
-        });
+        btnAddUser.setOnAction(event -> openScene("/resources/views/AddUser.fxml"));
 
         //Refresh TableView
-        btnRefresh.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                initLoadTable();
-                initTotalEmployee();
-            }
+        btnRefresh.setOnAction(event -> {
+            initLoadTable();
+            initTotalEmployee();
         });
 
         //Edit Information
@@ -142,9 +132,7 @@ public class EmployeeController implements Initializable {
                     int month = 0;
                     int year = 0;
                     String address = null;
-                    String deleted = null;
-                    String status;
-                    String query = "SELECT Account.id, EmployeeInformation.numberId, EmployeeInformation.birthday, EmployeeInformation.userAddress, EmployeeInformation.deleted  FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE EmployeeInformation.userEmail = '" + email + "'";
+                    String query = "SELECT Account.id, EmployeeInformation.numberId, EmployeeInformation.birthday, EmployeeInformation.userAddress  FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE EmployeeInformation.userEmail = '" + email + "'";
 
                     DBConnect dbConnect = new DBConnect();
                     dbConnect.readProperties();
@@ -162,16 +150,15 @@ public class EmployeeController implements Initializable {
                             month = Integer.parseInt(dateParts[1]);
                             year = Integer.parseInt(dateParts[0]);
                             address = rs.getString("userAddress");
-                            deleted = rs.getString("deleted");
                         }
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/EditInformation.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/EditEmployee.fxml"));
                     Parent parent = null;
                     try {
                         parent = (Parent) loader.load();
-                        EditInformationController editInformationController = loader.getController();
+                        EditEmployeeController editInformationController = loader.getController();
                         editInformationController.id = id;
                         editInformationController.txtEmail.setText(data.getEmail());
                         editInformationController.txtNoID.setText(numberId);
@@ -200,42 +187,38 @@ public class EmployeeController implements Initializable {
             }
         });
 
-        btnDelete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                data = tableEmployee.getSelectionModel().getSelectedItem();
-                if(data == null){
-                    String title = "Choose employee";
-                    String mess = "Please choose Employee";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
-                }else{
-                    String email = data.getEmail();
-                    String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '" + email + "'";
+        btnDelete.setOnAction(event -> {
+            data = tableEmployee.getSelectionModel().getSelectedItem();
+            if(data == null){
+                String title = "Choose employee";
+                String mess = "Please choose Employee";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
+            }else{
+                String email = data.getEmail();
+                String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '" + email + "'";
 
-                    DBConnect dbConnect = new DBConnect();
-                    dbConnect.readProperties();
-                    Connection conn = dbConnect.getDBConnection();
-                    try {
-                        Statement st = conn.createStatement();
-                        st.executeUpdate(query);
-                        conn.close();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    data = tableEmployee.getSelectionModel().getSelectedItem();
-                    String name = data.getName();
-                    String title = "Successfully deleted information";
-                    String mess = "Employee " + name + " has successfully deleted the information";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
-                    initLoadTable();
-                    initTotalEmployee();
+                DBConnect dbConnect = new DBConnect();
+                dbConnect.readProperties();
+                Connection conn = dbConnect.getDBConnection();
+                try {
+                    Statement st = conn.createStatement();
+                    st.executeUpdate(query);
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
+                String name = data.getName();
+                String title = "Successfully deleted information";
+                String mess = "Employee " + name + " has successfully deleted the information";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
+                initLoadTable();
+                initTotalEmployee();
             }
         });
 

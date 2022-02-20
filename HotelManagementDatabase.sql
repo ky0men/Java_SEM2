@@ -30,17 +30,6 @@ CREATE TABLE Room (
     roomFloor INT,
 )
 
-CREATE TABLE Customer (
-    cusID INT IDENTITY (1,1) PRIMARY KEY,
-    cusIdentityNumber VARCHAR (20) UNIQUE NOT NULL, 
-    cusName NVARCHAR (200) NOT NULL,
-    cusGender VARCHAR(10),
-    cusDOB DATE,
-    cusPhone VARCHAR (12),
-    cusAddress NVARCHAR (250),
-    
-)
-
 
 CREATE TABLE RoomBooking(
     roomBookingID INT IDENTITY (1, 1) PRIMARY KEY,
@@ -81,19 +70,34 @@ CREATE TABLE bill(
     revenue MONEY,
 )
 --DROP TABLE usedServices
-
 --Phuc
 CREATE TABLE EmployeeInformation(
 	userID int foreign key references Account(id),
-	fullName varchar(30),
+	fullName nvarchar(30),
 	numberId varchar(30),
 	startWork date,
 	birthday date,
 	userEmail varchar(30),
 	userPhone varchar(20),
-	userAddress varchar(50),
+	userAddress nvarchar(50),
 	deleted char(1)
 )
+
+CREATE TABLE Customer (
+    cusID INT IDENTITY (1,1) PRIMARY KEY,
+    cusIdentityNumber VARCHAR (20) UNIQUE NOT NULL, 
+    cusName NVARCHAR (200) NOT NULL,
+    cusGender VARCHAR(10),
+    cusDOB DATE,
+    cusPhone VARCHAR (12),
+    cusAddress NVARCHAR (250),
+    cusDeleted char(1)
+)
+SELECT * FROM Customer
+
+UPDATE Customer SET cusDeleted = '1' WHERE cusIdentityNumber = '2525264658'
+
+SELECT COUNT(cusID) AS TotalCustomer FROM Customer WHERE cusDeleted = '0'
 --DUC DATABASE
 CREATE TABLE ServiceType(
 ID INT IDENTITY(1,1),
@@ -108,6 +112,7 @@ Price int,
 Unit varchar(20),
 isDeleted int DEFAULT '0'
 )
+
 --DROP TABLE Service
 
 INSERT INTO ServiceType VALUES ('Food Service')
@@ -178,11 +183,11 @@ INSERT INTO Room VALUES ('302', 2, 'Rented', 300000, 80000, 3)
 INSERT INTO Room VALUES ('303', 3, 'Dirty', 350000, 90000, 3)
 INSERT INTO Room VALUES ('304', 4, 'Available', 400000, 100000, 3)
 
-INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng');
-INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng');
-INSERT INTO Customer VALUES ('2223334445', N'Quách Thị Tĩnh', 'Female', '08/21/1994', '0984557998', N'Ngũ Hành Sơn, Đà Nẵng');
-INSERT INTO Customer VALUES ('5556667778', N'Trần Dần', 'Male', '05/16/1986', '0903558115', N'Thăng Bình, Quảng Nam');
-INSERT INTO Customer VALUES ('8889991110', N'Lý Kim Thoa', 'Female', '09/22/1996', '0964889223', N'Hải Châu, Đà Nẵng');
+INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng','0');
+INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng','0');
+INSERT INTO Customer VALUES ('2223334445', N'Quách Thị Tĩnh', 'Female', '08/21/1994', '0984557998', N'Ngũ Hành Sơn, Đà Nẵng','0');
+INSERT INTO Customer VALUES ('5556667778', N'Trần Dần', 'Male', '05/16/1986', '0903558115', N'Thăng Bình, Quảng Nam','0');
+INSERT INTO Customer VALUES ('8889991110', N'Lý Kim Thoa', 'Female', '09/22/1996', '0964889223', N'Hải Châu, Đà Nẵng','0');
 
 
 INSERT INTO EmployeeInformation VALUES (1, 'Admin of Lotus Hotel', '0000000000', '02/13/2022', '05/05/1991', 'lotus.info@gmail.com', '0905887889', 'Da Nang', '0' );
