@@ -30,6 +30,17 @@ CREATE TABLE Room (
     roomFloor INT,
 )
 
+CREATE TABLE Customer (
+    cusID INT IDENTITY (1,1) PRIMARY KEY,
+    cusIdentityNumber VARCHAR (20) UNIQUE NOT NULL, 
+    cusName NVARCHAR (200) NOT NULL,
+    cusGender VARCHAR(10),
+    cusDOB DATE,
+    cusPhone VARCHAR (12),
+    cusAddress NVARCHAR (250),
+    cusDeleted char(1)
+)
+
 
 CREATE TABLE RoomBooking(
     roomBookingID INT IDENTITY (1, 1) PRIMARY KEY,
@@ -67,9 +78,12 @@ CREATE TABLE bill(
     employeeID INT FOREIGN KEY REFERENCES Account(id),
     customerName NVARCHAR(200),
     printDate DATE,
+    printMonth INT,
+    printYear INT,
     revenue MONEY,
 )
 --DROP TABLE usedServices
+
 --Phuc
 CREATE TABLE EmployeeInformation(
 	userID int foreign key references Account(id),
@@ -82,22 +96,6 @@ CREATE TABLE EmployeeInformation(
 	userAddress nvarchar(50),
 	deleted char(1)
 )
-
-CREATE TABLE Customer (
-    cusID INT IDENTITY (1,1) PRIMARY KEY,
-    cusIdentityNumber VARCHAR (20) UNIQUE NOT NULL, 
-    cusName NVARCHAR (200) NOT NULL,
-    cusGender VARCHAR(10),
-    cusDOB DATE,
-    cusPhone VARCHAR (12),
-    cusAddress NVARCHAR (250),
-    cusDeleted char(1)
-)
-SELECT * FROM Customer
-
-UPDATE Customer SET cusDeleted = '1' WHERE cusIdentityNumber = '2525264658'
-
-SELECT COUNT(cusID) AS TotalCustomer FROM Customer WHERE cusDeleted = '0'
 --DUC DATABASE
 CREATE TABLE ServiceType(
 ID INT IDENTITY(1,1),
@@ -112,7 +110,6 @@ Price int,
 Unit varchar(20),
 isDeleted int DEFAULT '0'
 )
-
 --DROP TABLE Service
 
 INSERT INTO ServiceType VALUES ('Food Service')
@@ -138,11 +135,7 @@ INSERT INTO Service VALUES ('Tennis Service','Sport - Entertainment Service',500
 INSERT INTO Service VALUES ('Goft Service','Sport - Entertainment Service',1499000,'person','')
 INSERT INTO Service VALUES ('Laundry Service','Others Service',100000,'time','')
 
-SELECT * FROM ServiceType
-SELECT * FROM Service
 
-Select ServiceName, ServiceType, Unit FROM Service
-            WHERE ServiceName = 'Beverage - Coca'AND (ServiceType = 'Food Service') AND (Unit = 'bottle') AND isDeleted = 0;
 
 
 --Procedure update service
@@ -158,8 +151,6 @@ CREATE PROC addService  @serviceName varchar(100), @serviceType varchar(100), @p
 
 --END DUC
 
-SELECT * FROM Service S WHERE S.ServiceType = 'Food Service' 
-
 INSERT INTO Account VALUES ('admin', HASHBYTES('SHA2_512', '123456'), 'Manager', 0);
 INSERT INTO Account VALUES ('ppdien', HASHBYTES('SHA2_512', '123'), 'Employee', 0);
 INSERT INTO Account VALUES ('nsan', HASHBYTES('SHA2_512', '456'), 'Employee', 0);
@@ -171,23 +162,23 @@ INSERT INTO RoomType VALUES ('Single VIP')
 INSERT INTO RoomType VALUES ('Double VIP')
 
 INSERT INTO Room VALUES ('101', 1, 'Available', 250000, 70000, 1)
-INSERT INTO Room VALUES ('102', 2, 'Rented', 300000, 80000, 1)
-INSERT INTO Room VALUES ('103', 3, 'Dirty', 350000, 90000, 1)
+INSERT INTO Room VALUES ('102', 2, 'Available', 300000, 80000, 1)
+INSERT INTO Room VALUES ('103', 3, 'Available', 350000, 90000, 1)
 INSERT INTO Room VALUES ('104', 4, 'Available', 400000, 100000, 1)
 INSERT INTO Room VALUES ('201', 1, 'Available', 250000, 70000, 2)
-INSERT INTO Room VALUES ('202', 2, 'Rented', 300000, 80000, 2)
+INSERT INTO Room VALUES ('202', 2, 'Available', 300000, 80000, 2)
 INSERT INTO Room VALUES ('203', 3, 'Available', 350000, 90000, 2)
 INSERT INTO Room VALUES ('204', 4, 'Available', 400000, 100000, 2)
 INSERT INTO Room VALUES ('301', 1, 'Available', 250000, 70000, 3)
-INSERT INTO Room VALUES ('302', 2, 'Rented', 300000, 80000, 3)
-INSERT INTO Room VALUES ('303', 3, 'Dirty', 350000, 90000, 3)
+INSERT INTO Room VALUES ('302', 2, 'Available', 300000, 80000, 3)
+INSERT INTO Room VALUES ('303', 3, 'Available', 350000, 90000, 3)
 INSERT INTO Room VALUES ('304', 4, 'Available', 400000, 100000, 3)
 
-INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng','0');
-INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng','0');
-INSERT INTO Customer VALUES ('2223334445', N'Quách Thị Tĩnh', 'Female', '08/21/1994', '0984557998', N'Ngũ Hành Sơn, Đà Nẵng','0');
-INSERT INTO Customer VALUES ('5556667778', N'Trần Dần', 'Male', '05/16/1986', '0903558115', N'Thăng Bình, Quảng Nam','0');
-INSERT INTO Customer VALUES ('8889991110', N'Lý Kim Thoa', 'Female', '09/22/1996', '0964889223', N'Hải Châu, Đà Nẵng','0');
+INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng', '0');
+INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng', '0');
+INSERT INTO Customer VALUES ('2223334445', N'Quách Thị Tĩnh', 'Female', '08/21/1994', '0984557998', N'Ngũ Hành Sơn, Đà Nẵng', '0');
+INSERT INTO Customer VALUES ('5556667778', N'Trần Dần', 'Male', '05/16/1986', '0903558115', N'Thăng Bình, Quảng Nam', '0');
+INSERT INTO Customer VALUES ('8889991110', N'Lý Kim Thoa', 'Female', '09/22/1996', '0964889223', N'Hải Châu, Đà Nẵng', '0');
 
 
 INSERT INTO EmployeeInformation VALUES (1, 'Admin of Lotus Hotel', '0000000000', '02/13/2022', '05/05/1991', 'lotus.info@gmail.com', '0905887889', 'Da Nang', '0' );
@@ -212,9 +203,6 @@ CREATE PROC checkIsManager @username VARCHAR(15), @position VARCHAR(30) AS
     SELECT * FROM Account AC WHERE AC.username = @username AND AC.position = @position
 GO
 
--- Procedure get account is in use
-SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID 
-    WHERE AC.accountStatus = '1'
 
 
 --Procudure change account status (is in use or not)
@@ -222,12 +210,6 @@ CREATE PROC changeAccountStatusInUse @username VARCHAR(15) AS
     UPDATE Account SET accountStatus = '1' WHERE username = @username
 GO
 
-
-UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 101
-UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 104
-UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 202
-UPDATE Room SET roomStatus = 'Dirty' WHERE roomName = 304
-GO
 
 
 -- Procedure check and get customer name from customer Identiry number
@@ -268,8 +250,13 @@ CREATE PROC addUsedService @checkinID INT, @serviceID INT, @serviceQty INT AS
 GO    
 
 --PROCEDURE add Bill
-CREATE PROC addBill @employeeID INT, @cusName VARCHAR(200), @date DATE, @revenue MONEY AS
-    INSERT INTO bill VALUES (@employeeID, @cusName, @date, @revenue)
+CREATE PROC addBill @employeeID INT, @cusName NVARCHAR(200), @date DATE, @month INT, @year INT, @revenue MONEY AS
+    INSERT INTO bill VALUES (@employeeID, @cusName, @date, @month, @year, @revenue)
 
 SELECT Room.roomName FROM Room       
 
+  SELECT S.ServiceName, S.Price, SUM(US.usedServiceQty) AS N'Quantity', S.Unit 
+    FROM usedServices US JOIN Service S ON US.usedServiceID = S.ID JOIN Checkin CI ON CI.checkinID = US.checkinID 
+    WHERE CI.roomNumber = '" + roomNumber + "' AND CI.wasPayment = '0' GROUP BY S.ServiceName, S.Price, S.Unit
+
+ SELECT B.printMonth, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printMonth = '2' GROUP By B.printMonth

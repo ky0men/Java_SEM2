@@ -101,8 +101,14 @@
                      <toggleGroup>
                         <ToggleGroup fx:id="genderGroup" />
                      </toggleGroup>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </JFXRadioButton>
-                  <JFXRadioButton text="Female" toggleGroup="$genderGroup" />
+                  <JFXRadioButton text="Female" toggleGroup="$genderGroup">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXRadioButton>
                </children>
             </HBox>
             <Label alignment="CENTER_RIGHT" text="Phone Number:" GridPane.rowIndex="4">
