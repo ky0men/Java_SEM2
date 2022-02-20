@@ -70,6 +70,8 @@ public class RoomSettingController implements Initializable {
     private JFXButton editBtn;
     @FXML
     private JFXButton delBtn;
+    @FXML
+    private JFXButton refreshBtn;
 
 
 
@@ -80,8 +82,7 @@ public class RoomSettingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        TableColumn colBtn = new TableColumn("Action");
-//        table.getColumns().add(colBtn);
+
         try {
 
             DBConnect dbConnect = new DBConnect();
@@ -118,7 +119,6 @@ public class RoomSettingController implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
-//        colBtn.setCellValueFactory(new PropertyValueFactory<RoomSettingModel,String>("colBtn"));
 
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -177,6 +177,7 @@ public class RoomSettingController implements Initializable {
                     String ph = pricePerHours.getText();
                     if (flag != 0){
                         conn.createStatement().executeUpdate("UPDATE Room SET roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn+";");
+                        reloadTable();
                     }else {
                         System.out.println("Romm khong Ton Tai");
                     }
@@ -203,6 +204,7 @@ public class RoomSettingController implements Initializable {
                     }
                     if(flag !=0){
                         conn.createStatement().executeUpdate("Delete from Room where roomName = "+ rn );
+                        reloadTable();
                     }else {
                         System.out.println("Room kh ton tai");
                     }
@@ -239,6 +241,7 @@ public class RoomSettingController implements Initializable {
                     }
                     if(flag ==0){
                        conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+")");
+                       reloadTable();
                     }else{
                         System.out.println("room ton tai");
                     }
@@ -246,9 +249,38 @@ public class RoomSettingController implements Initializable {
                     e.printStackTrace();
                 }
             }
+
+        });
+
+        refreshBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                reloadTable();
+            }
         });
 
 
+    }
+    private void reloadTable(){
+        oblist = FXCollections.observableArrayList();
+        try{
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID");
+            while(rs.next()){
+                oblist.add(new RoomSettingModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
+            }
+            number.setCellValueFactory(new PropertyValueFactory<>("number"));
+            status.setCellValueFactory(new PropertyValueFactory<>("status"));
+            floor1.setCellValueFactory(new PropertyValueFactory<>("floor1"));
+            price.setCellValueFactory(new PropertyValueFactory<>("price"));
+            perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
+            type.setCellValueFactory(new PropertyValueFactory<>("type"));
+            table.setItems(oblist);
+        }catch (SQLException e){
+
+        }
     }
 }
 

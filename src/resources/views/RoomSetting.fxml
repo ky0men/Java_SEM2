@@ -24,7 +24,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="742.0">
                      <children>
                         <JFXTextField layoutX="608.0" layoutY="4.0" prefHeight="25.0" prefWidth="94.0" />
-                        <FontIcon iconLiteral="gmi-search" layoutX="710.0" layoutY="29.0">
+                        <FontIcon iconLiteral="gmi-search" layoutX="709.0" layoutY="33.0" text="">
                            <font>
                               <Font size="19.0" />
                            </font>
@@ -84,6 +84,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="15.0">
                                  <children>
+                                    <JFXButton fx:id="refreshBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" />
                                     <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
                                     <JFXButton fx:id="editBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
                                     <JFXButton fx:id="delBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
