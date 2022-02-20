@@ -55,7 +55,7 @@
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" text="User name:">
+            <Label alignment="CENTER_RIGHT" text="User Name:">
                <font>
                   <Font size="14.0" />
                </font>
@@ -91,7 +91,7 @@
                   <Insets right="40.0" />
                </GridPane.margin>
             </JFXPasswordField>
-            <Label alignment="CENTER_RIGHT" text="Confirm password:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label alignment="CENTER_RIGHT" text="Confirm Password:" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
@@ -142,7 +142,7 @@
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="TOP_LEFT" prefWidth="97.0" text="Full name:">
+            <Label alignment="TOP_LEFT" prefWidth="97.0" text="Full Name:">
                <font>
                   <Font size="14.0" />
                </font>
@@ -189,7 +189,7 @@
                <padding>
                   <Insets right="40.0" />
                </padding></JFXTextField>
-            <Label alignment="CENTER_RIGHT" text="Phone number:" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <Label alignment="CENTER_RIGHT" text="Phone Number:" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
                </font>

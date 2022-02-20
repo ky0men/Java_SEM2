@@ -6,10 +6,6 @@ public class EmployeeList {
     private String email;
     private String phoneNumber;
 
-
-    public EmployeeList() {
-    }
-
     public EmployeeList(String name, String position, String email, String phoneNumber) {
         this.name = name;
         this.position = position;
