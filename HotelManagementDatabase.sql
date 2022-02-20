@@ -72,6 +72,14 @@ CREATE TABLE usedServices(
     usedServiceID INT FOREIGN KEY REFERENCES Service(ID),
     usedServiceQty INT,
 )
+
+CREATE TABLE bill(
+    billID INT IDENTITY (1, 1) PRIMARY KEY,
+    employeeID INT FOREIGN KEY REFERENCES Account(id),
+    customerName NVARCHAR(200),
+    printDate DATE,
+    revenue MONEY,
+)
 --DROP TABLE usedServices
 
 --Phuc
@@ -98,7 +106,6 @@ ServiceName varchar(100),
 ServiceType varchar(100) FOREIGN KEY REFERENCES ServiceType,
 Price int,
 Unit varchar(20),
-Volume int,
 isDeleted int DEFAULT '0'
 )
 --DROP TABLE Service
@@ -109,22 +116,22 @@ INSERT INTO ServiceType VALUES ('Traveling Service')
 INSERT INTO ServiceType VALUES ('Relaxing Service')
 INSERT INTO ServiceType VALUES ('Others Service')
 
-INSERT INTO Service VALUES ('Beverage - Coca','Food Service',20000,'bottle',400,'')
-INSERT INTO Service VALUES ('Beverage - Beer Heiniken','Food Service',25000,'bottle',500,'')
-INSERT INTO Service VALUES ('Beverage - Aqua','Food Service',15000,'bottle',600,'')
-INSERT INTO Service VALUES ('Beverage - Snack','Food Service',10000,'can',500,'')
-INSERT INTO Service VALUES ('Buffet - 4 Stars European Restaurant','Food Service',899000,'person',100,'')
-INSERT INTO Service VALUES ('Morning Service','Food Service',100000,'person',500,'')
-INSERT INTO Service VALUES ('Bar Service','Food Service',200000,'person',100,'')
-INSERT INTO Service VALUES ('Motobike Rental Service','Traveling Service',20000,'date',20,'')
-INSERT INTO Service VALUES ('Car Rental Service','Traveling Service',100000,'date',10,'')
-INSERT INTO Service VALUES ('Swimming Pool Service','Relaxing Service',100000,'person',100,'')
-INSERT INTO Service VALUES ('Massage Service','Relaxing Service',100000,'person',100,'')
-INSERT INTO Service VALUES ('Spa Service','Relaxing Service',100000,'person',100,'')
-INSERT INTO Service VALUES ('Fitness & Yoga Service','Sport - Entertainment Service',50000,'person',100,'')
-INSERT INTO Service VALUES ('Tennis Service','Sport - Entertainment Service',500000,'person',10,'')
-INSERT INTO Service VALUES ('Goft Service','Sport - Entertainment Service',1499000,'person',10,'')
-INSERT INTO Service VALUES ('Laundry Service','Others Service',100000,'time',100,'')
+INSERT INTO Service VALUES ('Beverage - Coca','Food Service',20000,'bottle','')
+INSERT INTO Service VALUES ('Beverage - Beer Heiniken','Food Service',25000,'bottle','')
+INSERT INTO Service VALUES ('Beverage - Aqua','Food Service',15000,'bottle','')
+INSERT INTO Service VALUES ('Beverage - Snack','Food Service',10000,'can','')
+INSERT INTO Service VALUES ('Buffet - 4 Stars European Restaurant','Food Service',899000,'person','')
+INSERT INTO Service VALUES ('Morning Service','Food Service',100000,'person','')
+INSERT INTO Service VALUES ('Bar Service','Food Service',200000,'person','')
+INSERT INTO Service VALUES ('Motobike Rental Service','Traveling Service',20000,'date','')
+INSERT INTO Service VALUES ('Car Rental Service','Traveling Service',100000,'date','')
+INSERT INTO Service VALUES ('Swimming Pool Service','Relaxing Service',100000,'person','')
+INSERT INTO Service VALUES ('Massage Service','Relaxing Service',100000,'person','')
+INSERT INTO Service VALUES ('Spa Service','Relaxing Service',100000,'person','')
+INSERT INTO Service VALUES ('Fitness & Yoga Service','Sport - Entertainment Service',50000,'person','')
+INSERT INTO Service VALUES ('Tennis Service','Sport - Entertainment Service',500000,'person','')
+INSERT INTO Service VALUES ('Goft Service','Sport - Entertainment Service',1499000,'person','')
+INSERT INTO Service VALUES ('Laundry Service','Others Service',100000,'time','')
 
 SELECT * FROM ServiceType
 SELECT * FROM Service
@@ -134,15 +141,15 @@ Select ServiceName, ServiceType, Unit FROM Service
 
 
 --Procedure update service
-CREATE PROC updateService @id int, @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20), @volume int AS
-    UPDATE Service SET ServiceName = @serviceName, ServiceType = @serviceType, Price = @price, Unit = @unit, Volume = @volume , isDeleted = '0' WHERE ID = @id
+CREATE PROC updateService @id int, @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20) AS
+    UPDATE Service SET ServiceName = @serviceName, ServiceType = @serviceType, Price = @price, Unit = @unit, isDeleted = '0' WHERE ID = @id
     GO
 --DROP PROC updateService
 --Procedure add service
-CREATE PROC addService  @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20), @volume int, @isdeleted int AS
-	INSERT INTO Service VALUES (@serviceName, @serviceType, @price, @unit, @volume, '')
+CREATE PROC addService  @serviceName varchar(100), @serviceType varchar(100), @price int, @unit varchar(20) AS
+	INSERT INTO Service VALUES (@serviceName, @serviceType, @price, @unit, '')
 	GO
-
+--DROP PROC addService
 
 --END DUC
 
@@ -255,6 +262,9 @@ CREATE PROC addUsedService @checkinID INT, @serviceID INT, @serviceQty INT AS
     INSERT INTO usedServices(checkinID, usedServiceID, usedServiceQty) VALUES (@checkinID, @serviceID, @serviceQty)
 GO    
 
+--PROCEDURE add Bill
+CREATE PROC addBill @employeeID INT, @cusName VARCHAR(200), @date DATE, @revenue MONEY AS
+    INSERT INTO bill VALUES (@employeeID, @cusName, @date, @revenue)
 
 SELECT Room.roomName FROM Room       
 
