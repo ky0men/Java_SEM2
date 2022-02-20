@@ -56,19 +56,19 @@ public class RoomSettingController implements Initializable {
 
     @FXML
     private JFXTextField pricePerHours;
-
     @FXML
     private TableView<RoomSettingTypeModel> table1;
-
     @FXML
     private TableColumn<?, ?> id;
-
     @FXML
     private TableColumn<?, ?> name;
     @FXML
     private ComboBox<String> comboBox= new ComboBox<>();
     @FXML
     private JFXButton addBtn;
+    @FXML
+    private JFXButton editBtn;
+
 
 
 
@@ -80,8 +80,10 @@ public class RoomSettingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+//        TableColumn colBtn = new TableColumn("Action");
+//        table.getColumns().add(colBtn);
         try {
+
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
@@ -109,12 +111,15 @@ public class RoomSettingController implements Initializable {
         }catch (SQLException e){
             e.printStackTrace();
         }
+
         number.setCellValueFactory(new PropertyValueFactory<>("number"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         floor1.setCellValueFactory(new PropertyValueFactory<>("floor1"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
+//        colBtn.setCellValueFactory(new PropertyValueFactory<RoomSettingModel,String>("colBtn"));
+
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -125,8 +130,8 @@ public class RoomSettingController implements Initializable {
 
         table.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
-            public void handle(javafx.scene.input.MouseEvent mouseEvent) {
-                if(table!=null){
+            public void handle(MouseEvent mouseEvent) {
+                if(table.getSelectionModel().getSelectedItem()!=null){
                     roomNumber.setText(table.getSelectionModel().getSelectedItem().getNumber());
                     roomFloor.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getFloor1()));
                     roomPrice.setText(table.getSelectionModel().getSelectedItem().getPrice());
@@ -142,6 +147,21 @@ public class RoomSettingController implements Initializable {
 
             }
         });
+
+        editBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try{
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+//                    conn.createStatement().executeUpdate();
+                }catch (Exception e){
+
+                }
+            }
+        });
+
         addBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -175,6 +195,7 @@ public class RoomSettingController implements Initializable {
                 }
             }
         });
+
 
     }
 }
