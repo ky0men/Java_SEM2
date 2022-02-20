@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
@@ -47,22 +48,28 @@ public class EditServiceController implements Initializable {
     private JFXTextField tfName;
 
     @FXML
-    private JFXComboBox<String> cmbType;
-
-    @FXML
     private JFXTextField tfPrice;
 
     @FXML
     private JFXComboBox<String> cmbUnit;
 
     @FXML
-    private JFXTextField tfVolume;
+    private Label svUnitValidation;
 
     @FXML
-    private JFXButton btnEdit;
+    private Label svNameValidation;
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXComboBox<String> cmbType;
+
+    @FXML
+    private Label svTypeValidation;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnCancel;
 
 
 
@@ -85,7 +92,6 @@ public class EditServiceController implements Initializable {
     public void setService(Service service){
         tfID.setText(String.valueOf(service.getID()));
         tfName.setText(service.getName());
-        tfVolume.setText(String.valueOf(service.getVolume()));
         tfPrice.setText(String.valueOf(service.getPrice()));
         cmbType.setValue(service.getType());
         cmbUnit.setValue(service.getUnit());
@@ -93,7 +99,7 @@ public class EditServiceController implements Initializable {
 
     private boolean formNotNull(){
         if(tfID.getText() == "" || tfName.getText().equals("") || tfPrice.getText() == ""
-                || tfVolume.getText() == ""|| cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
+                || cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
             return false;
         }else {
             return true;
@@ -106,50 +112,21 @@ public class EditServiceController implements Initializable {
         String Type = cmbType.getSelectionModel().getSelectedItem();
         int price = Integer.parseInt(tfPrice.getText());
         String unit = cmbUnit.getSelectionModel().getSelectedItem();
-        int volume = Integer.parseInt(tfVolume.getText());
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
         CallableStatement ctsm = null;
         try {
-            ctsm = conn.prepareCall("{call updateService(?,?,?,?,?,?)}");
+            ctsm = conn.prepareCall("{call updateService(?,?,?,?,?)}");
             ctsm.setString(1,tfID.getText());
             ctsm.setString(2,tfName.getText());
             ctsm.setString(3,cmbType.getValue());
             ctsm.setString(4,tfPrice.getText());
             ctsm.setString(5,cmbUnit.getValue());
-            ctsm.setString(6,tfVolume.getText());
             ctsm.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-    }
-
-    @FXML
-    void EditService(ActionEvent event) {
-        if(formNotNull() == true){
-            EditServiceTable();
-            Node node = (Node)event.getSource();
-            Stage stage = (Stage)node.getScene().getWindow();
-            stage.close();
-            String serviceText = tfName.getText();
-            String title = "Successfully edit service";
-            String mess = "Service "+ serviceText +" has been successfully edited";
-            TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-            tray.setAnimationType(AnimationType.POPUP);
-            tray.showAndDismiss(Duration.seconds(3));
-            tray.showAndWait();
-            GaussianBlur blur = new GaussianBlur(0);
-            LoginController.stage.getScene().getRoot().setEffect(blur);
-        }else {
-            String title = "Incomplete Data";
-            String mess = "Please fill the data";
-            TrayNotification tray = new TrayNotification(title, mess, NotificationType.WARNING);
-            tray.setAnimationType(AnimationType.POPUP);
-            tray.showAndDismiss(Duration.seconds(3));
-            tray.showAndWait();
-            System.out.println("Incomplete Data.");
         }
     }
     @Override
@@ -190,7 +167,6 @@ public class EditServiceController implements Initializable {
         //Validate form
         RequiredFieldValidator validator = new RequiredFieldValidator();
         tfName.getValidators().add(validator);
-        tfVolume.getValidators().add(validator);
         tfPrice.getValidators().add(validator);
         cmbType.getValidators().add(validator);
         cmbUnit.getValidators().add(validator);
@@ -231,24 +207,87 @@ public class EditServiceController implements Initializable {
                 }
             }
         });
-        tfVolume.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
-                    validator.setMessage("Volume is required!");
-                    tfVolume.validate();
-                }
-            }
-        });
-
         RegexValidator priceRegexValidator = new RegexValidator();
-        priceRegexValidator.setRegexPattern("^\\d+$");
+        String priceRegex = "^\\d+$";
+        priceRegexValidator.setRegexPattern(priceRegex);
         priceRegexValidator.setMessage("Price is only number");
         tfPrice.getValidators().add(priceRegexValidator);
 
-        RegexValidator volumeRegexValidator = new RegexValidator();
-        volumeRegexValidator.setRegexPattern("^\\d+$");
-        volumeRegexValidator.setMessage("Volume is only number");
-        tfVolume.getValidators().add(volumeRegexValidator);
+        btnEdit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(checkDuplicateData() == true){
+                    svUnitValidation.setText("This unit has been existed.");
+                    cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
+
+                    svNameValidation.setText("This name has been existed.");
+                    tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    svNameValidation.setStyle("-fx-text-background-color: #D34437;");
+
+                    svTypeValidation.setText("This type has been existed.");
+                    cmbType.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    svTypeValidation.setStyle("-fx-text-background-color: #D34437;");
+                }
+                else if(!tfPrice.getText().matches(priceRegex)){
+                    tfPrice.validate();
+                }
+                else if(formNotNull() == true && tfPrice.getText().matches(priceRegex)){
+                    EditServiceTable();
+                    Node node = (Node)event.getSource();
+                    Stage stage = (Stage)node.getScene().getWindow();
+                    stage.close();
+                    String serviceText = tfName.getText();
+                    String title = "Successfully edit service";
+                    String mess = "Service "+ serviceText +" has been successfully edited";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                    GaussianBlur blur = new GaussianBlur(0);
+                    LoginController.stage.getScene().getRoot().setEffect(blur);
+                    System.out.println("Edit successfull");
+                }else {
+                    svNameValidation.setText("");
+                    tfName.setStyle("");
+                    svTypeValidation.setText("");
+                    cmbType.setStyle("");
+                    svUnitValidation.setText("");
+                    cmbUnit.setStyle("");
+                    String title = "Incomplete Data";
+                    String mess = "Please fill the data";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.WARNING);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                    System.out.println("Incomplete Data.");
+                }
+            }
+        });
+    }
+
+    private boolean checkDuplicateData(){
+            String name = tfName.getText();
+            String type = cmbType.getValue();
+            String unit = cmbUnit.getValue();
+            boolean flag = false;
+            String query = "SELECT ServiceName, ServiceType,Unit FROM Service WHERE Unit = '" + unit + "' AND ((ServiceName = '"+name+"') AND (ServiceType = '"+type+"')) AND isDeleted = 0";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                if (rs.next()) {
+                    flag = true;
+                } else {
+                    svUnitValidation.setText("");
+                    cmbUnit.setStyle("");
+                    flag = false;
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        return flag;
     }
 }
