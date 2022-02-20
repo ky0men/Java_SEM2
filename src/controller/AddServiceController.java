@@ -251,16 +251,4 @@ public class AddServiceController implements Initializable {
         }
         return flag;
     }
-//    private boolean checkPriceNumber() {
-//        boolean flag = false;
-//        RegexValidator priceRegexValidator = new RegexValidator();
-//        if (priceRegexValidator.setRegexPattern("^\\d+$")) {
-//            priceRegexValidator.setMessage("Price is only number");
-//            tfPrice.getValidators().add(priceRegexValidator);
-//            flag = true;
-//        }
-//        return flag;
-//    }
-
-
 }
