@@ -24,7 +24,7 @@
                   </Label>
                </children>
             </HBox>
-            <VBox layoutX="20.0" layoutY="160.0" prefHeight="329.0" prefWidth="778.0" spacing="30.0" styleClass="information-box">
+            <VBox layoutX="20.0" layoutY="160.0" prefHeight="290.0" prefWidth="778.0" spacing="30.0" styleClass="information-box">
                <children>
                   <HBox prefWidth="200.0" spacing="10.0">
                      <children>
@@ -44,7 +44,7 @@
                         <Insets top="-20.0" />
                      </VBox.margin>
                   </HBox>
-                  <VBox prefHeight="74.0" prefWidth="777.0">
+                  <VBox prefHeight="62.0" prefWidth="777.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                            <children>
@@ -130,26 +130,6 @@
                               <Insets left="20.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label maxWidth="120.0" prefWidth="120.0" text="Volume">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <JFXTextField fx:id="tfVolume" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                        </HBox>
                      </children>
                   </HBox>
                </children>
@@ -165,7 +145,7 @@
             </VBox>
             <HBox alignment="CENTER_RIGHT" spacing="20.0">
                <children>
-                  <JFXButton fx:id="btnAdd" onAction="#AddService" prefHeight="38.0" prefWidth="70.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add" textFill="WHITE">
+                  <JFXButton fx:id="btnAdd" prefHeight="38.0" prefWidth="70.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

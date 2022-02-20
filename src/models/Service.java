@@ -9,17 +9,14 @@ public class Service {
      String Type;
      int Price;
      String Unit;
-     int Volume;
      int isDeleted;
 
-
-    public Service(int ID, String name, String type, int price, String unit, int volume, int isDeleted) {
+    public Service(int ID, String name, String type, int price, String unit, int isDeleted) {
         this.ID = ID;
         Name = name;
         Type = type;
         Price = price;
         Unit = unit;
-        Volume = volume;
         isDeleted = isDeleted;
     }
 
@@ -63,14 +60,6 @@ public class Service {
         Unit = unit;
     }
 
-    public int getVolume() {
-        return Volume;
-    }
-
-    public void setVolume(int volume) {
-        Volume = volume;
-    }
-
     public int getIsDeleted() {
         return isDeleted;
     }
@@ -87,7 +76,6 @@ public class Service {
                 ", Type='" + Type + '\'' +
                 ", Price=" + Price +
                 ", Unit='" + Unit + '\'' +
-                ", Volume=" + Volume +
                 ", isDeleted=" + isDeleted +
                 '}';
     }
