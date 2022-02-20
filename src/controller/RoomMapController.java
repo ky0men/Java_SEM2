@@ -239,6 +239,7 @@ public class RoomMapController implements Initializable {
         showAllRoomBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                outputMess.setVisible(false);
                 searchRooms.clear();
                 rooms.clear();
                 gridAllRoom.getChildren().clear();
