@@ -51,19 +51,19 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomNumber" />
+                                    <JFXTextField fx:id="roomNumber" alignment="BOTTOM_CENTER" maxWidth="70.0" />
                                     <Label text="Room Type:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="comboBox" prefWidth="150.0" />
+                                    <ComboBox fx:id="comboBox" maxWidth="120.0" prefWidth="150.0" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomFloor" />
+                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="70.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" prefWidth="742.0" spacing="10.0">
@@ -73,19 +73,19 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomPrice" prefHeight="27.0" prefWidth="250.0" />
+                                    <JFXTextField fx:id="roomPrice" alignment="BOTTOM_CENTER" maxWidth="100.0" prefHeight="27.0" prefWidth="250.0" />
                                     <Label text="Price per Hours:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="pricePerHours" prefWidth="260.0" />
+                                    <JFXTextField fx:id="pricePerHours" alignment="BOTTOM_CENTER" maxWidth="100.0" prefWidth="260.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="15.0">
                                  <children>
                                     <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
-                                    <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Confirm" />
+                                    <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
                                     <JFXButton styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
                                  </children>
                                  <opaqueInsets>

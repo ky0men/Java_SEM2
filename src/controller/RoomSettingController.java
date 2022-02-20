@@ -126,11 +126,13 @@ public class RoomSettingController implements Initializable {
         table.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent mouseEvent) {
-                roomNumber.setText(table.getSelectionModel().getSelectedItem().getNumber());
-                roomFloor.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getFloor1()));
-                roomPrice.setText(table.getSelectionModel().getSelectedItem().getPrice());
-                pricePerHours.setText(table.getSelectionModel().getSelectedItem().getPerHours());
-                comboBox.getSelectionModel().select(table.getSelectionModel().getSelectedItem().getType());
+                if(table!=null){
+                    roomNumber.setText(table.getSelectionModel().getSelectedItem().getNumber());
+                    roomFloor.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getFloor1()));
+                    roomPrice.setText(table.getSelectionModel().getSelectedItem().getPrice());
+                    pricePerHours.setText(table.getSelectionModel().getSelectedItem().getPerHours());
+                    comboBox.getSelectionModel().select(table.getSelectionModel().getSelectedItem().getType());
+                }
             }
         });
 
@@ -140,31 +142,39 @@ public class RoomSettingController implements Initializable {
 
             }
         });
-//        addBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                try{
-//                    DBConnect dbConnect = new DBConnect();
-//                    dbConnect.readProperties();
-//                    Connection conn = dbConnect.getDBConnection();
-//                    int flag =0;
-//                    ResultSet rs = conn.createStatement().executeQuery("select * from Room");
-//                    while(rs.next()){
-//                        System.out.println(rs.getString(2));
-//                        if(roomNumber.getText()==rs.getString("roomName")){
-//                            flag++;
-//                        }
-//                    }
-//                    if(flag ==0){
-//                        System.out.println("room added");
-//                    }else{
-//                        System.out.println("room ton tai");
-//                    }
-//                }catch (SQLException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        addBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try{
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+                    int flag =0;
+                    ResultSet rs = conn.createStatement().executeQuery("select * from Room");
+                    while(rs.next()){
+                        if(Integer.parseInt(roomNumber.getText())==Integer.parseInt(rs.getString("roomName"))){
+                            flag++;
+                        }
+                    }
+                    int type = 0;
+                    String roomType = comboBox.getSelectionModel().getSelectedItem();
+                    ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
+                    while (rs1.next()){
+                        type++;
+                        if(roomType.equals(rs1.getString(2))){
+                            break;
+                        }
+                    }
+                    if(flag ==0){
+                       conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+")");
+                    }else{
+                        System.out.println("room ton tai");
+                    }
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 }
