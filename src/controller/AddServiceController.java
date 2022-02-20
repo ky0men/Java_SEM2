@@ -51,9 +51,6 @@ public class AddServiceController implements Initializable {
     private JFXComboBox<String> cmbUnit;
 
     @FXML
-    private JFXTextField tfVolume;
-
-    @FXML
     private JFXButton btnAdd;
 
     @FXML
@@ -67,9 +64,6 @@ public class AddServiceController implements Initializable {
 
     @FXML
     private Label svPriceValidation;
-
-    @FXML
-    private Label svVolumeValidation;
 
     @FXML
     private Label svUnitValidation;
@@ -118,27 +112,18 @@ public class AddServiceController implements Initializable {
         tfPrice.getValidators().add(svPriceValidation);
         svPriceValidation.setMessage("Price is required!");
 
-        RequiredFieldValidator svVolumeValidation = new RequiredFieldValidator();
-        tfVolume.getValidators().add(svVolumeValidation);
-        svVolumeValidation.setMessage("Volume is required!");
-
         RequiredFieldValidator svUnitValidation = new RequiredFieldValidator();
         cmbUnit.getValidators().add(svUnitValidation);
         svUnitValidation.setMessage("Unit is required!");
 
         RegexValidator priceRegexValidator = new RegexValidator();
-        priceRegexValidator.setRegexPattern("^\\d+$");
+        String priceRegrex = "^\\d+$";
+        priceRegexValidator.setRegexPattern(priceRegrex);
         priceRegexValidator.setMessage("Price is only number");
         tfPrice.getValidators().add(priceRegexValidator);
 
-        RegexValidator volumeRegexValidator = new RegexValidator();
-        volumeRegexValidator.setRegexPattern("^\\d+$");
-        volumeRegexValidator.setMessage("Volume is only number");
-        tfVolume.getValidators().add(volumeRegexValidator);
         //Validate form
         RequiredFieldValidator validator = new RequiredFieldValidator();
-
-
         tfName.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -172,11 +157,38 @@ public class AddServiceController implements Initializable {
                 }
             }
         });
-        tfVolume.focusedProperty().addListener(new ChangeListener<Boolean>() {
+        btnAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
-                    tfVolume.validate();
+            public void handle(ActionEvent event) {
+                if(tfName.getText().equals("") || tfPrice.getText().equals("")|| !tfPrice.getText().matches(priceRegrex)
+                        || cmbType.getSelectionModel().getSelectedItem().equals("")
+                        || cmbUnit.getSelectionModel().getSelectedItem().equals("")) {
+                    tfName.validate();
+                    cmbType.validate();
+                    cmbUnit.validate();
+                    tfPrice.validate();
+                }
+                else if(svNameisExist() == true || tfPrice.getText().equals("") ||!tfPrice.getText().matches(priceRegrex)
+                        || cmbType.getSelectionModel().getSelectedItem().equals("")
+                        || cmbUnit.getSelectionModel().getSelectedItem().equals("")){
+                    cmbType.validate();
+                    cmbUnit.validate();
+                    tfPrice.validate();
+                }
+                else {
+                    AddServiceTable();
+                    Node node = (Node) event.getSource();
+                    Stage stage = (Stage) node.getScene().getWindow();
+                    stage.close();
+                    String serviceText = tfName.getText();
+                    String title = "Successfully added service";
+                    String mess = "Service " + serviceText + " has been successfully added";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                    GaussianBlur blur = new GaussianBlur(0);
+                    LoginController.stage.getScene().getRoot().setEffect(blur);
                 }
             }
         });
@@ -197,59 +209,18 @@ public class AddServiceController implements Initializable {
         Connection conn = dbConnect.getDBConnection();
         CallableStatement ctsm = null;
         try {
-            ctsm = conn.prepareCall("{call addService(?,?,?,?,?,?)}");
+            ctsm = conn.prepareCall("{call addService(?,?,?,?)}");
             ctsm.setString(1,tfName.getText());
             ctsm.setString(2,cmbType.getValue());
             ctsm.setString(3,tfPrice.getText());
             ctsm.setString(4,cmbUnit.getValue());
-            ctsm.setString(5,tfVolume.getText());
-            ctsm.setString(6,"");
             ctsm.execute();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-
-    @FXML
-    void AddService(ActionEvent event) {
-        if(tfName.getText().equals("") || tfPrice.getText().equals("")
-                || tfVolume.getText().equals("")|| cmbType.getSelectionModel().getSelectedItem().equals("")
-                || cmbUnit.getSelectionModel().getSelectedItem().equals("")) {
-            tfName.validate();
-            cmbType.validate();
-            cmbUnit.validate();
-            tfPrice.validate();
-            tfVolume.validate();
-        }
-        else if(svNameisExist() == true || tfPrice.getText().equals("")
-                || tfVolume.getText().equals("")|| cmbType.getSelectionModel().getSelectedItem().equals("")
-                || cmbUnit.getSelectionModel().getSelectedItem().equals("")){
-            svNameValidation.setText("Service Name is Exist");
-            cmbType.validate();
-            cmbUnit.validate();
-            tfPrice.validate();
-            tfVolume.validate();
-        }
-        else {
-            AddServiceTable();
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            stage.close();
-            String serviceText = tfName.getText();
-            String title = "Successfully added service";
-            String mess = "Service " + serviceText + " has been successfully added";
-            TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-            tray.setAnimationType(AnimationType.POPUP);
-            tray.showAndDismiss(Duration.seconds(3));
-            tray.showAndWait();
-            GaussianBlur blur = new GaussianBlur(0);
-            LoginController.stage.getScene().getRoot().setEffect(blur);
-        }
-    }
     public void setService(Service service){
         tfName.setText(service.getName());
-        tfVolume.setText(String.valueOf(service.getVolume()));
         tfPrice.setText(String.valueOf(service.getPrice()));
         cmbType.setValue(service.getType());
         cmbUnit.setValue(service.getUnit());
@@ -280,4 +251,16 @@ public class AddServiceController implements Initializable {
         }
         return flag;
     }
+//    private boolean checkPriceNumber() {
+//        boolean flag = false;
+//        RegexValidator priceRegexValidator = new RegexValidator();
+//        if (priceRegexValidator.setRegexPattern("^\\d+$")) {
+//            priceRegexValidator.setMessage("Price is only number");
+//            tfPrice.getValidators().add(priceRegexValidator);
+//            flag = true;
+//        }
+//        return flag;
+//    }
+
+
 }

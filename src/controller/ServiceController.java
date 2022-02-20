@@ -74,9 +74,6 @@ public class ServiceController implements Initializable {
     private TableColumn<Service, String> col_unit;
 
     @FXML
-    private TableColumn<Service, Integer> col_volume;
-
-    @FXML
     private TableColumn<Service, Integer> col_delete;
 
     int index = -1;
@@ -102,7 +99,7 @@ public class ServiceController implements Initializable {
                 list.add(new Service(Integer.parseInt(rs.getString(1)),rs.getString(2),
                         rs.getString(3),Integer.parseInt(rs.getString(4)),
                         rs.getString(5),
-                        Integer.parseInt(rs.getString(6)),Integer.parseInt(rs.getString(7))));
+                        Integer.parseInt(rs.getString(6))));
             }
         }
         catch (Exception e){
@@ -162,7 +159,6 @@ public class ServiceController implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<Service,String>("type"));
         col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
         col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
-        col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
         col_delete.setCellValueFactory(new PropertyValueFactory<Service, Integer>("isDeleted"));
 
         dataList = ServiceController.getService();
@@ -190,9 +186,6 @@ public class ServiceController implements Initializable {
                 else if (Integer.toString(person.getPrice()).toLowerCase(Locale.ROOT).indexOf(lowertCaseFilter) != -1){
                     return true;
                 }
-                else if (Integer.toString(person.getVolume()).toLowerCase(Locale.ROOT).indexOf(lowertCaseFilter) != -1){
-                    return true;
-                }
                 else {
                     return false;
                 }
@@ -209,7 +202,6 @@ public class ServiceController implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<Service,String>("type"));
         col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
         col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
-        col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
         col_delete.setCellValueFactory(new PropertyValueFactory<Service, Integer>("isDeleted"));
 
         list = ServiceController.getService();
@@ -242,7 +234,6 @@ public class ServiceController implements Initializable {
         col_type.setMaxWidth(1f * Integer.MAX_VALUE * 30);
         col_price.setMaxWidth(1f * Integer.MAX_VALUE * 15);
         col_unit.setMaxWidth(1f * Integer.MAX_VALUE * 15);
-        col_volume.setMaxWidth(1f * Integer.MAX_VALUE * 0);
         col_delete.setMaxWidth(1f * Integer.MAX_VALUE * 0);
 
         col_id.setCellValueFactory(new PropertyValueFactory<Service,Integer>("ID"));
@@ -250,7 +241,6 @@ public class ServiceController implements Initializable {
         col_type.setCellValueFactory(new PropertyValueFactory<Service,String>("type"));
         col_price.setCellValueFactory(new PropertyValueFactory<Service,Integer>("price"));
         col_unit.setCellValueFactory(new PropertyValueFactory<Service,String>("unit"));
-        col_volume.setCellValueFactory(new PropertyValueFactory<Service,Integer>("volume"));
         col_delete.setCellValueFactory(new PropertyValueFactory<Service, Integer>("isDeleted"));
 
     }
