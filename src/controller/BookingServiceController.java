@@ -16,10 +16,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Room;
@@ -48,16 +51,19 @@ public class BookingServiceController implements Initializable {
     private JFXComboBox<?> serviceCombobox;
 
     @FXML
+    private JFXTextField unitServiceLabel;
+
+    @FXML
     private JFXTextField serviceQty;
+
+    @FXML
+    private Label validateMessage;
 
     @FXML
     private JFXButton bookingServiceBtn;
 
     @FXML
     private JFXButton cancelBtn;
-
-    @FXML
-    private Label validateMessage;
 
     private double x, y;
     Stage stage;
@@ -82,10 +88,12 @@ public class BookingServiceController implements Initializable {
         cancelBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                stage = (Stage) titleBar.getScene().getWindow();
-                stage.close();
-                GaussianBlur blur = new GaussianBlur(0);
-                LoginController.stage.getScene().getRoot().setEffect(blur);
+                String position = getAccountPosition();
+                if (position.equals("Employee")) {
+                    showStaffDashboard();
+                } else {
+                    showAdminDashboard();
+                }
             }
         });
 
@@ -113,6 +121,7 @@ public class BookingServiceController implements Initializable {
             @Override
             public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
                 validateMessage.setVisible(false);
+                unitServiceLabel.setText(getServiceUnit(conn, String.valueOf(serviceCombobox.getValue())));
             }
         });
 
@@ -161,11 +170,18 @@ public class BookingServiceController implements Initializable {
                             tray.setAnimationType(AnimationType.POPUP);
                             tray.showAndDismiss(Duration.seconds(2));
                             //Close stage booking service
-                            Node node = (Node)actionEvent.getSource();
-                            Stage stage = (Stage)node.getScene().getWindow();
-                            stage.close();
-                            GaussianBlur blur = new GaussianBlur(0);
-                            LoginController.stage.getScene().getRoot().setEffect(blur);
+//                            GaussianBlur blur = new GaussianBlur(0);
+//                            LoginController.stage.getScene().getRoot().setEffect(blur);
+//                            Node node = (Node)actionEvent.getSource();
+//                            Stage stage = (Stage)node.getScene().getWindow();
+//                            stage.close();
+                            String position = getAccountPosition();
+                            if (position.equals("Employee")) {
+                                showStaffDashboard();
+                            } else {
+                                showAdminDashboard();
+                            }
+
                         }else{
                             TrayNotification tray = new TrayNotification();
                             tray.setTitle("Booking service failed!");
@@ -295,5 +311,80 @@ public class BookingServiceController implements Initializable {
             throwables.printStackTrace();
         }
         return result;
+    }
+
+    //Get service Unit
+    public String getServiceUnit(Connection conn, String serviceName){
+        ResultSet rs = null;
+        Statement stm = null;
+        String result = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT S.Unit FROM Service S WHERE S.ServiceName = '"+ serviceName +"'");
+            while (rs.next()){
+                result = rs.getString("Unit");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+    //Check account position
+    public String getAccountPosition() {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+        String result = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT AC.position, EM.fullName FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID \n" +
+                    "    WHERE AC.accountStatus = '1'");
+            while (rs.next()) {
+                result = rs.getString("position");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public void showStaffDashboard() {
+        Parent staffParent = null;
+        FXMLLoader staffLoader = new FXMLLoader(getClass().getResource("/resources/views/StaffDashboard.fxml"));
+        try {
+            staffParent = staffLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene staffScene = new Scene(staffParent);
+        staffScene.setFill(Color.TRANSPARENT);
+        stage = (Stage) bookingServiceBtn.getScene().getWindow();
+        stage.close();
+        stage.setScene(staffScene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
+        stage.setTitle("Hotel Management Application");
+        stage.show();
+    }
+
+    public void showAdminDashboard() {
+        Parent adminParent = null;
+        FXMLLoader adminLoader = new FXMLLoader(getClass().getResource("/resources/views/AdminDashboard.fxml"));
+        try {
+            adminParent = adminLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene adminScene = new Scene(adminParent);
+        adminScene.setFill(Color.TRANSPARENT);
+        stage = (Stage) bookingServiceBtn.getScene().getWindow();
+        stage.close();
+        stage.setScene(adminScene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
+        stage.setTitle("Hotel Management Application");
+        stage.show();
     }
 }

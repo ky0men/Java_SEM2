@@ -79,16 +79,6 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label text="Volume:" GridPane.columnIndex="2" GridPane.rowIndex="4">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="tfVolume" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXTextField>
             <Label prefHeight="20.0" prefWidth="99.0" text="Unit:" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
@@ -106,7 +96,7 @@
       </GridPane>
       <ButtonBar layoutX="561.0" layoutY="355.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#EditService" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit">
+            <Button fx:id="btnEdit" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

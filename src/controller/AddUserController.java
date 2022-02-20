@@ -24,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
@@ -108,19 +107,13 @@ public class AddUserController implements Initializable {
         });
 
         //Window move action
-        titleBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                x = event.getSceneX();
-                y = event.getSceneY();
-            }
+        titleBar.setOnMousePressed(event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
         });
-        titleBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                titleBar.getScene().getWindow().setX(event.getScreenX() - x);
-                titleBar.getScene().getWindow().setY(event.getScreenY() - y);
-            }
+        titleBar.setOnMouseDragged(event -> {
+            titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+            titleBar.getScene().getWindow().setY(event.getScreenY() - y);
         });
 
         //Set Combobox
@@ -173,134 +166,103 @@ public class AddUserController implements Initializable {
         txtPhoneNumber.getValidators().add(phoneRegexValidator);
 
 
-        txtUserName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtUserName.validate();
-                }
-                userNameisExist();
+        txtUserName.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtUserName.validate();
+            }
+            userNameisExist();
+        });
+
+        txtPassword.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtPassword.validate();
             }
         });
 
-        txtPassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtPassword.validate();
-                }
+        txtReEnterPassword.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtReEnterPassword.validate();
+            }
+            checkPassword();
+        });
+
+        txtFullName.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtFullName.validate();
             }
         });
 
-        txtReEnterPassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtReEnterPassword.validate();
-                }
-                checkPassword();
+        txtNoID.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtNoID.validate();
             }
         });
 
-        txtFullName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtFullName.validate();
-                }
+        txtAddress.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtAddress.validate();
             }
         });
 
-        txtNoID.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtNoID.validate();
-                }
+        txtEmail.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtEmail.validate();
             }
+            emailIsExist();
         });
 
-        txtAddress.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtAddress.validate();
-                }
+        txtPhoneNumber.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtPhoneNumber.validate();
             }
-        });
-
-        txtEmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtEmail.validate();
-                }
-                emailIsExist();
-            }
-        });
-
-        txtPhoneNumber.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    txtPhoneNumber.validate();
-                }
-                phoneNumberIsExist();
-            }
+            phoneNumberIsExist();
         });
 
         //Add Employee
-        btnAdd.setOnAction(new EventHandler<ActionEvent>() {
-
-                               @Override
-                               public void handle(ActionEvent event) {
-                                   if (txtUserName.getText().equals("") || txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("") ||
-                                           txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
-                                           txtEmail.getText().equals("") || !txtEmail.getText().matches(RegexEmail) ||
-                                           txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)) {
-                                       txtUserName.validate();
-                                       txtPassword.validate();
-                                       txtReEnterPassword.validate();
-                                       txtFullName.validate();
-                                       txtNoID.validate();
-                                       txtAddress.validate();
-                                       txtEmail.validate();
-                                       txtPhoneNumber.validate();
-                                   }
-                                   userNameisExist();
-                                   checkPassword();
-                                   emailIsExist();
-                                   phoneNumberIsExist();
-                                   if (!userNameisExist() && checkPassword() && txtEmail.getText().matches(RegexEmail) && !emailIsExist() &&
-                                           txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()) {
-                                       AddTableAccount();
-                                       AddTableProfile();
-                                       Node node = (Node) event.getSource();
-                                       Stage stage = (Stage) node.getScene().getWindow();
-                                       stage.close();
-                                       String fullNameText = txtFullName.getText();
-                                       String title = "Successfully added employee";
-                                       String mess = "Employee " + fullNameText + " has been successfully added";
-                                       TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
-                                       tray.setAnimationType(AnimationType.POPUP);
-                                       tray.showAndDismiss(Duration.seconds(3));
-                                       tray.showAndWait();
-                                       GaussianBlur blur = new GaussianBlur(0);
-                                       LoginController.stage.getScene().getRoot().setEffect(blur);
-                                   }
-                               }
-                           }
-        );
-
-        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        btnAdd.setOnAction(event -> {
+            if (txtUserName.getText().equals("") || txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("") ||
+                    txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
+                    txtEmail.getText().equals("") || !txtEmail.getText().matches(RegexEmail) ||
+                    txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)) {
+                txtUserName.validate();
+                txtPassword.validate();
+                txtReEnterPassword.validate();
+                txtFullName.validate();
+                txtNoID.validate();
+                txtAddress.validate();
+                txtEmail.validate();
+                txtPhoneNumber.validate();
+            }
+            userNameisExist();
+            checkPassword();
+            emailIsExist();
+            phoneNumberIsExist();
+            if (!userNameisExist() && checkPassword() && txtEmail.getText().matches(RegexEmail) && !emailIsExist() &&
+                    txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()) {
+                AddTableAccount();
+                AddTableProfile();
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
+                String fullNameText = txtFullName.getText();
+                String title = "Successfully added employee";
+                String mess = "Employee " + fullNameText + " has been successfully added";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
                 GaussianBlur blur = new GaussianBlur(0);
                 LoginController.stage.getScene().getRoot().setEffect(blur);
             }
+        }
+        );
+
+        btnCancel.setOnAction(event -> {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+            GaussianBlur blur = new GaussianBlur(0);
+            LoginController.stage.getScene().getRoot().setEffect(blur);
         });
     }
 
@@ -451,8 +413,8 @@ public class AddUserController implements Initializable {
         String email = txtEmail.getText();
         String phone = txtPhoneNumber.getText();
         String address = txtAddress.getText();
-        String query = "INSERT INTO EmployeeInformation VALUES (" + userId + ", '" + fullName + "', '" + numberId + "', '" + startWork + "'," +
-                " '" + birthday + "', '" + email + "', '" + phone + "', '" + address + "', '0');";
+        String query = "INSERT INTO EmployeeInformation VALUES (" + userId + ", N'" + fullName + "', '" + numberId + "', '" + startWork + "'," +
+                " '" + birthday + "', '" + email + "', '" + phone + "', N'" + address + "', '0');";
 
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();

@@ -224,8 +224,7 @@ public class RoomMapController implements Initializable {
                         rooms.addAll(getSearchData(searchRooms, searchRoomSQL));
                         outputMess.setText("Can not found floor: " + searchTextField.getText());
                     } else if (searchTypeChoiceBox.getValue().equals("Room name")) {
-                        ouputMessHbox.setVisible(false);
-                        searchRooms.clear();
+                        ouputMessHbox.setVisible(false);                        searchRooms.clear();
                         rooms.clear();
                         gridAllRoom.getChildren().clear();
                         searchRoomSQL = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomName = " + searchTextField.getText();

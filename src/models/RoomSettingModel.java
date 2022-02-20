@@ -1,5 +1,7 @@
 package models;
 
+import javafx.scene.control.Button;
+
 public class RoomSettingModel {
      String number;
      String type;
@@ -7,6 +9,15 @@ public class RoomSettingModel {
      int floor1;
      String price;
      String perHours;
+//     Button button;
+//
+//    public Button getButton() {
+//        return button;
+//    }
+//
+//    public void setButton(Button button) {
+//        this.button = button;
+//    }
 
 
     public RoomSettingModel(String number, String type, String status, int floor1, String price, String perHours) {
@@ -16,6 +27,7 @@ public class RoomSettingModel {
         this.floor1 = floor1;
         this.price = price;
         this.perHours = perHours;
+//        this.button = new Button("Delete");
     }
 
 

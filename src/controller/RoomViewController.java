@@ -128,13 +128,15 @@ public class RoomViewController implements Initializable {
         servicesBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                GaussianBlur blurEffect = new GaussianBlur(10);
-                servicesBtn.getScene().getRoot().setEffect(blurEffect);
+//                GaussianBlur blurEffect = new GaussianBlur(10);
+//                servicesBtn.getScene().getRoot().setEffect(blurEffect);
 //                stage.getScene().getRoot().setEffect(blurEffect);
                 //Get column and row of gridpane
                 col = (Integer) servicesBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-column");
                 row = (Integer) servicesBtn.getParent().getParent().getParent().getParent().getProperties().get("gridpane-row");
                 gridRoomType = servicesBtn.getParent().getParent().getParent().getParent().getParent().getId();
+                stage = (Stage) servicesBtn.getScene().getWindow();
+                stage.close();
 //                System.out.println(servicesBtn.getParent().getParent());
                 showAction("/resources/views/BookingService.fxml");
             }

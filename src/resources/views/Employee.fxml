@@ -62,7 +62,7 @@
       </AnchorPane>
       <AnchorPane layoutY="107.0" prefHeight="509.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
-            <TableView fx:id="tableEmployee" layoutX="18.0" layoutY="11.0" prefHeight="429.0" prefWidth="700.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="11.0">
+            <TableView fx:id="tableEmployee" layoutX="18.0" layoutY="11.0" prefHeight="429.0" prefWidth="700.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="150.39995956420898" text="Name" />
                 <TableColumn fx:id="columnPosition" prefWidth="108.80006408691406" text="Position" />
