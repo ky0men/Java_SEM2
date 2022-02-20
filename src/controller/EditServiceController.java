@@ -232,7 +232,7 @@ public class EditServiceController implements Initializable {
                 else if(!tfPrice.getText().matches(priceRegex)){
                     tfPrice.validate();
                 }
-                else if(formNotNull() == true && tfPrice.getText().matches(priceRegex)){
+                else if(formNotNull() == true && tfPrice.getText().matches(priceRegex) && checkDuplicateData() == false){
                     EditServiceTable();
                     Node node = (Node)event.getSource();
                     Stage stage = (Stage)node.getScene().getWindow();
@@ -270,8 +270,14 @@ public class EditServiceController implements Initializable {
             String name = tfName.getText();
             String type = cmbType.getValue();
             String unit = cmbUnit.getValue();
+            String price = tfPrice.getText();
+            String priceRegex = "^\\d+$";
             boolean flag = false;
-            String query = "SELECT ServiceName, ServiceType,Unit FROM Service WHERE Unit = '" + unit + "' AND ((ServiceName = '"+name+"') AND (ServiceType = '"+type+"')) AND isDeleted = 0";
+            if(!price.matches(priceRegex)){
+                flag = false;
+            }
+           else{
+            String query = "SELECT ServiceName, ServiceType,Unit FROM Service WHERE Unit = '" + unit + "' AND (ServiceName = '"+name+"') AND (Price = '"+price+"') AND (ServiceType = '"+type+"') AND isDeleted = 0";
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
@@ -287,7 +293,8 @@ public class EditServiceController implements Initializable {
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-            }
-        return flag;
+                }
+           }
+            return flag;
     }
 }
