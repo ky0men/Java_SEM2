@@ -72,6 +72,14 @@ CREATE TABLE usedServices(
     usedServiceID INT FOREIGN KEY REFERENCES Service(ID),
     usedServiceQty INT,
 )
+
+CREATE TABLE bill(
+    billID INT IDENTITY (1, 1) PRIMARY KEY,
+    employeeID INT FOREIGN KEY REFERENCES Account(id),
+    customerName NVARCHAR(200),
+    printDate DATE,
+    revenue MONEY,
+)
 --DROP TABLE usedServices
 
 --Phuc
@@ -255,6 +263,9 @@ CREATE PROC addUsedService @checkinID INT, @serviceID INT, @serviceQty INT AS
     INSERT INTO usedServices(checkinID, usedServiceID, usedServiceQty) VALUES (@checkinID, @serviceID, @serviceQty)
 GO    
 
+--PROCEDURE add Bill
+CREATE PROC addBill @employeeID INT, @cusName VARCHAR(200), @date DATE, @revenue MONEY AS
+    INSERT INTO bill VALUES (@employeeID, @cusName, @date, @revenue)
 
 SELECT Room.roomName FROM Room       
 
