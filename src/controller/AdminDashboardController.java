@@ -2,7 +2,6 @@ package controller;
 
 
 import com.jfoenix.controls.JFXButton;
-import com.sun.nio.sctp.Notification;
 import dao.DBConnect;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,13 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
-import tray.notification.NotificationType;
-import tray.notification.TrayNotification;
 
 import java.io.IOException;
 import java.net.URL;
@@ -257,9 +252,14 @@ public class AdminDashboardController implements Initializable {
                 Scene loginScene = new Scene(loginParent);
                 loginScene.setFill(Color.TRANSPARENT);
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
                 stage.hide();
                 stage.setScene(loginScene);
-                stage.setMaximized(false);
+                stage.setWidth(600);
+                stage.setHeight(400);
+                stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                stage.setY((bounds.getHeight() - stage.getHeight())/2);
                 stage.show();
 
             }
@@ -269,14 +269,13 @@ public class AdminDashboardController implements Initializable {
         roomMapBtnClick();
 
         changeSceneWhenClickButton(roomSettingBtn, roomSettingIcon, hboxHome, hboxBookingManage, "RoomSetting.fxml");
-        changeSceneWhenClickButton(bookingManageBtn, bookingManageIcon, hboxProducts, hboxEmployee, "RoomSetting.fxml");
+        changeSceneWhenClickButton(bookingManageBtn, bookingManageIcon, hboxProducts, hboxEmployee, "BookingManage.fxml");
         changeSceneWhenClickButton(employeeBtn, employeeIcon, hboxBookingManage, hboxOrder, "Employee.fxml");
         changeSceneWhenClickButton(servicesBtn, serviceIcon, hboxEmployee, hboxCustomer, "Services.fxml");
         changeSceneWhenClickButton(customerBtn, customersIcon, hboxOrder, hboxRevenue, "Customers.fxml");
         changeSceneWhenClickButton(revenueBtn, revenueIcon, hboxCustomer, hboxPromotions, "Revenue.fxml");
-        changeSceneWhenClickButton(stockManagerBtn, stockManagerIcon, hboxRevenue, hboxHistory, "StockManage.fxml");
 
-        historyBtnClick();
+        setStockManagerBtnClick();
 
         //Get Account information in use
         getAccountInformationInUse();
@@ -297,16 +296,16 @@ public class AdminDashboardController implements Initializable {
             }
         });
     }
-    public void historyBtnClick(){
-        historyBtn.setOnAction(new EventHandler<ActionEvent>() {
+    public void setStockManagerBtnClick(){
+        stockManagerBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
 //                System.out.println("Change to history scene");
-                changeContentScene("/resources/views/History.fxml");
+                changeContentScene("/resources/views/StockManage.fxml");
                 removeSelectBtn();
-                historyBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
-                historyIcon.setIconColor(Color.web("#16314f"));
-                hboxPromotions.setStyle("-fx-background-radius: 0 0 20 0;");
+                stockManagerBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
+                stockManagerIcon.setIconColor(Color.web("#16314f"));
+                hboxRevenue.setStyle("-fx-background-radius: 0 0 20 0;");
                 vboxFooterLeft.setStyle("-fx-background-radius: 0 20 0 10;");
             }
         });
@@ -350,7 +349,6 @@ public class AdminDashboardController implements Initializable {
         customerBtn.setFocusTraversable(false);
         revenueBtn.setFocusTraversable(false);
         stockManagerBtn.setFocusTraversable(false);
-        historyBtn.setFocusTraversable(false);
     }
 
     private void removeSelectBtn() {
@@ -380,9 +378,6 @@ public class AdminDashboardController implements Initializable {
         stockManagerBtn.setStyle("");
         hboxPromotions.setStyle("-fx-background-radius: 0;");
         stockManagerIcon.setIconColor(Color.WHITE);
-        historyBtn.setStyle("");
-        hboxHistory.setStyle("-fx-background-radius: 0;");
-        historyIcon.setIconColor(Color.WHITE);
     }
 
     //Get account infortion is in use

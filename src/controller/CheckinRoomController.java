@@ -133,7 +133,12 @@ public class CheckinRoomController implements Initializable {
                     validator.setMessage("Customer ID is required!");
                     identityNumber.validate();
                     String cusName = getCustomerNameFromID(identityNumber.getText(), conn);
-                    customerName.setText(cusName);
+                    if(cusName != null){
+                        customerName.setText(cusName);
+                        customerName.setEditable(false);
+                    }else{
+                        customerName.setEditable(true);
+                    }
                 }
             }
         });
@@ -245,7 +250,7 @@ public class CheckinRoomController implements Initializable {
                 } else if (!isInteger(prepaidField.getText())) {
                     numberValidator.setMessage("Please input integer number!");
                     prepaidField.validate();
-                }else if (!isInteger(discountField.getText())) {
+                } else if (!isInteger(discountField.getText())) {
                     numberValidator.setMessage("Please input integer number!");
                     discountField.validate();
                 } else if (checkinDay.equals(today) && isInteger(prepaidField.getText()) && isInteger(discountField.getText())) {
