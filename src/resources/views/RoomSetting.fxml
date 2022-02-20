@@ -86,6 +86,7 @@
                                  <children>
                                     <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
                                     <JFXButton fx:id="editBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
+                                    <JFXButton fx:id="delBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />

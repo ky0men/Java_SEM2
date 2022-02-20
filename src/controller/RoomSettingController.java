@@ -68,8 +68,8 @@ public class RoomSettingController implements Initializable {
     private JFXButton addBtn;
     @FXML
     private JFXButton editBtn;
-
-
+    @FXML
+    private JFXButton delBtn;
 
 
 
@@ -182,6 +182,34 @@ public class RoomSettingController implements Initializable {
                     }
                 }catch (Exception e){
                     e.printStackTrace();
+                }
+            }
+        });
+
+        delBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try{
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+                    int flag =0;
+                    String rn = roomNumber.getText();
+                    ResultSet rs = conn.createStatement().executeQuery("select * from Room");
+                    while(rs.next()){
+                        if(Integer.parseInt(rn)==Integer.parseInt(rs.getString("roomName"))){
+                            flag++;
+                        }
+                    }
+                    if(flag !=0){
+                        conn.createStatement().executeUpdate("Delete from Room where roomName = "+ rn );
+                    }else {
+                        System.out.println("Room kh ton tai");
+                    }
+                }catch (Exception e){
+                    if(roomNumber.getText().replaceAll(" ","").length()==0){
+                        System.out.println("Room name must be fill");
+                    };
                 }
             }
         });
