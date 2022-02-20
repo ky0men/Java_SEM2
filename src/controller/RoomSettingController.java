@@ -155,9 +155,33 @@ public class RoomSettingController implements Initializable {
                     DBConnect dbConnect = new DBConnect();
                     dbConnect.readProperties();
                     Connection conn = dbConnect.getDBConnection();
-//                    conn.createStatement().executeUpdate();
+                    String rn = roomNumber.getText();
+                    int type = 0;
+                    String roomType = comboBox.getSelectionModel().getSelectedItem();
+                    ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
+                    while (rs1.next()){
+                        type++;
+                        if(roomType.equals(rs1.getString(2))){
+                            break;
+                        }
+                    }
+                    int flag =0;
+                    ResultSet rs = conn.createStatement().executeQuery("select * from Room");
+                    while(rs.next()){
+                        if(Integer.parseInt(roomNumber.getText())==Integer.parseInt(rs.getString("roomName"))){
+                            flag++;
+                        }
+                    }
+                    String rf = roomFloor.getText();
+                    String rp = roomPrice.getText();
+                    String ph = pricePerHours.getText();
+                    if (flag != 0){
+                        conn.createStatement().executeUpdate("UPDATE Room SET roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn+";");
+                    }else {
+                        System.out.println("Romm khong Ton Tai");
+                    }
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         });
