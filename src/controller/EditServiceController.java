@@ -70,15 +70,13 @@ public class EditServiceController implements Initializable {
 
     @FXML
     private Button btnCancel;
-
+    public int id;
     public String defaultName;
     public String defaultUnit;
 
 
-
-
-    ObservableList<String> typeService = FXCollections.observableArrayList( "Food Service","Traveling Service","Relaxing Service","Sport - Entertainment Service","Others Service");
-    ObservableList<String> unit = FXCollections.observableArrayList( "bottle","can","person","time","date");
+    ObservableList<String> typeService = FXCollections.observableArrayList("Food Service", "Traveling Service", "Relaxing Service", "Sport - Entertainment Service", "Others Service");
+    ObservableList<String> unit = FXCollections.observableArrayList("bottle", "can", "person", "time", "date");
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -86,14 +84,14 @@ public class EditServiceController implements Initializable {
 
     @FXML
     void CancelAction(ActionEvent event) {
-        Node node = (Node)event.getSource();
-        Stage stage = (Stage)node.getScene().getWindow();
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
         GaussianBlur blur = new GaussianBlur(0);
         LoginController.stage.getScene().getRoot().setEffect(blur);
     }
 
-    public void setService(Service service){
+    public void setService(Service service) {
         tfID.setText(String.valueOf(service.getID()));
         tfName.setText(service.getName());
         tfPrice.setText(String.valueOf(service.getPrice()));
@@ -102,7 +100,7 @@ public class EditServiceController implements Initializable {
     }
 
     @FXML
-    private void EditServiceTable(){
+    private void EditServiceTable() {
         int id = Integer.parseInt(tfID.getText());
         String Name = tfName.getText();
         String Type = cmbType.getSelectionModel().getSelectedItem();
@@ -114,17 +112,18 @@ public class EditServiceController implements Initializable {
         CallableStatement ctsm = null;
         try {
             ctsm = conn.prepareCall("{call updateService(?,?,?,?,?)}");
-            ctsm.setString(1,tfID.getText());
-            ctsm.setString(2,tfName.getText());
-            ctsm.setString(3,cmbType.getValue());
-            ctsm.setString(4,tfPrice.getText());
-            ctsm.setString(5,cmbUnit.getValue());
+            ctsm.setString(1, tfID.getText());
+            ctsm.setString(2, tfName.getText());
+            ctsm.setString(3, cmbType.getValue());
+            ctsm.setString(4, tfPrice.getText());
+            ctsm.setString(5, cmbUnit.getValue());
             ctsm.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         FXMLLoader serviceLoader = new FXMLLoader(getClass().getResource("/resources/views/Services.fxml"));
@@ -170,7 +169,7 @@ public class EditServiceController implements Initializable {
         tfName.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
+                if (!newValue) {
                     validator.setMessage("Service Name is required!");
                     tfName.validate();
                 }
@@ -179,7 +178,7 @@ public class EditServiceController implements Initializable {
         tfPrice.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
+                if (!newValue) {
                     validator.setMessage("Price is required!");
                     tfPrice.validate();
                 }
@@ -188,7 +187,7 @@ public class EditServiceController implements Initializable {
         cmbType.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
+                if (!newValue) {
                     validator.setMessage("Service Type is required!");
                     cmbType.validate();
                 }
@@ -197,7 +196,7 @@ public class EditServiceController implements Initializable {
         cmbUnit.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
+                if (!newValue) {
                     validator.setMessage("Unit is required!");
                     cmbUnit.validate();
                 }
@@ -213,22 +212,22 @@ public class EditServiceController implements Initializable {
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(tfName.getText().equals("")|| cmbType.getSelectionModel().getSelectedItem().equals("") ||
-                    cmbUnit.getSelectionModel().getSelectedItem().equals("")|| tfPrice.getText().equals("")|| !tfPrice.getText().matches(priceRegex)){
+                if (tfName.getText().equals("") || cmbType.getSelectionModel().getSelectedItem().equals("") ||
+                        cmbUnit.getSelectionModel().getSelectedItem().equals("") || tfPrice.getText().equals("") || !tfPrice.getText().matches(priceRegex)) {
                     tfName.validate();
                     tfPrice.validate();
                     cmbUnit.validate();
                     cmbType.validate();
-                }
-                checkUnitExist();
-                if(tfPrice.getText().matches(priceRegex) && !checkUnitExist()){
+                } else if (checkNameDoup()) {
+                    tfName.validate();
+                } else if (tfPrice.getText().matches(priceRegex) && !checkUnitExist()) {
                     EditServiceTable();
-                    Node node = (Node)event.getSource();
-                    Stage stage = (Stage)node.getScene().getWindow();
+                    Node node = (Node) event.getSource();
+                    Stage stage = (Stage) node.getScene().getWindow();
                     stage.close();
                     String serviceText = tfName.getText();
                     String title = "Successfully edit service";
-                    String mess = "Service "+ serviceText +" has been successfully edited";
+                    String mess = "Service " + serviceText + " has been successfully edited";
                     TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
                     tray.setAnimationType(AnimationType.POPUP);
                     tray.showAndDismiss(Duration.seconds(3));
@@ -241,14 +240,83 @@ public class EditServiceController implements Initializable {
         });
     }
 
-    private boolean checkUnitExist(){
+    private int getID(String name) {
+        Integer id = 0;
+        String unit;
+        try {
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            String query1 = "SELECT ID FROM Service WHERE ServiceName = '" + name + "' AND isDeleted = 0";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query1);
+            while (rs.next()) {
+                id = rs.getInt(1);
+
+            }
+            System.out.println(id);
+            conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return id;
+    }
+    private String getUnit(String name){
+        String unit = null;
+        try {
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            String query1 = "SELECT Unit FROM Service WHERE ServiceName = '" + name + "' AND isDeleted = 0";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query1);
+            while (rs.next()) {
+                unit = rs.getString(1);
+            }
+            System.out.println(unit);
+            conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return unit;
+    }
+
+    private boolean checkNameDoup() {
+        int id1 = Integer.parseInt(tfID.getText());
+        String unit1 = cmbUnit.getValue();
+        boolean star = false;
+        if (getID(tfName.getText()) != id1 && getID(tfName.getText())!=0
+            && getUnit(tfName.getText()).equals(unit1) && !getUnit(tfName.getText()).equals("0")) {
+            svNameValidation.setText("This name existed.");
+            tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+            svNameValidation.setStyle("-fx-text-background-color: #D34437;");
+            star = true;
+            System.out.println("true");
+        }
+//        else if(getUnit(tfName.getText()).equals(unit1) && getUnit(tfName.getText())!= null){
+//            svUnitValidation.setText("This unit existed");
+//            cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+//            svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
+//            star = true;
+//            System.out.println("true");
+//        }
+        else {
+            svNameValidation.setText("");
+            svUnitValidation.setText("");
+        }
+        return star;
+    }
+
+    private boolean checkUnitExist() {
         boolean flag = false;
+        Integer id1 = Integer.parseInt(tfID.getText());
         String name = tfName.getText();
         String type = cmbType.getValue();
         String unit = cmbUnit.getValue();
         String price = tfPrice.getText();
-        if(!unit.equals(defaultUnit) && price.matches("^\\d+$") && !name.equals(defaultName)){
-            String query = "SELECT Unit from Service WHERE Unit ='" + unit + "' AND ServiceName = '" +name+"' AND ServiceType = '"+type+"' AND Price = '"+price+"' AND isDeleted = 0";
+
+        if (!unit.equals(defaultUnit) && price.matches("^\\d+$") && !name.equals(defaultName)) {
+            String query = "SELECT Unit from Service WHERE Unit ='" + unit + "' AND ServiceName = '" + name + "' AND ServiceType = '" + type + "' AND Price = '" + price + "' AND isDeleted = 0";
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
@@ -272,7 +340,7 @@ public class EditServiceController implements Initializable {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }else{
+        } else {
             tfPrice.validate();
             svUnitValidation.setText("");
             cmbUnit.setStyle("");
