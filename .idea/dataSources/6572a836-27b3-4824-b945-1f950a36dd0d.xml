@@ -464,6 +464,7 @@
     </table>
     <table id="90" parent="38" name="RoomType">
       <ObjectId>629577281</ObjectId>
+      <Outdated>1</Outdated>
       <CreatedTimestamp>2022-02-18.09:30:03.550</CreatedTimestamp>
       <ModifiedTimestamp>2022-02-18.09:30:03.560</ModifiedTimestamp>
     </table>

@@ -285,6 +285,8 @@ public class RoomSettingController implements Initializable {
                             conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+")");
                             sucNotify("Success","Room " + roomNumber.getText() + " has been added");
                             reloadTable();
+
+                        }else {
                             failNotify("Invalid room name","Room name already exists");
                         }
                     }else {
@@ -304,19 +306,19 @@ public class RoomSettingController implements Initializable {
             }
         });
 
-//        addTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                try{
-//                    DBConnect dbConnect = new DBConnect();
-//                    dbConnect.readProperties();
-//                    Connection conn = dbConnect.getDBConnection();
-//                    conn.createStatement().executeUpdate("INSERT into RoomType");
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        addTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try{
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+                    conn.createStatement().executeUpdate("INSERT into RoomType");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
 //        editTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 //            @Override
