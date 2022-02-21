@@ -51,7 +51,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomNumber" alignment="BOTTOM_CENTER" maxWidth="70.0" />
+                                    <JFXTextField fx:id="roomNumber" alignment="BOTTOM_CENTER" maxWidth="100.0" />
                                     <Label text="Room Type:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
@@ -63,7 +63,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="70.0" />
+                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="100.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" prefWidth="742.0" spacing="10.0">
@@ -121,9 +121,9 @@
                         <HBox alignment="CENTER" prefHeight="90.0" prefWidth="702.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <children>
                               <Label text="Room Type Name" />
-                              <JFXTextField />
-                              <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
-                              <JFXButton styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Confirm" />
+                              <JFXTextField fx:id="txtTypeName" maxWidth="150.0" />
+                              <JFXButton fx:id="addTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
+                              <JFXButton fx:id="editTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
                            </children>
                         </HBox>
                      </children>
