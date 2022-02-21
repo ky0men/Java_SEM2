@@ -229,7 +229,7 @@ public class AddServiceController implements Initializable {
     private boolean svNameisExist(){
         String svName = tfName.getText();
         boolean flag = false;
-        String query = "SELECT ServiceName FROM Service WHERE ServiceName = '"+svName+"'";
+        String query = "SELECT ServiceName FROM Service WHERE ServiceName = '"+svName+"' AND isDeleted = 0";
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();

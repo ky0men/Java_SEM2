@@ -252,7 +252,6 @@ public class EditServiceController implements Initializable {
             ResultSet rs = st.executeQuery(query1);
             while (rs.next()) {
                 id = rs.getInt(1);
-
             }
             System.out.println(id);
             conn.close();
@@ -324,13 +323,12 @@ public class EditServiceController implements Initializable {
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
-                    svNameValidation.setText("This name existed.");
-                    tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svNameValidation.setStyle("-fx-text-background-color: #D34437;");
-
-                    svUnitValidation.setText("This unit existed.");
-                    cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
+                    String title = "DUPLICATED DATA";
+                    String mess = "This data has been existed.Please change your data";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
                     flag = true;
                 } else {
                     svUnitValidation.setText("");
