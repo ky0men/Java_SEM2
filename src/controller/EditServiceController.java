@@ -247,7 +247,7 @@ public class EditServiceController implements Initializable {
         String type = cmbType.getValue();
         String unit = cmbUnit.getValue();
         String price = tfPrice.getText();
-        if(!unit.equals(defaultUnit) && price.matches("^\\d+$")){
+        if(!unit.equals(defaultUnit) && price.matches("^\\d+$") && !name.equals(defaultName)){
             String query = "SELECT Unit from Service WHERE Unit ='" + unit + "' AND ServiceName = '" +name+"' AND ServiceType = '"+type+"' AND Price = '"+price+"' AND isDeleted = 0";
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
@@ -256,6 +256,10 @@ public class EditServiceController implements Initializable {
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
+                    svNameValidation.setText("This name existed.");
+                    tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    svNameValidation.setStyle("-fx-text-background-color: #D34437;");
+
                     svUnitValidation.setText("This unit existed.");
                     cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
                     svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
