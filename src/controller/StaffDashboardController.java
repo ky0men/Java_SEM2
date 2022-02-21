@@ -196,9 +196,14 @@ public class StaffDashboardController implements Initializable {
                 Scene loginScene = new Scene(loginParent);
                 loginScene.setFill(Color.TRANSPARENT);
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
                 stage.hide();
                 stage.setScene(loginScene);
-                stage.setMaximized(false);
+                stage.setWidth(600);
+                stage.setHeight(400);
+                stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                stage.setY((bounds.getHeight() - stage.getHeight())/2);
                 stage.show();
 
             }
@@ -261,7 +266,7 @@ public class StaffDashboardController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
 //                System.out.println("Change to history scene");
-                changeContentScene("/resources/views/History.fxml");
+                changeContentScene("/resources/views/Customers.fxml");
                 removeSelectBtn();
                 customerBtn.setStyle("-fx-background-color: #E9E9E9; -fx-text-fill:  #16314f; -fx-background-radius: 20 0 0 20;");
                 customersIcon.setIconColor(Color.web("#16314f"));

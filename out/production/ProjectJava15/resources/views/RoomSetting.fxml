@@ -122,6 +122,7 @@
                               <JFXTextField fx:id="txtTypeName" maxWidth="150.0" />
                               <JFXButton fx:id="addTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
                               <JFXButton fx:id="editTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
+                              <JFXButton fx:id="delTypeBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
                            </children>
                         </HBox>
                         <JFXButton fx:id="refreshBtn1" layoutX="691.0" layoutY="1.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="">

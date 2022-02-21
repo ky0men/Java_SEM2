@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingManageController">
+<AnchorPane prefHeight="450.0" prefWidth="714.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingManageController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fx:id="titleBar" alignment="CENTER" prefHeight="30.0" prefWidth="200.0" styleClass="title-name">
                <children>
-                  <Label text="Check in Room" textFill="WHITE">
+                  <Label text="Booking Room" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -54,7 +54,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="identityNumber" focusColor="#00699c" prefHeight="30.0" prefWidth="200.0">
+                              <JFXTextField fx:id="identityNumber" focusColor="#00699c" prefHeight="30.0" prefWidth="183.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -71,7 +71,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="customerName" focusColor="#00699c" prefHeight="30.0" prefWidth="204.0">
+                              <JFXTextField fx:id="customerName" focusColor="#00699c" prefHeight="30.0" prefWidth="168.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -142,7 +142,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="checkinDate" editable="false" prefHeight="26.0" prefWidth="245.0">
+                              <DatePicker fx:id="checkinDate" editable="false" prefHeight="26.0" prefWidth="199.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -186,7 +186,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="checkoutDate" editable="false" prefHeight="26.0" prefWidth="245.0">
+                              <DatePicker fx:id="checkoutDate" editable="false" prefHeight="26.0" prefWidth="201.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -207,7 +207,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="prepaidField" focusColor="#00699c" prefHeight="30.0" prefWidth="181.0" text="0">
+                              <JFXTextField fx:id="prepaidField" focusColor="#00699c" prefHeight="30.0" prefWidth="137.0" text="0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -232,7 +232,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="discountField" focusColor="#00699c" prefHeight="30.0" prefWidth="194.0" text="0">
+                              <JFXTextField fx:id="discountField" focusColor="#00699c" prefHeight="30.0" prefWidth="150.0" text="0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -262,7 +262,7 @@
             </VBox>
             <HBox alignment="CENTER_RIGHT" spacing="20.0">
                <children>
-                  <JFXButton fx:id="checkinBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Check in" textFill="WHITE">
+                  <JFXButton fx:id="checkinBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Booking" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

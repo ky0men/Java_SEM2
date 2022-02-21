@@ -22,10 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class RevenueController implements Initializable {
 
@@ -93,19 +90,19 @@ public class RevenueController implements Initializable {
         Connection conn = dbConnect.getDBConnection();
 
 
-        for(int i = 0; i < 10; i++){
-            yearList.add(String.valueOf(Integer.parseInt(getCurrentYear()) -9 + i));
+        for (int i = 0; i < 10; i++) {
+            yearList.add(String.valueOf(Integer.parseInt(getCurrentYear()) - 9 + i));
         }
         filterYear = new String[yearList.size()];
         yearList.toArray(filterYear);
-        for (int i = 0; i<12; i++){
-            monthList.add(String.valueOf(i+1));
+        for (int i = 0; i < 12; i++) {
+            monthList.add(String.valueOf(i + 1));
         }
-        filterMonth = new String[ monthList.size() ];
+        filterMonth = new String[monthList.size()];
         monthList.toArray(filterMonth);
 
-        for (int i = 0; i < 31; i++){
-            dayList.add(String.valueOf(i+1));
+        for (int i = 0; i < 31; i++) {
+            dayList.add(String.valueOf(i + 1));
         }
         filterDay = new String[dayList.size()];
         dayList.toArray(filterDay);
@@ -128,63 +125,71 @@ public class RevenueController implements Initializable {
         choiceDay.setDisable(true);
 
 
-
         choiceTimeOption.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(choiceTimeOption.getValue().equals("Year")){
+                if (choiceTimeOption.getValue().equals("Year")) {
                     choiceYear.setDisable(false);
                     choiceMonth.setDisable(true);
                     choiceDay.setDisable(true);
                     typeRevenueLabel.setText("year");
-                    buildDataForTable(conn, "printYear = '"+choiceYear.getValue()+"'");
-                }else if(choiceTimeOption.getValue().equals("Month")){
+                    buildDataForTable(conn, "printYear = '" + choiceYear.getValue() + "'");
+                } else if (choiceTimeOption.getValue().equals("Month")) {
                     choiceYear.setDisable(false);
                     choiceMonth.setDisable(false);
                     choiceDay.setDisable(true);
                     typeRevenueLabel.setText("month");
-                }else if(choiceTimeOption.getValue().equals("Day")){
+                    buildDataForTable(conn, "printYear = '" + choiceYear.getValue() + "' AND printMonth = '" + choiceMonth.getValue() + "'");
+                } else if (choiceTimeOption.getValue().equals("Day")) {
                     choiceYear.setDisable(false);
                     choiceMonth.setDisable(false);
                     choiceDay.setDisable(false);
                     typeRevenueLabel.setText("day");
+//                    getDayOfMonth();
+                    buildDataForTable(conn, "printDate = '" + choiceYear.getValue() + "-" + choiceMonth.getValue() + "-" + choiceDay.getValue() + "'");
+//                    getDataWhenChoseDay(conn);
+                }
+            }
+        });
+
+        choiceYear.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (choiceTimeOption.getValue().equals("Year")) {
+                    buildDataForTable(conn, "printYear = '" + choiceYear.getValue() + "'");
+                } else if (choiceTimeOption.getValue().equals("Month")) {
+                    buildDataForTable(conn, "printYear = '" + choiceYear.getValue() + "' AND printMonth = '" + choiceMonth.getValue() + "'");
+                } else if (choiceTimeOption.getValue().equals("Day")) {
+                    buildDataForTable(conn, "printDate = '" + choiceYear.getValue() + "-" + choiceMonth.getValue() + "-" + choiceDay.getValue() + "'");
                 }
             }
         });
 
         choiceMonth.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent actionEvent) {
-//                System.out.println("choice month");
-                int day = 0;
-                if(choiceMonth.getValue().equals("1") || choiceMonth.getValue().equals("3") || choiceMonth.getValue().equals("5") || choiceMonth.getValue().equals("7") ||
-                        choiceMonth.getValue().equals("8") || choiceMonth.getValue().equals("10") || choiceMonth.getValue().equals("12")){
-                    day = 31;
-                }if(choiceMonth.getValue().equals("4") || choiceMonth.getValue().equals("6") || choiceMonth.getValue().equals("9") || choiceMonth.getValue().equals("11")){
-                    day = 30;
-                }if(choiceMonth.getValue().equals("2")){
-                    Integer yearInt = Integer.valueOf(choiceYear.getValue());
-                    if(yearInt % 4 == 0 && yearInt % 100 == 0){
-                        day = 29;
-                    }else {
-                        day = 28;
-                    }
+//                getDayOfMonth();
+                if (choiceTimeOption.getValue().equals("Month")) {
+                    buildDataForTable(conn, "printYear = '" + choiceYear.getValue() + "' AND printMonth = '" + choiceMonth.getValue() + "'");
+                }else if(choiceTimeOption.getValue().equals("Day")){
+                    getDayOfMonth();
+                    buildDataForTable(conn, "printDate = '" + choiceYear.getValue() + "-" + choiceMonth.getValue() + "-" + choiceDay.getValue() + "'");
                 }
-                for (int i = 0; i < day; i++){
-                    dayList.add(String.valueOf(i+1));
-                }
-                filterDay = new String[dayList.size()];
-                dayList.toArray(filterDay);
-                choiceDay.getItems().addAll(filterDay);
+            }
+        });
+
+        choiceDay.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                buildDataForTable(conn, "printDate = '" + choiceYear.getValue() + "-" + choiceMonth.getValue() + "-" + choiceDay.getValue() + "'");
+
             }
         });
 
 
-
     }
 
-    public String getRevenueByMonth(String month){
+    public String getRevenueByMonth(String month) {
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
@@ -194,7 +199,7 @@ public class RevenueController implements Initializable {
         String result = null;
         try {
             stm = conn.createStatement();
-            rs = stm.executeQuery("SELECT B.printMonth, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printMonth = '"+month+"' GROUP By B.printMonth");
+            rs = stm.executeQuery("SELECT B.printMonth, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printMonth = '" + month + "' GROUP By B.printMonth");
             while (rs.next()) {
                 result = rs.getString("Sum");
             }
@@ -205,7 +210,7 @@ public class RevenueController implements Initializable {
         return result;
     }
 
-    public String getRevenueByYear(String year){
+    public String getRevenueByYear(String year) {
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
@@ -215,7 +220,7 @@ public class RevenueController implements Initializable {
         String result = null;
         try {
             stm = conn.createStatement();
-            rs = stm.executeQuery("SELECT B.printYear, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printYear = '"+year+"' GROUP By B.printYear");
+            rs = stm.executeQuery("SELECT B.printYear, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printYear = '" + year + "' GROUP By B.printYear");
             while (rs.next()) {
                 result = rs.getString("Sum");
             }
@@ -235,7 +240,7 @@ public class RevenueController implements Initializable {
         return new SimpleDateFormat("yyyy").format(new Date());
     }
 
-    public String formatCurrency(String inputString){
+    public String formatCurrency(String inputString) {
         DecimalFormat formatter = new DecimalFormat("#,###");
         String newValueStr = formatter.format(Double.parseDouble(inputString));
         return newValueStr;
@@ -246,6 +251,7 @@ public class RevenueController implements Initializable {
         ResultSet rs = null;
         Statement stm = null;
         total = 0;
+        revenueData.clear();
         try {
             stm = conn.createStatement();
             rs = stm.executeQuery("SELECT * FROM bill WHERE " + condition);
@@ -261,7 +267,22 @@ public class RevenueController implements Initializable {
             }
             tableRevenue.setItems(revenueData);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+//            throwables.printStackTrace();
+        }finally {
+            if(rs!= null){
+                try {
+                    rs.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if(stm != null){
+                try {
+                    stm.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
 
         tableRevenue.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -280,4 +301,34 @@ public class RevenueController implements Initializable {
         totalRevenue.setText(formatCurrency(String.valueOf(total)));
 
     }
+
+    public void getDayOfMonth() {
+        dayList.clear();
+        int day = 0;
+        if (choiceMonth.getValue().equals("1") || choiceMonth.getValue().equals("3") || choiceMonth.getValue().equals("5") || choiceMonth.getValue().equals("7") ||
+                choiceMonth.getValue().equals("8") || choiceMonth.getValue().equals("10") || choiceMonth.getValue().equals("12")) {
+            day = 31;
+        }
+        if (choiceMonth.getValue().equals("4") || choiceMonth.getValue().equals("6") || choiceMonth.getValue().equals("9") || choiceMonth.getValue().equals("11")) {
+            day = 30;
+        }
+        if (choiceMonth.getValue().equals("2")) {
+            Integer yearInt = Integer.valueOf(choiceYear.getValue());
+            if (yearInt % 4 == 0 && yearInt % 100 == 0) {
+                day = 29;
+            } else {
+                day = 28;
+            }
+        }
+
+        for (int i = 0; i < day; i++) {
+            dayList.add(String.valueOf(i + 1));
+        }
+        filterDay = new String[dayList.size()];
+        dayList.toArray(filterDay);
+        choiceDay.getItems().clear();
+        choiceDay.getItems().addAll(filterDay);
+        choiceDay.getSelectionModel().selectFirst();
+    }
+
 }

@@ -24,3 +24,13 @@
 .minimize-btn:hover{
     -fx-fill: green;
 }
+
+.forgot-pass-btn{
+    -fx-background-color: linear-gradient(to right bottom, #0665a1, #8161b1, #d05497, #f75e5f, #eb8c12);
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+.forgot-pass-btn:hover{
+    -fx-background-color: linear-gradient(to left top, #0665a1, #8161b1, #d05497, #f75e5f, #eb8c12);
+
+}
