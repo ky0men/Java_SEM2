@@ -77,11 +77,15 @@ public class RoomSettingController implements Initializable {
     @FXML
     private JFXButton refreshBtn;
     @FXML
+    private JFXButton refreshBtn1;
+    @FXML
     private JFXTextField txtTypeName;
     @FXML
     private JFXButton addTypeBtn;
     @FXML
     private JFXButton editTypeBtn;
+    @FXML
+    private JFXButton delTypeBtn;
 
     ObservableList<RoomSettingModel> oblist = FXCollections.observableArrayList();
     ObservableList<RoomSettingTypeModel> oblist1 = FXCollections.observableArrayList();
@@ -306,6 +310,13 @@ public class RoomSettingController implements Initializable {
             }
         });
 
+        refreshBtn1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                realoadTable1();
+            }
+        });
+
         addTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -313,20 +324,62 @@ public class RoomSettingController implements Initializable {
                     DBConnect dbConnect = new DBConnect();
                     dbConnect.readProperties();
                     Connection conn = dbConnect.getDBConnection();
-                    conn.createStatement().executeUpdate("INSERT into RoomType");
+                    int flag =0;
+                    ResultSet rs = conn.createStatement().executeQuery("Select * from RoomType");
+                    while(rs.next()){
+                        if(txtTypeName.getText().equals(rs.getString(2))){
+                            flag++;
+                        }
+                    }
+                    if(flag ==0){
+                        conn.createStatement().executeUpdate("INSERT INTO RoomType (roomTypeName)" +
+                                "VALUES (N'" + txtTypeName.getText() + "');");
+                        sucNotify("Add type successed","Type " + txtTypeName.getText() + " has been added" );
+                        realoadTable1();
+                    } else {
+                        failNotify("Add type Fail","This type already exits");
+                    }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
         });
 
-//        editTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//
-//            }
-//        });
+        editTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try{
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+                    conn.createStatement().executeUpdate("UPDATE RoomType set roomTypeName=' ' where roomtypeID=");
+                }catch (Exception e){
+
+                }
+            }
+        });
     }
+
+    private void realoadTable1(){
+        oblist1 =FXCollections.observableArrayList();
+        try{
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
+            while (rs1.next()){
+                oblist1.add(new RoomSettingTypeModel(rs1.getInt(1),rs1.getString(2)));
+            }
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            table1.setItems(oblist1);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
     private void reloadTable(){
         oblist = FXCollections.observableArrayList();
         try{
