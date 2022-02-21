@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +14,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 import models.RoomSettingModel;
 import models.RoomSettingTypeModel;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -82,6 +87,18 @@ public class RoomSettingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        RequiredFieldValidator roomName = new RequiredFieldValidator();
+        roomNumber.getValidators().add(roomName);
+        roomName.setMessage("Require");
+        RequiredFieldValidator roomFloor1 = new RequiredFieldValidator();
+        roomFloor.getValidators().add(roomFloor1);
+        roomFloor1.setMessage("Require");
+        RequiredFieldValidator roomPrice1 = new RequiredFieldValidator();
+        roomPrice.getValidators().add(roomPrice1);
+        roomPrice1.setMessage("Require");
+        RequiredFieldValidator PerHoursPrice = new RequiredFieldValidator();
+        pricePerHours.getValidators().add(PerHoursPrice);
+        PerHoursPrice.setMessage("Require");
 
         try {
 
@@ -124,7 +141,7 @@ public class RoomSettingController implements Initializable {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
 
-
+        comboBox.getSelectionModel().select(0);
         table.setItems(oblist);
         table1.setItems(oblist1);
 
@@ -206,7 +223,7 @@ public class RoomSettingController implements Initializable {
                         conn.createStatement().executeUpdate("Delete from Room where roomName = "+ rn );
                         reloadTable();
                     }else {
-                        System.out.println("Room kh ton tai");
+                        failNotify("Invalid Room","Room " + rn +" doesn't exist");
                     }
                 }catch (Exception e){
                     if(roomNumber.getText().replaceAll(" ","").length()==0){
@@ -220,33 +237,38 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try{
-                    DBConnect dbConnect = new DBConnect();
-                    dbConnect.readProperties();
-                    Connection conn = dbConnect.getDBConnection();
-                    int flag =0;
-                    ResultSet rs = conn.createStatement().executeQuery("select * from Room");
-                    while(rs.next()){
-                        if(Integer.parseInt(roomNumber.getText())==Integer.parseInt(rs.getString("roomName"))){
-                            flag++;
+                    if(roomNumber.getText().replaceAll(" ","").length()>0){
+                        DBConnect dbConnect = new DBConnect();
+                        dbConnect.readProperties();
+                        Connection conn = dbConnect.getDBConnection();
+                        int flag =0;
+                        ResultSet rs = conn.createStatement().executeQuery("select * from Room");
+                        while(rs.next()){
+                            if(Integer.parseInt(roomNumber.getText())==Integer.parseInt(rs.getString("roomName"))){
+                                flag++;
+                            }
                         }
-                    }
-                    int type = 0;
-                    String roomType = comboBox.getSelectionModel().getSelectedItem();
-                    ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
-                    while (rs1.next()){
-                        type++;
-                        if(roomType.equals(rs1.getString(2))){
-                            break;
+                        int type = 0;
+                        String roomType = comboBox.getSelectionModel().getSelectedItem();
+                        ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
+                        while (rs1.next()){
+                            type++;
+                            if(roomType.equals(rs1.getString(2))){
+                                break;
+                            }
                         }
-                    }
-                    if(flag ==0){
-                       conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+")");
-                       reloadTable();
-                    }else{
-                        System.out.println("room ton tai");
+                        if(flag ==0){
+                            conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+")");
+                            sucNotify("Success","Room " + roomNumber.getText() + " has been added");
+                            reloadTable();
+                        }else{
+                            failNotify("Invalid room name","Room name already exists");
+                        }
+                    }else {
+                        requireAdd();
                     }
                 }catch (SQLException e){
-                    e.printStackTrace();
+
                 }
             }
 
@@ -278,10 +300,54 @@ public class RoomSettingController implements Initializable {
             perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
             type.setCellValueFactory(new PropertyValueFactory<>("type"));
             table.setItems(oblist);
+
         }catch (SQLException e){
 
         }
     }
+    private void sucNotify(String title, String messages){
+        TrayNotification tray = new TrayNotification(title,messages, NotificationType.SUCCESS);
+        tray.setAnimationType(AnimationType.POPUP);
+        tray.showAndDismiss(Duration.seconds(3));
+        tray.showAndWait();
+    }
+    private void failNotify(String title, String messages){
+        TrayNotification tray = new TrayNotification(title,messages, NotificationType.ERROR);
+        tray.setAnimationType(AnimationType.POPUP);
+        tray.showAndDismiss(Duration.seconds(3));
+        tray.showAndWait();
+    }
+
+
+
+    private boolean fieldBool(){
+        int a= roomNumber.getText().replaceAll(" ","").length();
+        int b= roomFloor.getText().replaceAll(" ","").length();
+        int c = pricePerHours.getText().replaceAll(" ","").length();
+        int d = roomPrice.getText().replaceAll(" ","").length();
+        if (a!=0&&b!=0&&c!=0&&d!=0){
+            return true;
+        }
+        return false;
+    }
+
+    private void requireAdd(){
+
+        if(roomNumber.getText().replaceAll(" ","").length()==0){
+            roomNumber.validate();
+        }
+        if(roomFloor.getText().replaceAll(" ","").length()==0){
+            roomFloor.validate();
+        }
+        if(pricePerHours.getText().replaceAll(" ","").length()==0){
+            pricePerHours.validate();
+        }
+        if(roomPrice.getText().replaceAll(" ","").length()==0){
+            roomPrice.validate();
+        }
+
+    }
+
 }
 
 
