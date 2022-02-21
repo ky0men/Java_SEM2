@@ -71,6 +71,10 @@ public class EditServiceController implements Initializable {
     @FXML
     private Button btnCancel;
 
+    public String defaultName;
+    public String defaultUnit;
+
+
 
 
     ObservableList<String> typeService = FXCollections.observableArrayList( "Food Service","Traveling Service","Relaxing Service","Sport - Entertainment Service","Others Service");
@@ -97,14 +101,6 @@ public class EditServiceController implements Initializable {
         cmbUnit.setValue(service.getUnit());
     }
 
-    private boolean formNotNull(){
-        if(tfID.getText() == "" || tfName.getText().equals("") || tfPrice.getText() == ""
-                || cmbType.getSelectionModel().getSelectedItem() == "" || cmbUnit.getSelectionModel().getSelectedItem() == "") {
-            return false;
-        }else {
-            return true;
-        }
-    }
     @FXML
     private void EditServiceTable(){
         int id = Integer.parseInt(tfID.getText());
@@ -205,6 +201,7 @@ public class EditServiceController implements Initializable {
                     validator.setMessage("Unit is required!");
                     cmbUnit.validate();
                 }
+                checkUnitExist();
             }
         });
         RegexValidator priceRegexValidator = new RegexValidator();
@@ -216,23 +213,15 @@ public class EditServiceController implements Initializable {
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(checkDuplicateData() == true){
-                    svUnitValidation.setText("This unit has been existed.");
-                    cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
-
-                    svNameValidation.setText("This name has been existed.");
-                    tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svNameValidation.setStyle("-fx-text-background-color: #D34437;");
-
-                    svTypeValidation.setText("This type has been existed.");
-                    cmbType.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svTypeValidation.setStyle("-fx-text-background-color: #D34437;");
-                }
-                else if(!tfPrice.getText().matches(priceRegex)){
+                if(tfName.getText().equals("")|| cmbType.getSelectionModel().getSelectedItem().equals("") ||
+                    cmbUnit.getSelectionModel().getSelectedItem().equals("")|| tfPrice.getText().equals("")|| !tfPrice.getText().matches(priceRegex)){
+                    tfName.validate();
                     tfPrice.validate();
+                    cmbUnit.validate();
+                    cmbType.validate();
                 }
-                else if(formNotNull() == true && tfPrice.getText().matches(priceRegex)){
+                checkUnitExist();
+                if(tfPrice.getText().matches(priceRegex) && !checkUnitExist()){
                     EditServiceTable();
                     Node node = (Node)event.getSource();
                     Stage stage = (Stage)node.getScene().getWindow();
@@ -247,31 +236,19 @@ public class EditServiceController implements Initializable {
                     GaussianBlur blur = new GaussianBlur(0);
                     LoginController.stage.getScene().getRoot().setEffect(blur);
                     System.out.println("Edit successfull");
-                }else {
-                    svNameValidation.setText("");
-                    tfName.setStyle("");
-                    svTypeValidation.setText("");
-                    cmbType.setStyle("");
-                    svUnitValidation.setText("");
-                    cmbUnit.setStyle("");
-                    String title = "Incomplete Data";
-                    String mess = "Please fill the data";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.WARNING);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
-                    System.out.println("Incomplete Data.");
                 }
             }
         });
     }
 
-    private boolean checkDuplicateData(){
-            String name = tfName.getText();
-            String type = cmbType.getValue();
-            String unit = cmbUnit.getValue();
-            boolean flag = false;
-            String query = "SELECT ServiceName, ServiceType,Unit FROM Service WHERE Unit = '" + unit + "' AND ((ServiceName = '"+name+"') AND (ServiceType = '"+type+"')) AND isDeleted = 0";
+    private boolean checkUnitExist(){
+        boolean flag = false;
+        String name = tfName.getText();
+        String type = cmbType.getValue();
+        String unit = cmbUnit.getValue();
+        String price = tfPrice.getText();
+        if(!unit.equals(defaultUnit) && price.matches("^\\d+$") && !name.equals(defaultName)){
+            String query = "SELECT Unit from Service WHERE Unit ='" + unit + "' AND ServiceName = '" +name+"' AND ServiceType = '"+type+"' AND Price = '"+price+"' AND isDeleted = 0";
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
@@ -279,6 +256,13 @@ public class EditServiceController implements Initializable {
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
+                    svNameValidation.setText("This name existed.");
+                    tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    svNameValidation.setStyle("-fx-text-background-color: #D34437;");
+
+                    svUnitValidation.setText("This unit existed.");
+                    cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
+                    svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
                     flag = true;
                 } else {
                     svUnitValidation.setText("");
@@ -288,6 +272,12 @@ public class EditServiceController implements Initializable {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+        }else{
+            tfPrice.validate();
+            svUnitValidation.setText("");
+            cmbUnit.setStyle("");
+            flag = false;
+        }
         return flag;
     }
 }
