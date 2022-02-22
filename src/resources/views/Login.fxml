@@ -83,9 +83,9 @@
                   <DropShadow />
                </effect>
             </Label>
-            <Label layoutX="116.0" layoutY="49.0" maxWidth="240.0" text="Lotus Hotel" textAlignment="CENTER" textFill="#ff008e" wrapText="true">
+            <Label layoutX="117.0" layoutY="42.0" maxWidth="240.0" text="Lotus Hotel" textAlignment="CENTER" textFill="#ff008e" wrapText="true">
                <font>
-                  <Font name="System Bold Italic" size="30.0" />
+                  <Font name="Segoe Print Bold" size="28.0" />
                </font>
                <effect>
                   <DropShadow />

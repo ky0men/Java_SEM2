@@ -28,16 +28,33 @@ import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class AddUserController implements Initializable {
-    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office");
+    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office", "Employee");
 
     @FXML
     private HBox titleBar;
@@ -123,7 +140,7 @@ public class AddUserController implements Initializable {
         //Validate
         RequiredFieldValidator userNameValidation = new RequiredFieldValidator();
         txtUserName.getValidators().add(userNameValidation);
-        userNameValidation.setMessage("User Name is required!");
+        userNameValidation.setMessage("Username is required!");
 
         RequiredFieldValidator passwordValidation = new RequiredFieldValidator();
         txtPassword.getValidators().add(passwordValidation);
@@ -239,11 +256,15 @@ public class AddUserController implements Initializable {
             phoneNumberIsExist();
             if (!userNameisExist() && checkPassword() && txtEmail.getText().matches(RegexEmail) && !emailIsExist() &&
                     txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()) {
-                AddTableAccount();
-                AddTableProfile();
+                addTableAccount();
+                addTableProfile();
+
+                //Close Window
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
+
+                //Show Notification
                 String fullNameText = txtFullName.getText();
                 String title = "Successfully added employee";
                 String mess = "Employee " + fullNameText + " has been successfully added";
@@ -253,6 +274,13 @@ public class AddUserController implements Initializable {
                 tray.showAndWait();
                 GaussianBlur blur = new GaussianBlur(0);
                 LoginController.stage.getScene().getRoot().setEffect(blur);
+
+                //Send Email
+                try {
+                    sendAccount();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
             }
         }
         );
@@ -288,9 +316,9 @@ public class AddUserController implements Initializable {
     }
 
     private boolean userNameisExist() {
-        String userName = txtUserName.getText();
+        String username = txtUserName.getText();
         boolean flag = false;
-        String query = "SELECT username FROM Account WHERE username = '" + userName + "'";
+        String query = "SELECT username FROM Account WHERE username = '" + username + "'";
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
@@ -298,7 +326,7 @@ public class AddUserController implements Initializable {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
-                lbUserNameValidator.setText("User Name is Exist");
+                lbUserNameValidator.setText("Username is Exist!");
                 txtUserName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
                 lbUserNameValidator.setStyle("-fx-text-background-color: #D34437;");
                 flag = true;
@@ -324,7 +352,7 @@ public class AddUserController implements Initializable {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
-                lbEmailValidator.setText("Email is Exist");
+                lbEmailValidator.setText("Email is Exist!");
                 txtEmail.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
                 lbEmailValidator.setStyle("-fx-text-background-color: #D34437;");
                 flag = true;
@@ -350,7 +378,7 @@ public class AddUserController implements Initializable {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
-                lbPhoneValidator.setText("Phone Number is Exist");
+                lbPhoneValidator.setText("Phone Number is Exist!");
                 txtPhoneNumber.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
                 lbPhoneValidator.setStyle("-fx-text-background-color: #D34437;");
                 flag = true;
@@ -365,7 +393,7 @@ public class AddUserController implements Initializable {
         return flag;
     }
 
-    private void AddTableAccount() {
+    private void addTableAccount() {
         String username = txtUserName.getText();
         String password = txtPassword.getText();
         String position = cbPosition.getSelectionModel().getSelectedItem();
@@ -404,7 +432,7 @@ public class AddUserController implements Initializable {
         return userId;
     }
 
-    private void AddTableProfile() {
+    private void addTableProfile() {
         int userId = getUserID();
         String fullName = txtFullName.getText();
         String numberId = txtNoID.getText();
@@ -426,6 +454,86 @@ public class AddUserController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    private void sendAccount() throws MessagingException {
+        String host = "smtp.gmail.com";
+        String user ="sem2.batch165@gmail.com";
+        String pass="165165165";
+        String to = txtEmail.getText ();
+        String subject="Lotus Hotel - Welcome to Lotus Hotel";
+        boolean sessionDebug = false;
+        Properties prop = System.getProperties ();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        Session mailSession;
+        mailSession = Session.getDefaultInstance (prop, null);
+        mailSession.setDebug (sessionDebug);
+        Message msg = new MimeMessage(mailSession);
+        msg.setFrom (new InternetAddress(user));
+        InternetAddress[] address = {new InternetAddress(to)};
+        msg.setRecipients (Message. RecipientType.TO, address);
+        msg.setSubject (subject);
+
+        //ReplaceString HTML File
+        String h1 = "Create Account Successfully";
+        String title = "Your Account";
+        String content = "Username: " + txtUserName.getText() +
+                "<br> Password: "+ txtPassword.getText();
+        replaceString("thisIsYourH1", h1);
+        replaceString("thisIsYourTitle", title);
+        replaceString("thisIsYourContent" , content);
+
+        //Set Content Email
+        msg.setContent(readFileHTMLToString(), "text/html; charset=UTF-8");
+        Transport transport = mailSession.getTransport ("smtp");
+        transport.connect (host, user, pass);
+        transport.sendMessage (msg, msg.getAllRecipients());
+        transport.close ();
+
+        //Default HTML File
+        replaceString(h1,"thisIsYourH1");
+        replaceString(title,"thisIsYourTitle");
+        replaceString(content,"thisIsYourContent");
+    }
+
+    private void replaceString(String oldValue, String newValue){
+        Path path = Paths.get("src/resources/html/EmailTemplate.txt");
+        Charset charset = StandardCharsets.UTF_8;
+
+        String content = null;
+        try {
+            content = Files.readString(path, charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        content = content.replaceAll(oldValue, newValue);
+        try {
+            Files.writeString(path, content, charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String readFileHTMLToString(){
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("src/resources/html/EmailTemplate.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        StringBuilder sb = new StringBuilder();
+        while(scanner.hasNextLine()) {
+            sb.append(scanner.nextLine());
+        }
+
+        String body = sb.toString();
+        return body;
     }
 
 

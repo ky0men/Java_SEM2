@@ -3,7 +3,6 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RegexValidator;
 import dao.DBConnect;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,11 +13,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -112,7 +109,7 @@ public class BookingServiceController implements Initializable {
             @Override
             public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
                 //Populata service name
-                potulateComboBox(conn, serviceCombobox, "SELECT * FROM Service S WHERE S.ServiceType = " + "'" +(String) newValue + "'", "ServiceName");
+                potulateComboBox(conn, serviceCombobox, "SELECT * FROM Service S WHERE S.ServiceType = " + "'" +(String) newValue + "' AND S.isDeleted = '0'", "ServiceName");
                 validateMessage.setVisible(false);
             }
         });
@@ -227,8 +224,8 @@ public class BookingServiceController implements Initializable {
         if (gridRoomType.equals("gridAllRoom")) {
             rooms = roomMapController.getListAllRoom();
 
-        } else if (gridRoomType.equals("gridAvailableRoom")) {
-            rooms = roomMapController.getListAvailableRoom();
+        } else if (gridRoomType.equals("gridRentedRoom")) {
+            rooms = roomMapController.getListRentedRoom();
 
         }
 

@@ -31,7 +31,7 @@
                         </ImageView>
                         <Label prefHeight="50.0" text="Lotus Hotel" textFill="#ff008e">
                            <font>
-                              <Font size="30.0" />
+                              <Font name="Segoe Print Bold" size="28.0" />
                            </font>
                            <effect>
                               <DropShadow />
