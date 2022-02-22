@@ -623,7 +623,7 @@ public class CheckoutController implements Initializable {
         Double roomPrice = roomPriceDouble;
         Double roomTimePrice = roomTimePriceDouble;
         Double roomCharge = 0.0;
-        if (usedMins > 15) {
+        if (usedMins >= 0) {
             usedHours++;
         }
         if (usedHours >= 8) {
