@@ -55,7 +55,7 @@
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" text="User Name:">
+            <Label alignment="CENTER_RIGHT" text="Username:">
                <font>
                   <Font size="14.0" />
                </font>

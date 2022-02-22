@@ -23,9 +23,25 @@ import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class ChangePasswordController implements Initializable {
 
@@ -45,9 +61,6 @@ public class ChangePasswordController implements Initializable {
 
     @FXML
     private Button btnSave;
-
-    @FXML
-    private FontIcon iconWarning;
 
     @FXML
     private Label lbPasswordValidator;
@@ -111,17 +124,27 @@ public class ChangePasswordController implements Initializable {
                     throwables.printStackTrace();
                 }
 
+                //Show Notification
                 String title = "Change password successfully";
                 String mess = "Employee "+ fullName +" has changed his password";
                 TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
                 tray.setAnimationType(AnimationType.POPUP);
                 tray.showAndDismiss(Duration.seconds(3));
                 tray.showAndWait();
+
+                //Close window
                 Node node = (Node)event.getSource();
                 Stage stage = (Stage)node.getScene().getWindow();
                 stage.close();
                 GaussianBlur blur = new GaussianBlur(0);
                 LoginController.stage.getScene().getRoot().setEffect(blur);
+
+                //Send new password to email
+                try {
+                    sendAccount();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -173,5 +196,84 @@ public class ChangePasswordController implements Initializable {
             throwables.printStackTrace();
         }
         return userName;
+    }
+
+    private void sendAccount() throws MessagingException {
+        String host = "smtp.gmail.com";
+        String user ="sem2.batch165@gmail.com";
+        String pass="165165165";
+        String to = email;
+        String subject="Lotus Hotel - Change Password";
+        boolean sessionDebug = false;
+        Properties prop = System.getProperties ();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        Session mailSession;
+        mailSession = Session.getDefaultInstance (prop, null);
+        mailSession.setDebug (sessionDebug);
+        Message msg = new MimeMessage(mailSession);
+        msg.setFrom (new InternetAddress(user));
+        InternetAddress[] address = {new InternetAddress(to)};
+        msg.setRecipients (Message. RecipientType.TO, address);
+        msg.setSubject (subject);
+
+        //ReplaceString HTML File
+        String h1 = "Change Password Successfully";
+        String title = "Your new password";
+        String content = "Password: "+ txtPassword.getText();
+        replaceString("thisIsYourH1", h1);
+        replaceString("thisIsYourTitle", title);
+        replaceString("thisIsYourContent" , content);
+
+        //Set Content Email
+        msg.setContent(readFileHTMLToString(), "text/html; charset=UTF-8");
+        Transport transport = mailSession.getTransport ("smtp");
+        transport.connect (host, user, pass);
+        transport.sendMessage (msg, msg.getAllRecipients());
+        transport.close ();
+
+        //Default HTML File
+        replaceString(h1,"thisIsYourH1");
+        replaceString(title,"thisIsYourTitle");
+        replaceString(content,"thisIsYourContent");
+    }
+
+    private void replaceString(String oldValue, String newValue){
+        Path path = Paths.get("src/resources/html/EmailTemplate.txt");
+        Charset charset = StandardCharsets.UTF_8;
+
+        String content = null;
+        try {
+            content = Files.readString(path, charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        content = content.replaceAll(oldValue, newValue);
+        try {
+            Files.writeString(path, content, charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String readFileHTMLToString(){
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("src/resources/html/EmailTemplate.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        StringBuilder sb = new StringBuilder();
+        while(scanner.hasNextLine()) {
+            sb.append(scanner.nextLine());
+        }
+
+        String body = sb.toString();
+        return body;
     }
 }
