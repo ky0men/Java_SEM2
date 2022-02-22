@@ -13,7 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.Revenue;
-import models.UsedServices;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -22,7 +21,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class RevenueController implements Initializable {
 
@@ -109,7 +111,7 @@ public class RevenueController implements Initializable {
         choiceDay.getItems().addAll(filterDay);
 
 
-        thisMonthRevenueLabel.setText(formatCurrency(getRevenueByMonth(getCurrentMonth())));
+        thisMonthRevenueLabel.setText(formatCurrency(getRevenueByMonth(getCurrentMonth(), getCurrentYear())));
         thisYearRevenue.setText(formatCurrency(getRevenueByYear(getCurrentYear())));
 
         choiceTimeOption.getItems().addAll(filterType);
@@ -189,7 +191,7 @@ public class RevenueController implements Initializable {
 
     }
 
-    public String getRevenueByMonth(String month) {
+    public String getRevenueByMonth(String month, String year) {
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
@@ -199,7 +201,7 @@ public class RevenueController implements Initializable {
         String result = null;
         try {
             stm = conn.createStatement();
-            rs = stm.executeQuery("SELECT B.printMonth, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printMonth = '" + month + "' GROUP By B.printMonth");
+            rs = stm.executeQuery("SELECT B.printMonth, B.printYear, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printMonth = '" + month + "' AND B.printYear = '" + year + "' GROUP By B.printMonth, B.printYear");
             while (rs.next()) {
                 result = rs.getString("Sum");
             }
@@ -259,7 +261,7 @@ public class RevenueController implements Initializable {
             while (rs.next()) {
                 Revenue revenue = new Revenue();
                 revenue.setId(++id);
-                revenue.setCustomerName(rs.getString("customerName"));
+                revenue.setCustomerName(getCustomerNameFromID(conn, rs.getString("customerIdentity")));
                 revenue.setDate(rs.getString("printDate"));
                 revenue.setRevenueValue(rs.getString("revenue"));
                 total += Double.parseDouble(revenue.getRevenueValue());
@@ -329,6 +331,37 @@ public class RevenueController implements Initializable {
         choiceDay.getItems().clear();
         choiceDay.getItems().addAll(filterDay);
         choiceDay.getSelectionModel().selectFirst();
+    }
+
+    public String getCustomerNameFromID(Connection conn, String id){
+        ResultSet rs = null;
+        Statement stm = null;
+        String result = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT * FROM Customer WHERE cusIdentityNumber = '"+id+"'");
+            while (rs.next()){
+                result = rs.getString("cusName");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            if(rs!= null){
+                try {
+                    rs.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if(stm != null){
+                try {
+                    stm.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 
 }

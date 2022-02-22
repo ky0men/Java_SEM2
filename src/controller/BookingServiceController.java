@@ -112,7 +112,7 @@ public class BookingServiceController implements Initializable {
             @Override
             public void changed(ObservableValue<?> observableValue, Object oldValue, Object newValue) {
                 //Populata service name
-                potulateComboBox(conn, serviceCombobox, "SELECT * FROM Service S WHERE S.ServiceType = " + "'" +(String) newValue + "'", "ServiceName");
+                potulateComboBox(conn, serviceCombobox, "SELECT * FROM Service S WHERE S.ServiceType = " + "'" +(String) newValue + "' AND S.isDeleted = '0'", "ServiceName");
                 validateMessage.setVisible(false);
             }
         });

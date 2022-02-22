@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -96,6 +97,15 @@ public class StaffDashboardController implements Initializable {
     @FXML
     private JFXButton aboutUsBtn;
 
+    @FXML
+    private Button minimizeBtnContainer;
+
+    @FXML
+    private Button maximizeBtnContainer;
+
+    @FXML
+    private Button exitBtnContainer;
+
 
     private double x, y;
     Stage stage;
@@ -130,10 +140,37 @@ public class StaffDashboardController implements Initializable {
                 stage.close();
             }
         });
+        exitBtnContainer.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage = (Stage) adminMainPane.getScene().getWindow();
+                stage.close();
+            }
+        });
+
 
         maximizeBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                stage = (Stage) adminMainPane.getScene().getWindow();
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                if (stage.getX() == 0 && stage.getY() == 0) {
+                    stage.setWidth(1000);
+                    stage.setHeight(700);
+                    stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                    stage.setY((bounds.getHeight() - stage.getHeight())/2);
+                } else {
+                    stage.setX(bounds.getMinX());
+                    stage.setY(bounds.getMinY());
+                    stage.setWidth(bounds.getWidth());
+                    stage.setHeight(bounds.getHeight());
+                }
+            }
+        });
+        maximizeBtnContainer.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
                 stage = (Stage) adminMainPane.getScene().getWindow();
                 Screen screen = Screen.getPrimary();
                 Rectangle2D bounds = screen.getVisualBounds();
@@ -177,6 +214,13 @@ public class StaffDashboardController implements Initializable {
         minimizeBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                stage = (Stage) adminMainPane.getScene().getWindow();
+                stage.setIconified(true);
+            }
+        });
+        minimizeBtnContainer.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
                 stage = (Stage) adminMainPane.getScene().getWindow();
                 stage.setIconified(true);
             }
