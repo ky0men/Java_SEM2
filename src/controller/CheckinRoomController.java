@@ -19,14 +19,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.util.StringConverter;
 import models.Room;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
@@ -38,7 +36,6 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -233,7 +230,7 @@ public class CheckinRoomController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 String roomName = (String) roomNameComboBox.getValue();
                 String today = String.valueOf(LocalDate.now());
-                String todayTime = getDateTimeString();
+                String todayTime = getCurrentTimeStamp();
                 String checkinDay = String.valueOf(checkinDate.getValue());
                 String checkoutDay = String.valueOf(checkoutDate.getValue());
                 if (identityNumber.getText().equals("") && customerName.getText().equals("")) {
@@ -518,6 +515,9 @@ public class CheckinRoomController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
         stage.setTitle("Hotel Management Application");
         stage.show();
+    }
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     //Check account position

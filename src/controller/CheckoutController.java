@@ -307,8 +307,8 @@ public class CheckoutController implements Initializable {
         if (gridRoomType.equals("gridAllRoom")) {
             rooms = roomMapController.getListAllRoom();
 
-        } else if (gridRoomType.equals("gridAvailableRoom")) {
-            rooms = roomMapController.getListAvailableRoom();
+        } else if (gridRoomType.equals("gridRentedRoom")) {
+            rooms = roomMapController.getListRentedRoom();
 
         }
 

@@ -1,35 +1,23 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
-import javafx.util.Duration;
-import javafx.util.StringConverter;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import models.Room;
-import models.SearchRoomSelectType;
-import tray.animations.AnimationType;
-import tray.notification.NotificationType;
-import tray.notification.TrayNotification;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -37,10 +25,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.DoubleStream;
 
 public class RoomMapController implements Initializable {
     @FXML
@@ -202,19 +188,19 @@ public class RoomMapController implements Initializable {
 //                System.out.println(searchTypeChoiceBox.getValue());
                 String choiceBox = (String) searchTypeChoiceBox.getValue();
                 String searchRoomSQL;
-                if(searchTextField.getText().equals("")){
+                if (searchTextField.getText().equals("")) {
                     rooms.clear();
                     ouputMessHbox.setVisible(true);
                     outputMess.setText("Please input search field before search!");
-                }else if(choiceBox == null){
+                } else if (choiceBox == null) {
                     ouputMessHbox.setVisible(true);
                     outputMess.setText("Please chose the type before search!");
                     rooms.clear();
-                }else if(!isInteger(searchTextField.getText())){
+                } else if (!isInteger(searchTextField.getText())) {
                     ouputMessHbox.setVisible(true);
                     outputMess.setText("Room name and floor must be a number!");
                     rooms.clear();
-                }else if(isInteger(searchTextField.getText())){
+                } else if (isInteger(searchTextField.getText())) {
                     if (searchTypeChoiceBox.getValue().equals("Floor")) {
                         ouputMessHbox.setVisible(false);
                         searchRooms.clear();
@@ -224,7 +210,8 @@ public class RoomMapController implements Initializable {
                         rooms.addAll(getSearchData(searchRooms, searchRoomSQL));
                         outputMess.setText("Can not found floor: " + searchTextField.getText());
                     } else if (searchTypeChoiceBox.getValue().equals("Room name")) {
-                        ouputMessHbox.setVisible(false);                        searchRooms.clear();
+                        ouputMessHbox.setVisible(false);
+                        searchRooms.clear();
                         rooms.clear();
                         gridAllRoom.getChildren().clear();
                         searchRoomSQL = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomName = " + searchTextField.getText();
@@ -281,9 +268,9 @@ public class RoomMapController implements Initializable {
             stm = conn.createStatement();
             rs = stm.executeQuery(roomData);
 
-            if(!rs.isBeforeFirst() && rs.getRow() == 0){
+            if (!rs.isBeforeFirst() && rs.getRow() == 0) {
                 ouputMessHbox.setVisible(true);
-            }else{
+            } else {
                 while (rs.next()) {
                     room = new Room();
                     room.setRoomName(rs.getString("roomName"));
@@ -307,6 +294,11 @@ public class RoomMapController implements Initializable {
 
     public List<Room> getListAvailableRoom() {
         rooms = getData(rooms, availableRoomSql);
+        return rooms;
+    }
+
+    public List<Room> getListRentedRoom() {
+        rooms = getData(rooms, rentedRoomSql);
         return rooms;
     }
 

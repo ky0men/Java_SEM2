@@ -42,7 +42,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="txtDBName" focusColor="#a8eb12" prefWidth="230.0" text="HotelManagement">
+                  <JFXTextField fx:id="txtDBName" focusColor="#a8eb12" prefWidth="230.0" text="LotusHotel">
                      <font>
                         <Font size="14.0" />
                      </font>
