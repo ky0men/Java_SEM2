@@ -121,6 +121,14 @@ public class EditServiceController implements Initializable {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            if (ctsm != null){
+                try {
+                    ctsm.close();
+                }catch (SQLException throwables){
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
@@ -220,7 +228,16 @@ public class EditServiceController implements Initializable {
                     cmbType.validate();
                 } else if (checkNameDoup()) {
                     tfName.validate();
-                } else if (tfPrice.getText().matches(priceRegex) && !checkUnitExist()) {
+                }
+                if (checkUnitExist()){
+                    String title = "DUPLICATED DATA";
+                    String mess = "This data has been existed.Please change your data";
+                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
+                    tray.showAndWait();
+                }
+                else if (tfPrice.getText().matches(priceRegex) && !checkUnitExist()) {
                     EditServiceTable();
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
@@ -243,13 +260,15 @@ public class EditServiceController implements Initializable {
     private int getID(String name) {
         Integer id = 0;
         String unit;
+        Statement st = null;
+        ResultSet rs = null;
         try {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
             String query1 = "SELECT ID FROM Service WHERE ServiceName = '" + name + "' AND isDeleted = 0";
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            st = conn.createStatement();
+            rs = st.executeQuery(query1);
             while (rs.next()) {
                 id = rs.getInt(1);
             }
@@ -257,18 +276,35 @@ public class EditServiceController implements Initializable {
             conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
         return id;
     }
     private String getUnit(String name){
         String unit = null;
+        Statement st = null;
+        ResultSet rs = null;
         try {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
             String query1 = "SELECT Unit FROM Service WHERE ServiceName = '" + name + "' AND isDeleted = 0";
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            st = conn.createStatement();
+            rs = st.executeQuery(query1);
             while (rs.next()) {
                 unit = rs.getString(1);
             }
@@ -276,6 +312,21 @@ public class EditServiceController implements Initializable {
             conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
         return unit;
     }
@@ -292,13 +343,6 @@ public class EditServiceController implements Initializable {
             star = true;
             System.out.println("true");
         }
-//        else if(getUnit(tfName.getText()).equals(unit1) && getUnit(tfName.getText())!= null){
-//            svUnitValidation.setText("This unit existed");
-//            cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-//            svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
-//            star = true;
-//            System.out.println("true");
-//        }
         else {
             svNameValidation.setText("");
             svUnitValidation.setText("");
@@ -319,24 +363,36 @@ public class EditServiceController implements Initializable {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
+            Statement st = null;
+            ResultSet rs = null;
             try {
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(query);
+                st = conn.createStatement();
+                rs = st.executeQuery(query);
                 if (rs.next()) {
-                    String title = "DUPLICATED DATA";
-                    String mess = "This data has been existed.Please change your data";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
                     flag = true;
                 } else {
                     svUnitValidation.setText("");
                     cmbUnit.setStyle("");
                     flag = false;
                 }
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
+            } finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+                if (st != null) {
+                    try {
+                        st.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
             }
         } else {
             tfPrice.validate();
