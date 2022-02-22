@@ -89,7 +89,7 @@
             <Label fx:id="svNameValidation" prefHeight="18.0" prefWidth="210.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <JFXComboBox fx:id="cmbType" prefHeight="26.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="svTypeValidation" prefHeight="18.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="svPriceValidation" prefHeight="17.0" prefWidth="196.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label fx:id="svduplicate" prefHeight="31.0" prefWidth="198.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
          <padding>
             <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />

@@ -66,7 +66,7 @@ public class EditServiceController implements Initializable {
     private Label svTypeValidation;
 
     @FXML
-    private Label svPriceValidation;
+    private Label svduplicate;
 
     @FXML
     private Button btnEdit;
@@ -211,7 +211,7 @@ public class EditServiceController implements Initializable {
                     validator.setMessage("Unit is required!");
                     cmbUnit.validate();
                 }
-                checkUnitExist();
+//                checkUnitExist();
             }
         });
         RegexValidator priceRegexValidator = new RegexValidator();
@@ -331,21 +331,12 @@ public class EditServiceController implements Initializable {
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
-                    svNameValidation.setText("This name existed.");
-                    tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svNameValidation.setStyle("-fx-text-background-color: #D34437;");
-
-                    svTypeValidation.setText("This type existed.");
-                    cmbType.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svTypeValidation.setStyle("-fx-text-background-color: #D34437;");
-
-                    svUnitValidation.setText("This unit existed.");
-                    cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
-
-                    svPriceValidation.setText("This price existed.");
-                    tfPrice.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-                    svPriceValidation.setStyle("-fx-text-background-color: #D34437;");
+                    String title = "Duplicated Data";
+                    String mess = "Please change your data";
+                    TrayNotification tray1 = new TrayNotification(title,mess,NotificationType.NOTICE);
+                    tray1.setAnimationType(AnimationType.POPUP);
+                    tray1.showAndDismiss(Duration.seconds(3));
+                    tray1.showAndWait();
                     flag = true;
                 } else {
                     svUnitValidation.setText("");
