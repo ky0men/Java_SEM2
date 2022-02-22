@@ -16,6 +16,7 @@ CREATE TABLE Account (
 CREATE TABLE RoomType(
     roomTypeID INT IDENTITY (1,1) PRIMARY KEY,
     roomTypeName VARCHAR(120) NOT NULL,
+	isDeleteType bit DEFAULT '0'
 
 )
 
@@ -28,6 +29,7 @@ CREATE TABLE Room (
     roomPrice MONEY,
     roomTimePrice MONEY,
     roomFloor INT,
+	isDeleteRoom bit  DEFAULT '0'
 )
 
 CREATE TABLE Customer (
@@ -156,23 +158,23 @@ INSERT INTO Account VALUES ('ppdien', HASHBYTES('SHA2_512', '123'), 'Employee', 
 INSERT INTO Account VALUES ('nsan', HASHBYTES('SHA2_512', '456'), 'Employee', 0);
 INSERT INTO Account VALUES ('ttphuc', HASHBYTES('SHA2_512', '556'), 'Employee', 0);
 
-INSERT INTO RoomType VALUES ('Single')
-INSERT INTO RoomType VALUES ('Double')
-INSERT INTO RoomType VALUES ('Single VIP')
-INSERT INTO RoomType VALUES ('Double VIP')
+INSERT INTO RoomType VALUES ('Single',0)
+INSERT INTO RoomType VALUES ('Double',0)
+INSERT INTO RoomType VALUES ('Single VIP',0)
+INSERT INTO RoomType VALUES ('Double VIP',0)
 
-INSERT INTO Room VALUES ('101', 1, 'Available', 250000, 70000, 1)
-INSERT INTO Room VALUES ('102', 2, 'Available', 300000, 80000, 1)
-INSERT INTO Room VALUES ('103', 3, 'Available', 350000, 90000, 1)
-INSERT INTO Room VALUES ('104', 4, 'Available', 400000, 100000, 1)
-INSERT INTO Room VALUES ('201', 1, 'Available', 250000, 70000, 2)
-INSERT INTO Room VALUES ('202', 2, 'Available', 300000, 80000, 2)
-INSERT INTO Room VALUES ('203', 3, 'Available', 350000, 90000, 2)
-INSERT INTO Room VALUES ('204', 4, 'Available', 400000, 100000, 2)
-INSERT INTO Room VALUES ('301', 1, 'Available', 250000, 70000, 3)
-INSERT INTO Room VALUES ('302', 2, 'Available', 300000, 80000, 3)
-INSERT INTO Room VALUES ('303', 3, 'Available', 350000, 90000, 3)
-INSERT INTO Room VALUES ('304', 4, 'Available', 400000, 100000, 3)
+INSERT INTO Room VALUES ('101', 1, 'Available', 250000, 70000, 1,0)
+INSERT INTO Room VALUES ('102', 2, 'Available', 300000, 80000, 1,0)
+INSERT INTO Room VALUES ('103', 3, 'Available', 350000, 90000, 1,0)
+INSERT INTO Room VALUES ('104', 4, 'Available', 400000, 100000, 1,0)
+INSERT INTO Room VALUES ('201', 1, 'Available', 250000, 70000, 2,0)
+INSERT INTO Room VALUES ('202', 2, 'Available', 300000, 80000, 2,0)
+INSERT INTO Room VALUES ('203', 3, 'Available', 350000, 90000, 2,0)
+INSERT INTO Room VALUES ('204', 4, 'Available', 400000, 100000, 2,0)
+INSERT INTO Room VALUES ('301', 1, 'Available', 250000, 70000, 3,0)
+INSERT INTO Room VALUES ('302', 2, 'Available', 300000, 80000, 3,0)
+INSERT INTO Room VALUES ('303', 3, 'Available', 350000, 90000, 3,0)
+INSERT INTO Room VALUES ('304', 4, 'Available', 400000, 100000, 3,0)
 
 INSERT INTO Customer VALUES ('0123456789', N'Nguyễn Văn Tèo', 'Male', '05/28/1995', '0905115448', N'Hải Châu, Đà Nẵng', '0');
 INSERT INTO Customer VALUES ('1112223334', N'Nguyễn Văn Tí', 'Male', '03/18/1999', '0905253664', N'Sơn Trà, Đà Nẵng', '0');
@@ -260,3 +262,5 @@ SELECT Room.roomName FROM Room
     WHERE CI.roomNumber = '" + roomNumber + "' AND CI.wasPayment = '0' GROUP BY S.ServiceName, S.Price, S.Unit
 
  SELECT B.printMonth, SUM(B.revenue) AS 'Sum' FROM bill B WHERE B.printMonth = '2' GROUP By B.printMonth
+
+ select * from Room

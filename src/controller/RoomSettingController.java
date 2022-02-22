@@ -116,7 +116,7 @@ public class RoomSettingController implements Initializable {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID where isDeleteRoom = 0 ");
             while(rs.next()){
                 oblist.add(new RoomSettingModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
             }
@@ -207,7 +207,7 @@ public class RoomSettingController implements Initializable {
                         String rp = roomPrice.getText();
                         String ph = pricePerHours.getText();
                         if (flag != 0){
-                            conn.createStatement().executeUpdate("UPDATE Room SET roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn+";");
+                            conn.createStatement().executeUpdate("UPDATE Room SET roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn);
                             reloadTable();
                             sucNotify("Success Edit","Room has been edited");
                         }else {
@@ -244,7 +244,7 @@ public class RoomSettingController implements Initializable {
                         alert.setContentText("Delete room "+ roomNumber.getText());
                         Optional<ButtonType> option = alert.showAndWait();
                         if(option.get()==ButtonType.OK){
-                            conn.createStatement().executeUpdate("Delete from Room where roomName = "+ rn );
+                            conn.createStatement().executeUpdate("UPDATE Room set isDeleteRoom = 1 where roomName = '"+rn+"'" );
                             sucNotify("Delete Room","Room " + roomNumber.getText() + " has been deleted");
                             reloadTable();
                         }else if(option.get()==ButtonType.CANCEL){
@@ -270,12 +270,16 @@ public class RoomSettingController implements Initializable {
                         dbConnect.readProperties();
                         Connection conn = dbConnect.getDBConnection();
                         int flag =0;
+                        int check =0;
                         ResultSet rs = conn.createStatement().executeQuery("select * from Room");
                         while(rs.next()){
-                            if(Integer.parseInt(roomNumber.getText())==Integer.parseInt(rs.getString("roomName"))){
+                            if(roomNumber.getText().equals(rs.getString("roomName"))&&rs.getInt("isDeleteRoom")==0){
                                 flag++;
+                                check=1;
                             }
                         }
+                        System.out.println(check);
+
                         int type = 0;
                         String roomType = comboBox.getSelectionModel().getSelectedItem();
                         ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
@@ -286,9 +290,16 @@ public class RoomSettingController implements Initializable {
                             }
                         }
                         if(flag ==0){
-                            conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+")");
-                            sucNotify("Success","Room " + roomNumber.getText() + " has been added");
-                            reloadTable();
+                            if(check ==1){
+                                conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+",0)");
+                                sucNotify("Success","Room " + roomNumber.getText() + " has been added");
+                                reloadTable();
+                            } else {
+                                conn.createStatement().executeUpdate("Update Room set isDeleteRoom = 0, roomTypeID = "+type + ",roomFloor = "+ roomFloor.getText()+",roomPrice =" + roomPrice.getText() +",roomTimePrice ="+ pricePerHours.getText()+"where roomName = "+roomNumber.getText());
+                                sucNotify("Success","Room " + roomNumber.getText() + " has been added");
+                                reloadTable();
+                            }
+
 
                         }else {
                             failNotify("Invalid room name","Room name already exists");
@@ -307,6 +318,7 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 reloadTable();
+
             }
         });
 
@@ -386,7 +398,7 @@ public class RoomSettingController implements Initializable {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID where isDeleteRoom =0");
             while(rs.next()){
                 oblist.add(new RoomSettingModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
             }
