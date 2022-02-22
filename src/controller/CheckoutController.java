@@ -875,7 +875,7 @@ public class CheckoutController implements Initializable {
             cstm.setString(3, getCurrentDate());
             cstm.setString(4, getCurrentMonth());
             cstm.setString(5, getCurrentYear());
-            cstm.setString(6, String.valueOf(totalDouble));
+            cstm.setString(6, String.valueOf(totalDouble + prepaidDouble));
             cstm.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
