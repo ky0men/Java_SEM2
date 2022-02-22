@@ -108,53 +108,12 @@ public class RoomSettingController implements Initializable {
         PerHoursPrice.setMessage("Require");
 
 
+        reloadTable();
+        realoadTable1();
+        loadComboBox();
 
 
 
-        try {
-
-            DBConnect dbConnect = new DBConnect();
-            dbConnect.readProperties();
-            Connection conn = dbConnect.getDBConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT roomName,roomTypeName,roomStatus,roomFloor,roomPrice,roomTimePrice from Room R join RoomType RID on R.roomTypeID = RID.roomTypeID where isDeleteRoom = 0 ");
-            while(rs.next()){
-                oblist.add(new RoomSettingModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
-            }
-            ResultSet rs2 = conn.createStatement().executeQuery("SELECT * from RoomType");
-            while(rs2.next()){
-                comboBox.setItems(oblistRoomType);
-                oblistRoomType.add(rs2.getString(2));
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(RoomSettingController.class.getName()).log(Level.SEVERE,null,e);
-            e.printStackTrace();
-        }
-        try{
-            DBConnect dbConnect = new DBConnect();
-            dbConnect.readProperties();
-            Connection conn = dbConnect.getDBConnection();
-            ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
-            while (rs1.next()){
-                oblist1.add(new RoomSettingTypeModel(rs1.getInt(1),rs1.getString(2)));
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        number.setCellValueFactory(new PropertyValueFactory<>("number"));
-        status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        floor1.setCellValueFactory(new PropertyValueFactory<>("floor1"));
-        price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
-        type.setCellValueFactory(new PropertyValueFactory<>("type"));
-
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-
-        comboBox.getSelectionModel().select(0);
-        table.setItems(oblist);
-        table1.setItems(oblist1);
 
         table.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
@@ -379,9 +338,11 @@ public class RoomSettingController implements Initializable {
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
-            ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
+            ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType where isDeleteType = 0");
+            int i=1;
             while (rs1.next()){
-                oblist1.add(new RoomSettingTypeModel(rs1.getInt(1),rs1.getString(2)));
+                oblist1.add(new RoomSettingTypeModel(i,rs1.getString(2)));
+                i++;
             }
             id.setCellValueFactory(new PropertyValueFactory<>("id"));
             name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -391,7 +352,26 @@ public class RoomSettingController implements Initializable {
         }
 
     }
+    private void loadComboBox(){
+        try {
 
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+            ResultSet rs2 = conn.createStatement().executeQuery("SELECT * from RoomType");
+            while(rs2.next()){
+                comboBox.setItems(oblistRoomType);
+                oblistRoomType.add(rs2.getString(2));
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(RoomSettingController.class.getName()).log(Level.SEVERE,null,e);
+            e.printStackTrace();
+        }
+
+
+
+        comboBox.getSelectionModel().select(0);
+    }
     private void reloadTable(){
         oblist = FXCollections.observableArrayList();
         try{
