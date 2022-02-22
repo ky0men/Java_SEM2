@@ -18,12 +18,12 @@
                <children>
                   <Label text="Room - ">
                      <font>
-                        <Font name="Ubuntu Bold" size="16.0" />
+                        <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Label>
                   <Label fx:id="roomNameLabel" text="101">
                      <font>
-                        <Font name="Ubuntu Bold" size="16.0" />
+                        <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Label>
                </children>
@@ -41,7 +41,7 @@
                <children>
                   <Label fx:id="roomStatus" text="Room Status" textFill="WHITE">
                      <font>
-                        <Font name="Ubuntu Italic" size="12.0" />
+                        <Font name="Calibri Italic" size="14.0" />
                      </font>
                   </Label>
                </children>

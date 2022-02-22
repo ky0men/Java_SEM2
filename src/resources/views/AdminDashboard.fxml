@@ -31,7 +31,7 @@
                         </ImageView>
                         <Label prefHeight="50.0" text="Lotus Hotel" textFill="#ff008e">
                            <font>
-                              <Font name="Dancing Script Regular" size="36.0" />
+                              <Font name="Segoe Print Bold" size="28.0" />
                            </font>
                            <effect>
                               <DropShadow />
@@ -224,27 +224,6 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <HBox fx:id="hboxHistory" layoutX="10.0" layoutY="122.0" prefWidth="200.0" styleClass="hbox-button">
-                     <children>
-                        <JFXButton fx:id="historyBtn" alignment="TOP_LEFT" prefHeight="28.0" prefWidth="210.0" ripplerFill="#297bff" text=" History" textFill="WHITE">
-                           <graphic>
-                              <FontIcon fx:id="historyIcon" iconColor="WHITE" iconLiteral="gmi-history" iconSize="20" />
-                           </graphic>
-                           <font>
-                              <Font name="Roboto" size="16.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets bottom="8.0" left="30.0" top="8.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                     </children>
-                  </HBox>
                   <VBox fx:id="vboxFooterLeft" alignment="BOTTOM_LEFT" prefHeight="294.0" prefWidth="240.0" styleClass="foot-left-pane" VBox.vgrow="ALWAYS">
                      <children>
                         <AnchorPane prefHeight="345.0" prefWidth="240.0" styleClass="lotus-bg">
@@ -285,7 +264,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-minimize-btn">
+                  <Button fx:id="minimizeBtnContainer" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-minimize-btn">
                      <font>
                         <Font size="2.0" />
                      </font>
@@ -299,7 +278,7 @@
                         <DropShadow offsetX="1.0" offsetY="1.0" />
                      </effect>
                   </Button>
-                  <Button layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-maximize-btn">
+                  <Button fx:id="maximizeBtnContainer" layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-maximize-btn">
                      <font>
                         <Font size="2.0" />
                      </font>
@@ -313,7 +292,7 @@
                         <DropShadow offsetX="1.0" offsetY="1.0" />
                      </effect>
                   </Button>
-                  <Button layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-close-btn">
+                  <Button fx:id="exitBtnContainer" layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-close-btn">
                      <font>
                         <Font size="2.0" />
                      </font>

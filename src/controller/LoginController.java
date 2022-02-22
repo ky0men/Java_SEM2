@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,8 +20,12 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import main.Main;
 import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
@@ -52,6 +57,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private Button loginBtn;
+
+    @FXML
+    private Button forgotPassBtn;
 
     public static Stage stage;
     private double x, y;
@@ -115,6 +123,14 @@ public class LoginController implements Initializable {
             }
         });
 
+        forgotPassBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+//                System.out.println("Reset Pass");
+                showResetPassword();
+            }
+        });
+
     }
 
     //Login button action
@@ -148,8 +164,14 @@ public class LoginController implements Initializable {
                         Scene adminScene = new Scene(adminParent);
                         adminScene.setFill(Color.TRANSPARENT);
                         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        Screen screen = Screen.getPrimary();
+                        Rectangle2D bounds = screen.getVisualBounds();
                         stage.hide();
                         stage.setScene(adminScene);
+                        stage.setWidth(1000);
+                        stage.setHeight(700);
+                        stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                        stage.setY((bounds.getHeight() - stage.getHeight())/2);
                         stage.show();
 
                         //Show notification login successful
@@ -171,8 +193,14 @@ public class LoginController implements Initializable {
                         Scene staffScene = new Scene(staffParent);
                         staffScene.setFill(Color.TRANSPARENT);
                         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        Screen screen = Screen.getPrimary();
+                        Rectangle2D bounds = screen.getVisualBounds();
                         stage.hide();
                         stage.setScene(staffScene);
+                        stage.setWidth(1000);
+                        stage.setHeight(700);
+                        stage.setX((bounds.getWidth() - stage.getWidth())/2);
+                        stage.setY((bounds.getHeight() - stage.getHeight())/2);
                         stage.show();
 
                         //Show notification login successful
@@ -289,6 +317,23 @@ public class LoginController implements Initializable {
             throwables.printStackTrace();
         }
 
+    }
+
+    public void showResetPassword() {
+        Stage resetPassStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/resources/views/ResetPassword.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+//            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        resetPassStage.setScene(scene);
+        resetPassStage.initModality(Modality.APPLICATION_MODAL);
+        resetPassStage.initStyle(StageStyle.TRANSPARENT);
+        resetPassStage.showAndWait();
     }
 
 }

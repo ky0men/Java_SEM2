@@ -41,17 +41,16 @@ import javafx.stage.Stage;
 import models.Room;
 import models.UsedServices;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -131,9 +130,6 @@ public class CheckoutController implements Initializable {
     private JFXButton printBillBtn;
 
     @FXML
-    private JFXButton paymentBtn;
-
-    @FXML
     private JFXButton cancelBtn;
 
     @FXML
@@ -156,6 +152,7 @@ public class CheckoutController implements Initializable {
     double serviceCharge;
     double change;
     double roomPriceDouble, roomTimePriceDouble, roomChargeDouble, prepaidDouble, discountDouble, totalDouble;
+    String pdfFileName = null;
 
     ObservableList<UsedServices> usedServicesData = FXCollections.observableArrayList();
 
@@ -235,7 +232,30 @@ public class CheckoutController implements Initializable {
         printBillBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                printBill();
+                if(customerCash.getText().equals("")){
+                    changeValidateLabel.setVisible(true);
+                    changeValidateLabel.setText("Please input customer cash!");
+                }else if(!isInteger(customerCash.getText())){
+                    changeValidateLabel.setVisible(true);
+                    changeValidateLabel.setText("Please input number!");
+                }else if((Double.parseDouble(customerCash.getText()) - totalDouble) < 0){
+                    changeValidateLabel.setVisible(true);
+                    changeValidateLabel.setText("Change must be great or equal than zero!");
+                }else{
+                    changeValidateLabel.setVisible(false);
+                    printBill();
+                    changeStatusDirtyRoom(getRoomName());
+                    changeWasPayment(getRoomName());
+                    addBill();
+                    String position = getAccountPosition();
+                    if (position.equals("Employee")) {
+                        showStaffDashboard();
+                    } else {
+                        showAdminDashboard();
+                    }
+                    openInvoice();
+                }
+
             }
         });
 
@@ -456,12 +476,19 @@ public class CheckoutController implements Initializable {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
     public String getCurrentDate() {
-        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    }
+    public String getCurrentMonth() {
+        return new SimpleDateFormat("MM").format(new Date());
+    }
+    public String getCurrentYear() {
+        return new SimpleDateFormat("yyyy").format(new Date());
     }
     public String getCurrentTimeForInvoiceName() {
         return new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
     }
 
+    //Populate table
     public void buildDataForTable(Connection conn, String roomNumber) {
         ResultSet rs = null;
         Statement stm = null;
@@ -514,7 +541,7 @@ public class CheckoutController implements Initializable {
         }
         Scene staffScene = new Scene(staffParent);
         staffScene.setFill(Color.TRANSPARENT);
-        stage = (Stage) paymentBtn.getScene().getWindow();
+        stage = (Stage) printBillBtn.getScene().getWindow();
         stage.close();
         stage.setScene(staffScene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
@@ -532,13 +559,14 @@ public class CheckoutController implements Initializable {
         }
         Scene adminScene = new Scene(adminParent);
         adminScene.setFill(Color.TRANSPARENT);
-        stage = (Stage) paymentBtn.getScene().getWindow();
+        stage = (Stage) printBillBtn.getScene().getWindow();
         stage.close();
         stage.setScene(adminScene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/hotel-icon.png")));
         stage.setTitle("Hotel Management Application");
         stage.show();
     }
+
 
     //Check account position
     public String getAccountPosition() {
@@ -622,7 +650,8 @@ public class CheckoutController implements Initializable {
     //Print bill function
     public void printBill() {
 //        String path = "D:\\invoice.pdf";
-        File path = new File("Invoice_" + getCurrentTimeForInvoiceName() + ".pdf");
+        pdfFileName = "Invoice_" + getCurrentTimeForInvoiceName() + ".pdf";
+        File path = new File(pdfFileName);
 
         try {
             PdfWriter pdfWriter = new PdfWriter(String.valueOf(path));
@@ -775,4 +804,110 @@ public class CheckoutController implements Initializable {
         String newValueStr = formatter.format(Double.parseDouble(inputString));
         return newValueStr;
     }
+
+    public void openInvoice(){
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File(pdfFileName);
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                // no application registered for PDFs
+            }
+        }
+    }
+
+    //Change status to dirty room
+    public void changeStatusDirtyRoom(String roomName) {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        CallableStatement cstm = null;
+        try {
+            cstm = conn.prepareCall("{call changeStatusRoom (?, ?)}");
+            cstm.setString(1, roomName);
+            cstm.setString(2, "Dirty");
+            cstm.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            if (cstm != null) {
+                try {
+                    cstm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //Change was payment
+    public void changeWasPayment(String roomName){
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        Statement stm = null;
+        try {
+            stm = conn.createStatement();
+            stm.executeUpdate("UPDATE Checkin SET wasPayment = '1' WHERE roomNumber = '"+roomName+"' AND wasPayment = '0'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void addBill(){
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+        CallableStatement cstm = null;
+        try {
+            cstm = conn.prepareCall("{call addBill (?, ?, ?, ?, ?, ?)}");
+            cstm.setString(1, getEmployeeID());
+            cstm.setString(2, cusIDLabel.getText());
+            cstm.setString(3, getCurrentDate());
+            cstm.setString(4, getCurrentMonth());
+            cstm.setString(5, getCurrentYear());
+            cstm.setString(6, String.valueOf(totalDouble));
+            cstm.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            if (cstm != null) {
+                try {
+                    cstm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public String getEmployeeID() {
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        ResultSet rs = null;
+        Statement stm = null;
+        String result = null;
+        try {
+            stm = conn.createStatement();
+            rs = stm.executeQuery("SELECT AC.id FROM Account AC JOIN EmployeeInformation EM ON AC.id = EM.userID WHERE AC.accountStatus = '1'");
+            while (rs.next()) {
+                result = rs.getString("id");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return result;
+    }
+
 }

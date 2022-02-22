@@ -43,7 +43,15 @@
                   <Font size="14.0" />
                </font>
             </JFXPasswordField>
-            <Button fx:id="loginBtn" defaultButton="true" layoutX="303.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginBtnAction" styleClass="login-btn" text="Login" textFill="WHITE">
+            <Button fx:id="loginBtn" defaultButton="true" layoutX="303.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginBtnAction" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="forgotPassBtn" layoutX="152.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginBtnAction" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Forgot Password" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -75,9 +83,9 @@
                   <DropShadow />
                </effect>
             </Label>
-            <Label layoutX="124.0" layoutY="35.0" maxWidth="240.0" text="Lotus Hotel" textAlignment="CENTER" textFill="#ff008e" wrapText="true">
+            <Label layoutX="116.0" layoutY="49.0" maxWidth="240.0" text="Lotus Hotel" textAlignment="CENTER" textFill="#ff008e" wrapText="true">
                <font>
-                  <Font name="Dancing Script Regular" size="36.0" />
+                  <Font name="System Bold Italic" size="30.0" />
                </font>
                <effect>
                   <DropShadow />
