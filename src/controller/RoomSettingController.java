@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.RoomSettingModel;
 import models.RoomSettingTypeModel;
@@ -107,9 +109,12 @@ public class RoomSettingController implements Initializable {
         pricePerHours.getValidators().add(PerHoursPrice);
         PerHoursPrice.setMessage("Require");
 
+        RequiredFieldValidator typeName = new RequiredFieldValidator();
+        txtTypeName.getValidators().add(typeName);
+        typeName.setMessage("Require");
 
         reloadTable();
-        realoadTable1();
+        reloadTable1();
         loadComboBox();
 
 
@@ -150,9 +155,9 @@ public class RoomSettingController implements Initializable {
                         String roomType = comboBox.getSelectionModel().getSelectedItem();
                         ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
                         while (rs1.next()){
-                            type++;
+
                             if(roomType.equals(rs1.getString(2))){
-                                break;
+                                type=rs1.getInt(1);
                             }
                         }
                         int flag =0;
@@ -232,24 +237,26 @@ public class RoomSettingController implements Initializable {
                         int check =0;
                         ResultSet rs = conn.createStatement().executeQuery("select * from Room");
                         while(rs.next()){
-                            if(roomNumber.getText().equals(rs.getString("roomName"))&&rs.getInt("isDeleteRoom")==0){
+                            if(roomNumber.getText().equals(rs.getString("roomName"))){
                                 flag++;
-                                check=1;
+                                if(flag!=0&&rs.getInt("isDeleteRoom")==1){
+                                    flag=0;
+                                    check=1;
+                                }
                             }
                         }
-                        System.out.println(check);
-
                         int type = 0;
                         String roomType = comboBox.getSelectionModel().getSelectedItem();
                         ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
                         while (rs1.next()){
-                            type++;
+
                             if(roomType.equals(rs1.getString(2))){
-                                break;
+                                type=rs1.getInt(1);
                             }
                         }
+
                         if(flag ==0){
-                            if(check ==1){
+                            if(check ==0){
                                 conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+",0)");
                                 sucNotify("Success","Room " + roomNumber.getText() + " has been added");
                                 reloadTable();
@@ -258,8 +265,6 @@ public class RoomSettingController implements Initializable {
                                 sucNotify("Success","Room " + roomNumber.getText() + " has been added");
                                 reloadTable();
                             }
-
-
                         }else {
                             failNotify("Invalid room name","Room name already exists");
                         }
@@ -284,7 +289,7 @@ public class RoomSettingController implements Initializable {
         refreshBtn1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                realoadTable1();
+                reloadTable1();
             }
         });
 
@@ -292,23 +297,38 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try{
-                    DBConnect dbConnect = new DBConnect();
-                    dbConnect.readProperties();
-                    Connection conn = dbConnect.getDBConnection();
-                    int flag =0;
-                    ResultSet rs = conn.createStatement().executeQuery("Select * from RoomType");
-                    while(rs.next()){
-                        if(txtTypeName.getText().equals(rs.getString(2))){
-                            flag++;
+                    if(txtTypeName.getText().replaceAll(" ","").length()!=0){
+                        DBConnect dbConnect = new DBConnect();
+                        dbConnect.readProperties();
+                        Connection conn = dbConnect.getDBConnection();
+                        int flag =0;
+                        int check =0;
+                        ResultSet rs = conn.createStatement().executeQuery("Select * from RoomType");
+                        while(rs.next()){
+                            if(txtTypeName.getText().equals(rs.getString(2))){
+                                flag++;
+                                if(flag!=0&&rs.getInt("isDeleteType")==1){
+                                    flag=0;
+                                    check=1;
+                                }
+                            }
                         }
-                    }
-                    if(flag ==0){
-                        conn.createStatement().executeUpdate("INSERT INTO RoomType (roomTypeName)" +
-                                "VALUES (N'" + txtTypeName.getText() + "');");
-                        sucNotify("Add type successed","Type " + txtTypeName.getText() + " has been added" );
-                        realoadTable1();
-                    } else {
-                        failNotify("Add type Fail","This type already exits");
+                        if(flag ==0){
+                            if(check == 0){
+                                conn.createStatement().executeUpdate("INSERT INTO RoomType (roomTypeName)" +
+                                        "VALUES (N'" + txtTypeName.getText() + "');");
+                                sucNotify("Add type successed","Type " + txtTypeName.getText() + " has been added" );
+                                reloadTable1();
+                            } else {
+                                conn.createStatement().executeUpdate("Update RoomType set isDeleteType =0 where roomTypeName = '"+txtTypeName.getText()+"'");
+                                sucNotify("Add type successed","Type " + txtTypeName.getText() + " has been added" );
+                                reloadTable1();
+                            }
+                        } else {
+                            failNotify("Add type Fail","This type already exits");
+                        }
+                    }else {
+                        requireType();
                     }
 
                 }catch (Exception e){
@@ -321,18 +341,59 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try{
-                    DBConnect dbConnect = new DBConnect();
-                    dbConnect.readProperties();
-                    Connection conn = dbConnect.getDBConnection();
-                    conn.createStatement().executeUpdate("UPDATE RoomType set roomTypeName=' ' where roomtypeID=");
-                }catch (Exception e){
+                    if(txtTypeName.getText().replaceAll(" ","").length()!=0){
+                        DBConnect dbConnect = new DBConnect();
+                        dbConnect.readProperties();
+                        Connection conn = dbConnect.getDBConnection();
+                        String typeName = table1.getSelectionModel().getSelectedItem().getName();
+                        conn.createStatement().executeUpdate("UPDATE RoomType set roomTypeName='"+txtTypeName.getText()+"' where roomTypeName= '"+typeName+"'");
+                        sucNotify("Edit Type","Type has been edited");
+                        reloadTable1();
+                        reloadTable();
+                    } else {
+                        requireType();
+                    }
+
+                }catch (SQLException e){
 
                 }
             }
         });
+
+        delTypeBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+               try{
+                   if(txtTypeName.getText().replaceAll(" ","").length()!=0){
+                       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                       alert.setTitle("Delete Room");
+                       alert.setHeaderText("Are you sure want to delete?");
+                       alert.setContentText("Delete Type "+ txtTypeName.getText());
+                       Optional<ButtonType> option = alert.showAndWait();
+                       DBConnect dbConnect = new DBConnect();
+                       dbConnect.readProperties();
+                       Connection conn = dbConnect.getDBConnection();
+                       if(option.get()==ButtonType.OK){
+                           conn.createStatement().executeUpdate("UPDATE RoomType set isDeleteType = 1 where roomTypeName = '"+ txtTypeName.getText()+"'");
+                           sucNotify("Delete Type","Type " + txtTypeName.getText()+" has been deleted");
+                           reloadTable1();
+                           reloadTable();
+                       }else if(option.get()==ButtonType.CANCEL) {
+                           failNotify("Delete Type"," Cancelled!");
+                       }
+                       reloadTable1();
+                   }else{
+                       requireType();
+                   }
+
+               }catch (SQLException e){
+                   System.out.println(e);
+               }
+            }
+        });
     }
 
-    private void realoadTable1(){
+    private void reloadTable1(){
         oblist1 =FXCollections.observableArrayList();
         try{
             DBConnect dbConnect = new DBConnect();
@@ -344,21 +405,24 @@ public class RoomSettingController implements Initializable {
                 oblist1.add(new RoomSettingTypeModel(i,rs1.getString(2)));
                 i++;
             }
+            resizeTable1();
             id.setCellValueFactory(new PropertyValueFactory<>("id"));
             name.setCellValueFactory(new PropertyValueFactory<>("name"));
             table1.setItems(oblist1);
+            loadComboBox();
         }catch (SQLException e){
             e.printStackTrace();
         }
 
     }
     private void loadComboBox(){
+        oblistRoomType = FXCollections.observableArrayList();
         try {
 
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
             Connection conn = dbConnect.getDBConnection();
-            ResultSet rs2 = conn.createStatement().executeQuery("SELECT * from RoomType");
+            ResultSet rs2 = conn.createStatement().executeQuery("SELECT * from RoomType where isDeleteType = 0");
             while(rs2.next()){
                 comboBox.setItems(oblistRoomType);
                 oblistRoomType.add(rs2.getString(2));
@@ -382,6 +446,7 @@ public class RoomSettingController implements Initializable {
             while(rs.next()){
                 oblist.add(new RoomSettingModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
             }
+            resizeTable();
             number.setCellValueFactory(new PropertyValueFactory<>("number"));
             status.setCellValueFactory(new PropertyValueFactory<>("status"));
             floor1.setCellValueFactory(new PropertyValueFactory<>("floor1"));
@@ -389,6 +454,7 @@ public class RoomSettingController implements Initializable {
             perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
             type.setCellValueFactory(new PropertyValueFactory<>("type"));
             table.setItems(oblist);
+            loadComboBox();
 
         }catch (SQLException e){
 
@@ -435,6 +501,27 @@ public class RoomSettingController implements Initializable {
             roomPrice.validate();
         }
 
+    }
+
+    private void requireType(){
+        if(txtTypeName.getText().replaceAll(" ","").length()==0){
+            txtTypeName.validate();
+        }
+    }
+
+    private void resizeTable(){
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        number.setMaxWidth(1f * Integer.MAX_VALUE *10);
+        status.setMaxWidth(1f * Integer.MAX_VALUE *10);
+        floor1.setMaxWidth(1f * Integer.MAX_VALUE *10);
+        price.setMaxWidth(1f * Integer.MAX_VALUE *10);
+        perHours.setMaxWidth(1f * Integer.MAX_VALUE *10);
+        type.setMaxWidth(1f * Integer.MAX_VALUE *10);
+    }
+    private void resizeTable1(){
+        table1.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        id.setMaxWidth(1f * Integer.MAX_VALUE *10);
+        name.setMaxWidth(1f * Integer.MAX_VALUE *10);
     }
 
 }
