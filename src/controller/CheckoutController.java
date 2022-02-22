@@ -272,6 +272,7 @@ public class CheckoutController implements Initializable {
                         changeLabel.setText(formatCurrency(String.valueOf(change)));
                         changeValidateLabel.setVisible(false);
                     }else{
+                        changeLabel.setText("");
                         changeValidateLabel.setVisible(true);
                         changeValidateLabel.setText("Change must be great or equal than zero!");
                     }
