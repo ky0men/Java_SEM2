@@ -153,6 +153,7 @@ public class CheckoutController implements Initializable {
     double change;
     double roomPriceDouble, roomTimePriceDouble, roomChargeDouble, prepaidDouble, discountDouble, totalDouble;
     String pdfFileName = null;
+    String roomNumber;
 
     ObservableList<UsedServices> usedServicesData = FXCollections.observableArrayList();
 
@@ -188,6 +189,8 @@ public class CheckoutController implements Initializable {
                 }
             }
         });
+        roomNumber = getRoomName();
+        System.out.println(roomNumber);
 
         //Connect to database
         DBConnect dbConnect = new DBConnect();
@@ -244,8 +247,8 @@ public class CheckoutController implements Initializable {
                 }else{
                     changeValidateLabel.setVisible(false);
                     printBill();
-                    changeStatusDirtyRoom(getRoomName());
-                    changeWasPayment(getRoomName());
+                    changeStatusDirtyRoom(roomNumber);
+                    changeWasPayment(roomNumber);
                     addBill();
                     String position = getAccountPosition();
                     if (position.equals("Employee")) {
