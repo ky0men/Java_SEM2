@@ -114,10 +114,16 @@ public class RoomSettingController implements Initializable {
         txtTypeName.getValidators().add(typeName);
         typeName.setMessage("Require");
 
+        RegexValidator floor = new RegexValidator();
+        String floorRegex = "^[0-9]+$";
+        floor.setRegexPattern(floorRegex);
+        floor.setMessage("Invalid floor");
+        roomFloor.getValidators().add(floor);
+
         RegexValidator priceRoom = new RegexValidator();
-        String priceRegex = "\t^(?!0,?\\d)([0-9]{2}[0-9]{0,}(\\.[0-9]{2}))$";
+        String priceRegex = "[+-]?([0-9]*[.])?[0-9]+";
         priceRoom.setRegexPattern(priceRegex);
-        priceRoom.setMessage("Money price is not valid");
+        priceRoom.setMessage("Invalid price");
         roomPrice.getValidators().add(priceRoom);
         pricePerHours.getValidators().add(priceRoom);
 
@@ -126,12 +132,39 @@ public class RoomSettingController implements Initializable {
         loadComboBox();
 
 
+        roomNumber.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                roomNumber.validate();
+
+            }
 
 
+        });
+        roomFloor.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                roomFloor.validate();
+            }
+        });
+        pricePerHours.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                pricePerHours.validate();
+            }
+        });
+        roomPrice.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                roomPrice.validate();
+            }
+        });
+        txtTypeName.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                txtTypeName.validate();
+            }
+        });
         table.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(table.getSelectionModel().getSelectedItem()!=null){
+                    editBtn.setDisable(false);
                     roomNumber.setText(table.getSelectionModel().getSelectedItem().getNumber());
                     roomFloor.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getFloor1()));
                     roomPrice.setText(table.getSelectionModel().getSelectedItem().getPrice());
@@ -180,8 +213,7 @@ public class RoomSettingController implements Initializable {
                         String rf = roomFloor.getText();
                         String rp = roomPrice.getText();
                         String ph = pricePerHours.getText();
-                        System.out.println(rn);
-                        System.out.println(rn1);
+
                         if (flag != 0){
                             conn.createStatement().executeUpdate("UPDATE Room SET roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ='"+ rn1+"'");
 
@@ -194,8 +226,7 @@ public class RoomSettingController implements Initializable {
                         requireAdd();
                     }
                 }catch (Exception e){
-                    e.printStackTrace();
-                    System.out.println(e);
+                    failNotify("Invalid edit","Invalid fill field, please try again");
                 }
             }
         });
@@ -444,7 +475,13 @@ public class RoomSettingController implements Initializable {
             id.setCellValueFactory(new PropertyValueFactory<>("id"));
             name.setCellValueFactory(new PropertyValueFactory<>("name"));
             table1.setItems(oblist1);
+            setText();
             loadComboBox();
+            if(table.getSelectionModel().getSelectedItem()==null){
+                editBtn.setDisable(true);
+
+            }
+
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -463,8 +500,7 @@ public class RoomSettingController implements Initializable {
                 oblistRoomType.add(rs2.getString(2));
             }
         } catch (SQLException e) {
-            Logger.getLogger(RoomSettingController.class.getName()).log(Level.SEVERE,null,e);
-            e.printStackTrace();
+
         }
 
 
@@ -473,6 +509,7 @@ public class RoomSettingController implements Initializable {
     }
     private void reloadTable(){
         oblist = FXCollections.observableArrayList();
+
         try{
             DBConnect dbConnect = new DBConnect();
             dbConnect.readProperties();
@@ -489,8 +526,12 @@ public class RoomSettingController implements Initializable {
             perHours.setCellValueFactory(new PropertyValueFactory<>("perHours"));
             type.setCellValueFactory(new PropertyValueFactory<>("type"));
             table.setItems(oblist);
+            setText();
             loadComboBox();
+            if(table.getSelectionModel().getSelectedItem()==null){
+                editBtn.setDisable(true);
 
+            }
         }catch (SQLException e){
 
         }
@@ -558,7 +599,13 @@ public class RoomSettingController implements Initializable {
         id.setMaxWidth(1f * Integer.MAX_VALUE *10);
         name.setMaxWidth(1f * Integer.MAX_VALUE *10);
     }
-
+    private void setText(){
+        txtTypeName.setText("");
+        roomNumber.setText("");
+        roomFloor.setText("");
+        roomPrice.setText("");
+        pricePerHours.setText("");
+    }
 }
 
 
