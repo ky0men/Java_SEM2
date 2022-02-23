@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -60,7 +60,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="comboBox" maxWidth="120.0" prefWidth="150.0" />
+                                    <JFXComboBox fx:id="comboBox" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
@@ -69,7 +69,7 @@
                                     <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="100.0" />
                                  </children>
                               </HBox>
-                              <HBox alignment="BOTTOM_CENTER" spacing="10.0">
+                              <HBox alignment="BOTTOM_CENTER" prefHeight="37.0" prefWidth="700.0" spacing="10.0">
                                  <children>
                                     <Label text="Room Price:" textFill="#00699c">
                                        <font>

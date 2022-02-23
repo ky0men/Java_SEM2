@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -61,11 +60,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="comboBox" maxWidth="90.0" prefWidth="150.0" styleClass="choice-box">
-                                       <stylesheets>
-                                          <URL value="@../styles/ChoiceBox.css" />
-                                          <URL value="@../styles/setButton.css" />
-                                       </stylesheets></ComboBox>
+                                    <JFXComboBox fx:id="comboBox" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />

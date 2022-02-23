@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
@@ -112,6 +113,13 @@ public class RoomSettingController implements Initializable {
         RequiredFieldValidator typeName = new RequiredFieldValidator();
         txtTypeName.getValidators().add(typeName);
         typeName.setMessage("Require");
+
+        RegexValidator priceRoom = new RegexValidator();
+        String priceRegex = "\t^(?!0,?\\d)([0-9]{2}[0-9]{0,}(\\.[0-9]{2}))$";
+        priceRoom.setRegexPattern(priceRegex);
+        priceRoom.setMessage("Money price is not valid");
+        roomPrice.getValidators().add(priceRoom);
+        pricePerHours.getValidators().add(priceRoom);
 
         reloadTable();
         reloadTable1();
@@ -305,7 +313,7 @@ public class RoomSettingController implements Initializable {
                         int check =0;
                         ResultSet rs = conn.createStatement().executeQuery("Select * from RoomType");
                         while(rs.next()){
-                            if(txtTypeName.getText().equals(rs.getString(2))){
+                            if(txtTypeName.getText().trim().equals(rs.getString(2))){
                                 flag++;
                                 if(flag!=0&&rs.getInt("isDeleteType")==1){
                                     flag=0;
@@ -341,18 +349,39 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try{
-                    if(txtTypeName.getText().replaceAll(" ","").length()!=0){
-                        DBConnect dbConnect = new DBConnect();
-                        dbConnect.readProperties();
-                        Connection conn = dbConnect.getDBConnection();
-                        String typeName = table1.getSelectionModel().getSelectedItem().getName();
-                        conn.createStatement().executeUpdate("UPDATE RoomType set roomTypeName='"+txtTypeName.getText()+"' where roomTypeName= '"+typeName+"'");
-                        sucNotify("Edit Type","Type has been edited");
-                        reloadTable1();
-                        reloadTable();
+                    if(table1.getSelectionModel().getSelectedItem()!=null){
+                        if(txtTypeName.getText().replaceAll(" ","").length()!=0){
+                            DBConnect dbConnect = new DBConnect();
+                            dbConnect.readProperties();
+                            Connection conn = dbConnect.getDBConnection();
+                            ResultSet rs = conn.createStatement().executeQuery("select * from RoomType where isDeleteType =0");
+                            int f =0;
+                            while (rs.next()){
+
+                                if (txtTypeName.getText().trim().equals(rs.getString(2))){
+                                    f++;
+
+                                }
+
+                            }
+                            if(f == 0 ){
+                                String typeName = table1.getSelectionModel().getSelectedItem().getName();
+                                conn.createStatement().executeUpdate("UPDATE RoomType set roomTypeName='"+txtTypeName.getText()+"' where roomTypeName= '"+typeName+"'");
+                                sucNotify("Edit type successed","Type has been edited");
+                                reloadTable1();
+                                reloadTable();
+                            } else {
+                                failNotify("Edit type failed","This type already exists");
+                            }
+
+                        } else {
+                            requireType();
+
+                        }
                     } else {
-                        requireType();
+                        failNotify("Error edit","Please choose Type to edit");
                     }
+
 
                 }catch (SQLException e){
 
