@@ -245,7 +245,7 @@ public class RoomSettingController implements Initializable {
                         int check =0;
                         ResultSet rs = conn.createStatement().executeQuery("select * from Room");
                         while(rs.next()){
-                            if(roomNumber.getText().equals(rs.getString("roomName"))){
+                            if(roomNumber.getText().trim().equals(rs.getString("roomName"))){
                                 flag++;
                                 if(flag!=0&&rs.getInt("isDeleteRoom")==1){
                                     flag=0;
