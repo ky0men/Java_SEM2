@@ -169,9 +169,11 @@ public class RoomSettingController implements Initializable {
                             }
                         }
                         int flag =0;
+                        String rn1 = table.getSelectionModel().getSelectedItem().getNumber();
+
                         ResultSet rs = conn.createStatement().executeQuery("select * from Room");
                         while(rs.next()){
-                            if(Integer.parseInt(roomNumber.getText())==Integer.parseInt(rs.getString("roomName"))){
+                            if(rn1.equals(rs.getString("roomName"))){
                                 flag++;
                             }
                         }
@@ -179,7 +181,7 @@ public class RoomSettingController implements Initializable {
                         String rp = roomPrice.getText();
                         String ph = pricePerHours.getText();
                         if (flag != 0){
-                            conn.createStatement().executeUpdate("UPDATE Room SET roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn);
+                            conn.createStatement().executeUpdate("UPDATE Room SET roomName = "+rn + " ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn1);
                             reloadTable();
                             sucNotify("Success Edit","Room has been edited");
                         }else {
