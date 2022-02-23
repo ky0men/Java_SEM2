@@ -207,7 +207,7 @@ public class RoomSettingController implements Initializable {
                     String rn = roomNumber.getText();
                     ResultSet rs = conn.createStatement().executeQuery("select * from Room");
                     while(rs.next()){
-                        if(Integer.parseInt(rn)==Integer.parseInt(rs.getString("roomName"))){
+                        if(rn.equals(rs.getString("roomName"))){
                             flag++;
                         }
                     }
