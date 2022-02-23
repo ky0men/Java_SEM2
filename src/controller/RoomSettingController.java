@@ -161,7 +161,7 @@ public class RoomSettingController implements Initializable {
                         String rn = roomNumber.getText();
                         int type = 0;
                         String roomType = comboBox.getSelectionModel().getSelectedItem();
-                        ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType");
+                        ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType where isDeleteType=0");
                         while (rs1.next()){
 
                             if(roomType.equals(rs1.getString(2))){
@@ -180,8 +180,11 @@ public class RoomSettingController implements Initializable {
                         String rf = roomFloor.getText();
                         String rp = roomPrice.getText();
                         String ph = pricePerHours.getText();
+                        System.out.println(rn);
+                        System.out.println(rn1);
                         if (flag != 0){
-                            conn.createStatement().executeUpdate("UPDATE Room SET roomName = "+rn + " ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ="+ rn1);
+                            conn.createStatement().executeUpdate("UPDATE Room SET roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ='"+ rn1+"'");
+
                             reloadTable();
                             sucNotify("Success Edit","Room has been edited");
                         }else {
@@ -191,7 +194,8 @@ public class RoomSettingController implements Initializable {
                         requireAdd();
                     }
                 }catch (Exception e){
-//                    e.printStackTrace();
+                    e.printStackTrace();
+                    System.out.println(e);
                 }
             }
         });
