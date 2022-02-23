@@ -60,13 +60,13 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXComboBox fx:id="comboBox" />
+                                    <JFXComboBox fx:id="comboBox" prefWidth="100.0" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="100.0" />
+                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="100.0" prefWidth="70.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" prefHeight="37.0" prefWidth="700.0" spacing="10.0">
@@ -83,10 +83,22 @@
                                        </font>
                                     </Label>
                                     <JFXTextField fx:id="pricePerHours" alignment="BOTTOM_CENTER" maxWidth="100.0" prefWidth="260.0" />
-                                    <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
-                                    <JFXButton fx:id="editBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
-                                    <JFXButton fx:id="delBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
+                                    <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin></JFXButton>
+                                    <JFXButton fx:id="editBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin></JFXButton>
+                                    <JFXButton fx:id="delBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin></JFXButton>
                                  </children>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                               </HBox>
                            </children>
                         </VBox>
@@ -113,7 +125,7 @@
                               </JFXButton>
                            </children>
                         </HBox>
-                        <TableView fx:id="table1" layoutX="20.0" stylesheets="@../styles/TableView.css" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                        <TableView fx:id="table1" layoutX="10.0" layoutY="43.0" stylesheets="@../styles/TableView.css" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="43.0">
                           <columns>
                             <TableColumn fx:id="id" prefWidth="145.0" text="Number" />
                             <TableColumn fx:id="name" minWidth="5.0" prefWidth="596.0" text="Room Type Name" />

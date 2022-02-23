@@ -115,9 +115,9 @@ public class RoomSettingController implements Initializable {
         typeName.setMessage("Require");
 
         RegexValidator priceRoom = new RegexValidator();
-        String priceRegex = "\t^(?!0,?\\d)([0-9]{2}[0-9]{0,}(\\.[0-9]{2}))$";
+        String priceRegex = "^[0-9]+$";
         priceRoom.setRegexPattern(priceRegex);
-        priceRoom.setMessage("Money price is not valid");
+        priceRoom.setMessage("Price invalid");
         roomPrice.getValidators().add(priceRoom);
         pricePerHours.getValidators().add(priceRoom);
 
@@ -125,13 +125,35 @@ public class RoomSettingController implements Initializable {
         reloadTable1();
         loadComboBox();
 
-
-
+        if(table.getSelectionModel().getSelectedItem()==null){
+            editBtn.setDisable(true);
+        }
+        roomNumber.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                roomNumber.validate();
+            }
+        });
+        roomFloor.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                roomFloor.validate();
+            }
+        });
+        pricePerHours.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                pricePerHours.validate();
+            }
+        });
+        roomPrice.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue) {
+                roomPrice.validate();
+            }
+        });
 
         table.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(table.getSelectionModel().getSelectedItem()!=null){
+                    editBtn.setDisable(false);
                     roomNumber.setText(table.getSelectionModel().getSelectedItem().getNumber());
                     roomFloor.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getFloor1()));
                     roomPrice.setText(table.getSelectionModel().getSelectedItem().getPrice());
@@ -194,8 +216,7 @@ public class RoomSettingController implements Initializable {
                         requireAdd();
                     }
                 }catch (Exception e){
-                    e.printStackTrace();
-                    System.out.println(e);
+                    failNotify("Invalid edit","Please select room want edit first");
                 }
             }
         });
@@ -463,8 +484,7 @@ public class RoomSettingController implements Initializable {
                 oblistRoomType.add(rs2.getString(2));
             }
         } catch (SQLException e) {
-            Logger.getLogger(RoomSettingController.class.getName()).log(Level.SEVERE,null,e);
-            e.printStackTrace();
+
         }
 
 
