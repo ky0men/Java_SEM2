@@ -44,7 +44,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btnDelete" alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" styleClass="set-type2-btnSVDelete" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE">
+                  <Button fx:id="btnDelete" alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="gmi-delete" iconSize="17" />
                      </graphic>
