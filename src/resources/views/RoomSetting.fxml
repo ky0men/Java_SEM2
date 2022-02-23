@@ -60,13 +60,13 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXComboBox fx:id="comboBox" prefWidth="100.0" />
+                                    <JFXComboBox fx:id="comboBox" prefWidth="120.0" />
                                     <Label text="Room Floor:" textFill="#00699c">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="100.0" prefWidth="70.0" />
+                                    <JFXTextField fx:id="roomFloor" alignment="BOTTOM_CENTER" maxWidth="100.0" prefWidth="75.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" prefHeight="37.0" prefWidth="700.0" spacing="10.0">
