@@ -54,7 +54,7 @@
 .set-type2-btnSVAdd{
     -fx-padding: 6 8 12 8;
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 30;
+    -fx-background-radius: 8;
     -fx-background-color:
             linear-gradient(from 0% 93% to 0% 100%, #2a3 0%, #2a3 100%),
             #2a3,
@@ -81,7 +81,7 @@
 .set-type2-btnSVEdit{
     -fx-padding: 6 8 12 8;
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 30;
+    -fx-background-radius: 8;
     -fx-background-color:
             linear-gradient(from 0% 93% to 0% 100%, #c99b23 0%, #da2 100%),
             #f8d068,
@@ -109,7 +109,7 @@
 .set-type2-btnSVDelete{
     -fx-padding: 6 8 12 8;
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 30;
+    -fx-background-radius: 8;
     -fx-background-color:
             linear-gradient(from 0% 93% to 0% 100%, #c52a2a 0%, #c33 100%),
             #c52a2a,
@@ -138,7 +138,7 @@
 .set-type2-btnSVRefresh{
     -fx-padding: 6 8 12 8;
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 30;
+    -fx-background-radius: 8;
     -fx-background-color:
             linear-gradient(from 0% 93% to 0% 100%, #2e88c5 0%, #2979af 100%),
             #3498db,
