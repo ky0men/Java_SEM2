@@ -18,7 +18,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddServiceAction" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new " textFill="WHITE">
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddServiceAction" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btnSVAdd" stylesheets="@../styles/setButton.css" text="Add new " textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="gmi-add-circle" iconSize="17">
                            <font>
@@ -33,7 +33,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#Edit_Action" prefHeight="38.0" prefWidth="107.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE">
+                  <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#Edit_Action" prefHeight="38.0" prefWidth="107.0" styleClass="set-type2-btnSVEdit" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="13.0" />
                      </font>
@@ -44,7 +44,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btnDelete" alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE">
+                  <Button fx:id="btnDelete" alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="107.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="gmi-delete" iconSize="17" />
                      </graphic>
@@ -55,7 +55,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#updateTable" prefHeight="38.0" prefWidth="107.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE">
+                  <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#updateTable" prefHeight="38.0" prefWidth="107.0" styleClass="set-type2-btnSVRefresh" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE">
                      <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
                      </graphic>

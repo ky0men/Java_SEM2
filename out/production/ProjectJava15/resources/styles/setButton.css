@@ -49,3 +49,115 @@
     -fx-padding: 8 8 10 8;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
+
+/*button Add in service*/
+.set-type2-btnSVAdd{
+    -fx-padding: 6 8 12 8;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2a3 0%, #2a3 100%),
+            #2a3,
+            #2a3,
+            radial-gradient(center 50% 50%, radius 100%, #9ae9a0, #2a3);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-text-fill: White;
+}
+.set-type2-btnSVAdd:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #4fd158 0%, #5d6 100%),
+            #4fd158,
+            #5d6,
+            radial-gradient(center 50% 50%, radius 100%, #9ee6a3, #aea);
+    -fx-text-fill: #3f3b3b;
+}
+.set-type2-btnSVAdd:pressed{
+    -fx-padding: 8 8 10 8;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+/*button Edit in service*/
+.set-type2-btnSVEdit{
+    -fx-padding: 6 8 12 8;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #c99b23 0%, #da2 100%),
+            #f8d068,
+            #f8d068,
+            radial-gradient(center 50% 50%, radius 100%, #f8d068, #fd7);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-text-fill: White;
+}
+.set-type2-btnSVEdit:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #e4c134 0%, #ec3 100%),
+            #e4c134,
+            #e4c134,
+            radial-gradient(center 50% 50%, radius 100%,
+            #f0d89b, #fea);
+    -fx-text-fill: #3f3b3b;
+}
+.set-type2-btnSVEdit:pressed{
+    -fx-padding: 8 8 10 8;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+/*button Delete in service*/
+.set-type2-btnSVDelete{
+    -fx-padding: 6 8 12 8;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #c52a2a 0%, #c33 100%),
+            #c52a2a,
+            #c33,
+            radial-gradient(center 50% 50%, radius 100%, #ff4646, #f44);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-text-fill: White;
+}
+.set-type2-btnSVDelete:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%,
+            #df2d2d 0%, #e33 100%),
+            #e33,
+            #e33,
+            radial-gradient(center 50% 50%, radius 100%,
+            #ee5c5c, #f66);
+    -fx-text-fill: #3f3b3b;
+}
+.set-type2-btnSVDelete:pressed{
+    -fx-padding: 8 8 10 8;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+/*Button refresh in service*/
+.set-type2-btnSVRefresh{
+    -fx-padding: 6 8 12 8;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2e88c5 0%, #2979af 100%),
+            #3498db,
+            #70b6e5,
+            radial-gradient(center 50% 50%, radius 100%, #70b6e5, #48a2de);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-text-fill: white;
+}
+.set-type2-btnSVRefresh:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #2e88c5 0%, #2979af 100%),
+            #3498db,
+            #70b6e5,
+            radial-gradient(center 50% 50%, radius 100%, #add5f0, #48a2de);
+    -fx-text-fill: #3f3b3b;
+}
+.set-type2-btnSVRefresh:pressed{
+    -fx-padding: 8 8 10 8;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
