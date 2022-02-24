@@ -17,6 +17,7 @@
             #9d4024,
             #d86e3a,
             radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+    -fx-text-fill: #3f3b3b;
 }
 .set-btn:pressed{
     -fx-padding: 8 15 10 15;
