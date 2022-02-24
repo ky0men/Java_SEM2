@@ -218,7 +218,7 @@ public class RoomSettingController implements Initializable {
                                 }
                             }
                         }
-                        if(f==0&&c==0){
+                        if(f==1&&c==0){
                             int flag =0;
                             String rn1 = table.getSelectionModel().getSelectedItem().getNumber();
                             int id = 0;
