@@ -7,6 +7,7 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ import tray.notification.TrayNotification;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -187,46 +189,64 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try{
+                    DBConnect dbConnect = new DBConnect();
+                    dbConnect.readProperties();
+                    Connection conn = dbConnect.getDBConnection();
+                    String rf = roomFloor.getText();
+                    String rp = roomPrice.getText();
+                    String ph = pricePerHours.getText();
+                    String rn = roomNumber.getText();
+                    int type = 0;
+                    String roomType = comboBox.getSelectionModel().getSelectedItem();
+                    ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType where isDeleteType=0");
+                    while (rs1.next()){
+
+                        if(roomType.equals(rs1.getString(2))){
+                            type=rs1.getInt(1);
+                        }
+                    }
                     if(fieldBool()){
-                        DBConnect dbConnect = new DBConnect();
-                        dbConnect.readProperties();
-                        Connection conn = dbConnect.getDBConnection();
-                        String rn = roomNumber.getText();
-                        int type = 0;
-                        String roomType = comboBox.getSelectionModel().getSelectedItem();
-                        ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType where isDeleteType=0");
-                        while (rs1.next()){
-
-                            if(roomType.equals(rs1.getString(2))){
-                                type=rs1.getInt(1);
+                        int f =0;
+                        int c=0;
+                        ResultSet rs2 = conn.createStatement().executeQuery("select * from Room");
+                        while (rs2.next()){
+                            if(rn.equals(rs2.getString(2))){
+                                f++;
+                                if(f!=0&&rs2.getInt("isDeleteRoom")==1){
+                                    c=1;
+                                }
                             }
                         }
-                        int flag =0;
-                        String rn1 = table.getSelectionModel().getSelectedItem().getNumber();
-
-                        ResultSet rs = conn.createStatement().executeQuery("select * from Room");
-                        while(rs.next()){
-                            if(rn1.equals(rs.getString("roomName"))){
-                                flag++;
+                        if(f==0&&c==0){
+                            int flag =0;
+                            String rn1 = table.getSelectionModel().getSelectedItem().getNumber();
+                            int id = 0;
+                            ResultSet rs = conn.createStatement().executeQuery("select * from Room");
+                            while(rs.next()){
+                                if(rn1.equals(rs.getString("roomName"))){
+                                    id = rs.getInt(1);
+                                    flag++;
+                                }
                             }
-                        }
-                        String rf = roomFloor.getText();
-                        String rp = roomPrice.getText();
-                        String ph = pricePerHours.getText();
+                            if (flag != 0){
+                                conn.createStatement().executeUpdate("UPDATE Room SET roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomID ='"+ id+"'");
 
-                        if (flag != 0){
-                            conn.createStatement().executeUpdate("UPDATE Room SET roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomName ='"+ rn1+"'");
-
-                            reloadTable();
-                            sucNotify("Success Edit","Room has been edited");
+                                reloadTable();
+                                sucNotify("Edit Success","Room has been edited");
+                            }else {
+                                failNotify("Invalid Room","Room doesn't exits");
+                            }
+                        }else if(c==1){
+                            conn.createStatement().executeUpdate("UPDATE Room SET isDeleteRoom = 0 ,roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomID ='"+ id+"'");
                         }else {
-                            failNotify("Invalid Room","Room doesn't exits");
+                            failNotify("Edit Failed","Room name already exits");
                         }
+
                     }else{
                         requireAdd();
                     }
                 }catch (Exception e){
-                    failNotify("Invalid edit","Invalid fill field, please try again");
+
                 }
             }
         });
