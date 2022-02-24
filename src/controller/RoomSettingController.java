@@ -180,6 +180,7 @@ public class RoomSettingController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(table1.getSelectionModel().getSelectedItem()!=null){
+                    editTypeBtn.setDisable(false);
                     txtTypeName.setText(table1.getSelectionModel().getSelectedItem().getName());
                 }
             }
@@ -378,18 +379,17 @@ public class RoomSettingController implements Initializable {
                                 }
                             }
                         }
-                        if(flag ==0){
-                            if(check == 0){
-                                conn.createStatement().executeUpdate("INSERT INTO RoomType (roomTypeName)" +
-                                        "VALUES (N'" + txtTypeName.getText() + "');");
-                                sucNotify("Add type successed","Type " + txtTypeName.getText() + " has been added" );
-                                reloadTable1();
-                            } else {
+                        if(flag ==0&&check==0) {
+                            conn.createStatement().executeUpdate("INSERT INTO RoomType (roomTypeName)" +
+                                    "VALUES (N'" + txtTypeName.getText() + "');");
+                            sucNotify("Add type successed", "Type " + txtTypeName.getText() + " has been added");
+                            reloadTable1();
+                        }else if(check==1){
                                 conn.createStatement().executeUpdate("Update RoomType set isDeleteType =0 where roomTypeName = '"+txtTypeName.getText()+"'");
                                 sucNotify("Add type successed","Type " + txtTypeName.getText() + " has been added" );
                                 reloadTable1();
                             }
-                        } else {
+                        else {
                             failNotify("Add type Fail","This type already exits");
                         }
                     }else {
@@ -501,7 +501,9 @@ public class RoomSettingController implements Initializable {
                 editBtn.setDisable(true);
 
             }
-
+            if(table1.getSelectionModel().getSelectedItem()==null){
+                editTypeBtn.setDisable(true);
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -550,7 +552,9 @@ public class RoomSettingController implements Initializable {
             loadComboBox();
             if(table.getSelectionModel().getSelectedItem()==null){
                 editBtn.setDisable(true);
-
+            }
+            if(table1.getSelectionModel().getSelectedItem()==null){
+                editTypeBtn.setDisable(true);
             }
         }catch (SQLException e){
 
