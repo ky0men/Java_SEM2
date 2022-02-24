@@ -25,9 +25,9 @@
                      <children>
                         <HBox layoutX="136.0" layoutY="-30.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                            <children>
-                              <JFXButton fx:id="refreshBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="">
+                              <JFXButton fx:id="refreshBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="" textFill="WHITE">
                                  <graphic>
-                                    <FontIcon iconLiteral="gmi-refresh" />
+                                    <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" text="" />
                                  </graphic>
                               </JFXButton>
                            </children>
@@ -83,15 +83,15 @@
                                        </font>
                                     </Label>
                                     <JFXTextField fx:id="pricePerHours" alignment="BOTTOM_CENTER" maxWidth="100.0" prefWidth="260.0" />
-                                    <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New">
+                                    <JFXButton fx:id="addBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin></JFXButton>
-                                    <JFXButton fx:id="editBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit">
+                                    <JFXButton fx:id="editBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin></JFXButton>
-                                    <JFXButton fx:id="delBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete">
+                                    <JFXButton fx:id="delBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin></JFXButton>
@@ -120,7 +120,7 @@
                            <children>
                               <JFXButton fx:id="refreshBtn1" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="">
                                  <graphic>
-                                    <FontIcon iconLiteral="gmi-refresh" />
+                                    <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" />
                                  </graphic>
                               </JFXButton>
                            </children>
@@ -135,9 +135,9 @@
                            <children>
                               <Label text="Room Type Name" />
                               <JFXTextField fx:id="txtTypeName" maxWidth="150.0" />
-                              <JFXButton fx:id="addTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" />
-                              <JFXButton fx:id="editTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" />
-                              <JFXButton fx:id="delTypeBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" />
+                              <JFXButton fx:id="addTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add New" textFill="WHITE" />
+                              <JFXButton fx:id="editTypeBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" />
+                              <JFXButton fx:id="delTypeBtn" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" />
                            </children>
                         </HBox>
                      </children>
