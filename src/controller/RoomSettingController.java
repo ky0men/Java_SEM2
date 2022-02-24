@@ -326,8 +326,8 @@ public class RoomSettingController implements Initializable {
                                 conn.createStatement().executeUpdate("INSERT INTO Room VALUES ("+"'"+roomNumber.getText()+"'"+","+ type +",'Available',"+ roomPrice.getText() +","+pricePerHours.getText()+","+roomFloor.getText()+",0)");
                                 sucNotify("Success","Room " + roomNumber.getText() + " has been added");
                                 reloadTable();
-                            } else {
-                                conn.createStatement().executeUpdate("Update Room set isDeleteRoom = 0, roomTypeID = "+type + ",roomFloor = "+ roomFloor.getText()+",roomPrice =" + roomPrice.getText() +",roomTimePrice ="+ pricePerHours.getText()+"where roomName = "+roomNumber.getText());
+                            } else if(check ==1){
+                                conn.createStatement().executeUpdate("Update Room set isDeleteRoom = 0, roomTypeID = "+type + ",roomFloor = "+ roomFloor.getText()+",roomPrice =" + roomPrice.getText() +",roomTimePrice ="+ pricePerHours.getText()+"where roomName = '"+roomNumber.getText()+"'");
                                 sucNotify("Success","Room " + roomNumber.getText() + " has been added");
                                 reloadTable();
                             }
@@ -338,7 +338,7 @@ public class RoomSettingController implements Initializable {
                         requireAdd();
                     }
                 }catch (SQLException e){
-
+                    System.out.println(e);
                 }
             }
 
