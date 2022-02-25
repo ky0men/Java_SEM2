@@ -27,9 +27,9 @@
                            <children>
                               <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label prefHeight="37.0" prefWidth="65.0" text="Search by " textFill="#0b50da">
+                                    <Label prefHeight="37.0" prefWidth="74.0" text="Search by " textFill="#0b50da">
                                        <font>
-                                          <Font name="Ubuntu Regular" size="14.0" />
+                                          <Font name="Calibri" size="16.0" />
                                        </font>
                                     </Label>
                                     <ChoiceBox fx:id="searchTypeChoiceBox" prefWidth="120.0" />
@@ -41,11 +41,17 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <font>
+                                          <Font name="Calibri" size="14.0" />
+                                       </font>
                                     </JFXButton>
                                     <JFXButton fx:id="showAllRoomBtn" layoutX="549.0" layoutY="20.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Show All Room" textFill="WHITE">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <font>
+                                          <Font name="Calibri" size="14.0" />
+                                       </font>
                                     </JFXButton>
                                  </children>
                                  <padding>

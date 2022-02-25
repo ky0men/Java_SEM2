@@ -66,6 +66,9 @@ public class EditServiceController implements Initializable {
     private Label svTypeValidation;
 
     @FXML
+    private Label svduplicate;
+
+    @FXML
     private Button btnEdit;
 
     @FXML
@@ -121,6 +124,14 @@ public class EditServiceController implements Initializable {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            if (ctsm != null){
+                try {
+                    ctsm.close();
+                }catch (SQLException throwables){
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
@@ -200,7 +211,7 @@ public class EditServiceController implements Initializable {
                     validator.setMessage("Unit is required!");
                     cmbUnit.validate();
                 }
-                checkUnitExist();
+//                checkUnitExist();
             }
         });
         RegexValidator priceRegexValidator = new RegexValidator();
@@ -218,9 +229,11 @@ public class EditServiceController implements Initializable {
                     tfPrice.validate();
                     cmbUnit.validate();
                     cmbType.validate();
-                } else if (checkNameDoup()) {
+                }
+                else if (checkNameDoup()) {
                     tfName.validate();
-                } else if (tfPrice.getText().matches(priceRegex) && !checkUnitExist()) {
+                }
+                else if (tfPrice.getText().matches(priceRegex) && !checkUnitExist()) {
                     EditServiceTable();
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
@@ -283,22 +296,17 @@ public class EditServiceController implements Initializable {
     private boolean checkNameDoup() {
         int id1 = Integer.parseInt(tfID.getText());
         String unit1 = cmbUnit.getValue();
+        String type1 = cmbType.getValue();
         boolean star = false;
         if (getID(tfName.getText()) != id1 && getID(tfName.getText())!=0
-            && getUnit(tfName.getText()).equals(unit1) && !getUnit(tfName.getText()).equals("0")) {
+            && getUnit(tfName.getText()).equals(unit1) && !getUnit(tfName.getText()).equals("0")
+            ) {
             svNameValidation.setText("This name existed.");
             tfName.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
             svNameValidation.setStyle("-fx-text-background-color: #D34437;");
             star = true;
             System.out.println("true");
         }
-//        else if(getUnit(tfName.getText()).equals(unit1) && getUnit(tfName.getText())!= null){
-//            svUnitValidation.setText("This unit existed");
-//            cmbUnit.setStyle("-jfx-focus-color:#E3867E;-jfx-unfocus-color:#D34437");
-//            svUnitValidation.setStyle("-fx-text-background-color: #D34437;");
-//            star = true;
-//            System.out.println("true");
-//        }
         else {
             svNameValidation.setText("");
             svUnitValidation.setText("");
@@ -323,18 +331,19 @@ public class EditServiceController implements Initializable {
                 Statement st = conn.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
-                    String title = "DUPLICATED DATA";
-                    String mess = "This data has been existed.Please change your data";
-                    TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
-                    tray.showAndWait();
+                    String title = "Duplicated Data";
+                    String mess = "Please change your data";
+                    TrayNotification tray1 = new TrayNotification(title,mess,NotificationType.NOTICE);
+                    tray1.setAnimationType(AnimationType.POPUP);
+                    tray1.showAndDismiss(Duration.seconds(3));
+                    tray1.showAndWait();
                     flag = true;
                 } else {
                     svUnitValidation.setText("");
                     cmbUnit.setStyle("");
                     flag = false;
                 }
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

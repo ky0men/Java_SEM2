@@ -153,6 +153,7 @@ public class CheckoutController implements Initializable {
     double change;
     double roomPriceDouble, roomTimePriceDouble, roomChargeDouble, prepaidDouble, discountDouble, totalDouble;
     String pdfFileName = null;
+    String roomNumber;
 
     ObservableList<UsedServices> usedServicesData = FXCollections.observableArrayList();
 
@@ -188,6 +189,8 @@ public class CheckoutController implements Initializable {
                 }
             }
         });
+        roomNumber = getRoomName();
+        System.out.println(roomNumber);
 
         //Connect to database
         DBConnect dbConnect = new DBConnect();
@@ -244,8 +247,8 @@ public class CheckoutController implements Initializable {
                 }else{
                     changeValidateLabel.setVisible(false);
                     printBill();
-                    changeStatusDirtyRoom(getRoomName());
-                    changeWasPayment(getRoomName());
+                    changeStatusDirtyRoom(roomNumber);
+                    changeWasPayment(roomNumber);
                     addBill();
                     String position = getAccountPosition();
                     if (position.equals("Employee")) {
@@ -272,6 +275,7 @@ public class CheckoutController implements Initializable {
                         changeLabel.setText(formatCurrency(String.valueOf(change)));
                         changeValidateLabel.setVisible(false);
                     }else{
+                        changeLabel.setText("");
                         changeValidateLabel.setVisible(true);
                         changeValidateLabel.setText("Change must be great or equal than zero!");
                     }
@@ -307,8 +311,8 @@ public class CheckoutController implements Initializable {
         if (gridRoomType.equals("gridAllRoom")) {
             rooms = roomMapController.getListAllRoom();
 
-        } else if (gridRoomType.equals("gridAvailableRoom")) {
-            rooms = roomMapController.getListAvailableRoom();
+        } else if (gridRoomType.equals("gridRentedRoom")) {
+            rooms = roomMapController.getListRentedRoom();
 
         }
 
@@ -622,7 +626,7 @@ public class CheckoutController implements Initializable {
         Double roomPrice = roomPriceDouble;
         Double roomTimePrice = roomTimePriceDouble;
         Double roomCharge = 0.0;
-        if (usedMins > 15) {
+        if (usedMins >= 0) {
             usedHours++;
         }
         if (usedHours >= 8) {
@@ -874,7 +878,7 @@ public class CheckoutController implements Initializable {
             cstm.setString(3, getCurrentDate());
             cstm.setString(4, getCurrentMonth());
             cstm.setString(5, getCurrentYear());
-            cstm.setString(6, String.valueOf(totalDouble));
+            cstm.setString(6, String.valueOf(totalDouble + prepaidDouble));
             cstm.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

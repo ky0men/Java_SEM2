@@ -32,7 +32,7 @@
                         </ImageView>
                         <Label prefHeight="50.0" text="Lotus Hotel" textFill="#ff008e">
                            <font>
-                              <Font name="Dancing Script Regular" size="36.0" />
+                              <Font name="Segoe Print Bold" size="28.0" />
                            </font>
                            <effect>
                               <DropShadow />
@@ -149,14 +149,14 @@
                   </ImageView>
                   <Label text="Hotel Management" textFill="WHITE">
                      <font>
-                        <Font name="Roboto" size="16.0" />
+                        <Font name="Roboto" size="14.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-minimize-btn">
+                  <Button fx:id="minimizeBtnContainer" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-minimize-btn">
                      <font>
                         <Font size="2.0" />
                      </font>
@@ -170,7 +170,7 @@
                         <DropShadow offsetX="1.0" offsetY="1.0" />
                      </effect>
                   </Button>
-                  <Button layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-maximize-btn">
+                  <Button fx:id="maximizeBtnContainer" layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-maximize-btn">
                      <font>
                         <Font size="2.0" />
                      </font>
@@ -184,7 +184,7 @@
                         <DropShadow offsetX="1.0" offsetY="1.0" />
                      </effect>
                   </Button>
-                  <Button layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-close-btn">
+                  <Button fx:id="exitBtnContainer" layoutX="196.0" layoutY="15.0" maxHeight="14.0" maxWidth="14.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="title-close-btn">
                      <font>
                         <Font size="2.0" />
                      </font>
