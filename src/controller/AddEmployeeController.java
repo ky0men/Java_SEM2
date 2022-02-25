@@ -15,10 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -53,7 +50,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class AddUserController implements Initializable {
+public class AddEmployeeController implements Initializable {
     ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office", "Employee");
 
     @FXML
@@ -106,6 +103,9 @@ public class AddUserController implements Initializable {
 
     @FXML
     private Label lbEmailValidator;
+
+    @FXML
+    private ToggleGroup genderGroup;
 
     private double x, y;
 
@@ -436,12 +436,13 @@ public class AddUserController implements Initializable {
         int userId = getUserID();
         String fullName = txtFullName.getText();
         String numberId = txtNoID.getText();
+        String gender = ((RadioButton) genderGroup.getSelectedToggle()).getText();
         String startWork = LocalDate.now().toString();
         String birthday = dpBirthday.getValue().toString();
         String email = txtEmail.getText();
         String phone = txtPhoneNumber.getText();
         String address = txtAddress.getText();
-        String query = "INSERT INTO EmployeeInformation VALUES (" + userId + ", N'" + fullName + "', '" + numberId + "', '" + startWork + "'," +
+        String query = "INSERT INTO EmployeeInformation VALUES (" + userId + ", N'" + fullName + "', '" + numberId + "', '" + gender + "', '" + startWork + "'," +
                 " '" + birthday + "', '" + email + "', '" + phone + "', N'" + address + "', '0');";
 
         DBConnect dbConnect = new DBConnect();
