@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -30,8 +32,8 @@
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="126.0" minWidth="10.0" prefWidth="82.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="260.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="108.7999877929688" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.79998779296875" minWidth="10.0" prefWidth="211.20001220703125" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -73,16 +75,6 @@
                </font>
             </Label>
             <DatePicker fx:id="dpBirthday" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Address:" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="txtAddress" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXTextField>
             <Label text="Email:" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
@@ -114,6 +106,41 @@
             <JFXComboBox fx:id="cbPosition" prefHeight="30.0" prefWidth="220.0" stylesheets="@../styles/Employee.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label fx:id="lbEmailValidator" prefHeight="18.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="lbPhoneValidator" prefHeight="18.0" prefWidth="210.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <Label alignment="CENTER_RIGHT" text="Gender:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <JFXRadioButton fx:id="radioMale" selected="true" text="Male">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="genderGroup" />
+                     </toggleGroup>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="radioFemale" text="Female" toggleGroup="$genderGroup">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXRadioButton>
+               </children>
+            </HBox>
+            <Label text="Address:" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txtAddress" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXTextField>
          </children>
          <padding>
             <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
