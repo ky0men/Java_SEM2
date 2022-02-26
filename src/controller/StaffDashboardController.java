@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -20,8 +21,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
@@ -31,6 +34,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import static controller.LoginController.stage;
 
 public class StaffDashboardController implements Initializable {
 
@@ -253,6 +258,76 @@ public class StaffDashboardController implements Initializable {
             }
         });
 
+        nameEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                String fullName = nameEmployee.getText();
+                int id = 0;
+                String position = null;
+                String numberId = null;
+                String gender = null;
+                String startWork = null;
+                String birthday = null;
+                String email = null;
+                String phoneNumber = null;
+                String address = null;
+                String query = "SELECT * FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID " +
+                        "WHERE EmployeeInformation.fullName = '" + fullName + "'";
+
+                DBConnect dbConnect = new DBConnect();
+                dbConnect.readProperties();
+                Connection conn = dbConnect.getDBConnection();
+
+                try {
+                    Statement st = conn.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    while (rs.next()) {
+                        id = rs.getInt("id");
+                        position = rs.getString("position");
+                        numberId = rs.getString("numberId");
+                        gender = rs.getString("userGender");
+                        startWork = rs.getString("startWork");
+                        birthday = rs.getString("birthday");
+                        email = rs.getString("userEmail");
+                        phoneNumber = rs.getString("userPhone");
+                        address = rs.getString("userAddress");
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                //Load Scene
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/Profile.fxml"));
+                Parent parent = null;
+                try {
+                    parent = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                EmployeeProfileController employeeProfileController = loader.getController();
+                employeeProfileController.id = id;
+                employeeProfileController.lbFullName.setText(fullName);
+                employeeProfileController.lbPosition.setText(position);
+                employeeProfileController.lbStartWork.setText(startWork);
+                employeeProfileController.lbGender.setText(gender);
+                employeeProfileController.lbIdNumber.setText(numberId);
+                employeeProfileController.lbBirthday.setText(birthday);
+                employeeProfileController.lbEmail.setText(email);
+                employeeProfileController.lbPhoneNumber.setText(phoneNumber);
+                employeeProfileController.lbAddress.setText(address);
+
+                GaussianBlur blurEffect = new GaussianBlur(10);
+                LoginController.stage.getScene().getRoot().setEffect(blurEffect);
+                Stage stage = new Stage();
+                Scene scene = new Scene(parent);
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+            }
+        });
+
         roomMapBtnClick();
         changeSceneWhenClickButton(bookingManageBtn, bookingManageIcon, hboxHome, hboxCustomer, "BookingManage.fxml");
         customerBtnClick();
@@ -340,7 +415,7 @@ public class StaffDashboardController implements Initializable {
         customerBtn.setFocusTraversable(false);
     }
 
-    //Get account infortion is in use
+    //Get account information is in use
     public void getAccountInformationInUse(){
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
