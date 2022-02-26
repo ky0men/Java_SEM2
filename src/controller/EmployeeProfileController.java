@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -66,6 +67,10 @@ public class EmployeeProfileController implements Initializable {
 
     @FXML
     private Button btnRefresh;
+
+    @FXML
+    private Button btnCancel;
+
 
     @FXML
     private ImageView imgAvatar;
@@ -188,6 +193,17 @@ public class EmployeeProfileController implements Initializable {
                 }
 
 
+            }
+        });
+
+        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Node node = (Node) event.getSource();
+                Stage stage = (Stage) node.getScene().getWindow();
+                stage.close();
+                GaussianBlur blur = new GaussianBlur(0);
+                LoginController.stage.getScene().getRoot().setEffect(blur);
             }
         });
     }

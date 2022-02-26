@@ -111,7 +111,7 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnEdit" layoutX="337.0" layoutY="503.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit Information" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="230.0">
+      <Button fx:id="btnEdit" layoutX="283.0" layoutY="527.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit Information" textFill="WHITE" AnchorPane.bottomAnchor="50.60000000000002" AnchorPane.rightAnchor="320.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
          </graphic>
@@ -122,7 +122,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnChangePassword" layoutX="536.0" layoutY="503.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Change Password" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <Button fx:id="btnChangePassword" layoutX="445.0" layoutY="527.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Change Password" textFill="WHITE" AnchorPane.bottomAnchor="50.60000000000002" AnchorPane.rightAnchor="150.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
          </graphic>
@@ -145,6 +145,11 @@
          </cursor>
       </Button>
       <ImageView fx:id="imgAvatar" fitHeight="280.0" fitWidth="280.0" layoutX="410.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="80.0" />
+      <Button fx:id="btnCancel" layoutX="612.0" layoutY="527.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel" AnchorPane.rightAnchor="50.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
    <opaqueInsets>
       <Insets />
