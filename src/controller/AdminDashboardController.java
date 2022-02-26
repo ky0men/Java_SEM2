@@ -116,15 +116,6 @@ public class AdminDashboardController implements Initializable {
     private FontIcon stockManagerIcon;
 
     @FXML
-    private HBox hboxHistory;
-
-    @FXML
-    private JFXButton historyBtn;
-
-    @FXML
-    private FontIcon historyIcon;
-
-    @FXML
     private VBox vboxFooterLeft;
 
     @FXML

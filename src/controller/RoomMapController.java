@@ -102,10 +102,10 @@ public class RoomMapController implements Initializable {
     final double SPEED = 0.01;
 
 
-    private String allRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.isDeleteRoom = '0'";
-    private String availableRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Available' AND R.isDeleteRoom = '0'";
+    private String allRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID";
+    private String availableRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Available'";
     private String rentedRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Rented'";
-    private String dirtyRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Dirty' AND R.isDeleteRoom = '0'";
+    private String dirtyRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Dirty'";
 
     public List<Room> getData(List<Room> typeRoomToShow, String roomData) {
         typeRoomToShow = new ArrayList<>();

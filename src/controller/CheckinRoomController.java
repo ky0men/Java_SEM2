@@ -258,7 +258,12 @@ public class CheckinRoomController implements Initializable {
 //                        System.out.println("Add Cus Done");
                     }
                     addCheckin(conn, identityNumber.getText(), roomName, todayTime, checkoutDay, prepaidField.getText(), discountField.getText());
-
+                    TrayNotification tray = new TrayNotification();
+                    tray.setTitle("Checkin successful");
+                    tray.setMessage("Checkin successful and thankyou!");
+                    tray.setNotificationType(NotificationType.SUCCESS);
+                    tray.setAnimationType(AnimationType.POPUP);
+                    tray.showAndDismiss(Duration.seconds(3));
                     String position = getAccountPosition();
                     if (position.equals("Employee")) {
                         showStaffDashboard();
