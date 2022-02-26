@@ -340,7 +340,7 @@ public class StaffDashboardController implements Initializable {
         customerBtn.setFocusTraversable(false);
     }
 
-    //Get account infortion is in use
+    //Get account information is in use
     public void getAccountInformationInUse(){
         DBConnect dbConnect = new DBConnect();
         dbConnect.readProperties();
