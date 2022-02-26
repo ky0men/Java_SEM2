@@ -2,14 +2,12 @@ package models;
 
 public class EmployeeList {
     private String name;
-    private String gender;
     private String position;
     private String email;
     private String phoneNumber;
 
-    public EmployeeList(String name, String gender, String position, String email, String phoneNumber) {
+    public EmployeeList(String name, String position, String email, String phoneNumber) {
         this.name = name;
-        this.gender = gender;
         this.position = position;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -48,11 +46,4 @@ public class EmployeeList {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 }

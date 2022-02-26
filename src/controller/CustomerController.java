@@ -176,32 +176,35 @@ public class CustomerController implements Initializable {
         btnDelete.setOnAction(event -> {
             data = tableCustomer.getSelectionModel().getSelectedItem();
             if(data == null){
-                String title = "Choose customer";
+                String title = "Choose Customer";
                 String mess = "Please choose Customer";
                 TrayNotification tray = new TrayNotification(title, mess, NotificationType.ERROR);
                 tray.setAnimationType(AnimationType.POPUP);
                 tray.showAndDismiss(Duration.seconds(3));
                 tray.showAndWait();
-            }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/DeleteCustomerConfirm.fxml"));
-                Parent parent = null;
+            }else{
+                String idNumber = data.getIdNumber();
+                String query = "UPDATE Customer SET cusDeleted = '1' WHERE cusIdentityNumber = '" + idNumber + "'";
+
+                DBConnect dbConnect = new DBConnect();
+                dbConnect.readProperties();
+                Connection conn = dbConnect.getDBConnection();
                 try {
-                    parent = loader.load();
-                    DeleteCustomerConfirmController deleteCustomerConfirmController = loader.getController();
-                    deleteCustomerConfirmController.lbFullname.setText(data.getName()) ;
-                    deleteCustomerConfirmController.idNumber = data.getIdNumber();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    Statement st = conn.createStatement();
+                    st.executeUpdate(query);
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
-                GaussianBlur blurEffect = new GaussianBlur(10);
-                stage.getScene().getRoot().setEffect(blurEffect);
-                Stage stage = new Stage();
-                Scene scene = new Scene(parent);
-                scene.setFill(Color.TRANSPARENT);
-                stage.setScene(scene);
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.showAndWait();
+                String name = data.getName();
+                String title = "Successfully deleted information";
+                String mess = "Customer " + name + " has successfully deleted the information";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
+                initLoadTable();
+                initTotalCustomers();
             }
         });
     }

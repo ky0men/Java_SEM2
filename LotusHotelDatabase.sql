@@ -20,7 +20,6 @@ CREATE TABLE EmployeeInformation(
 	userID int foreign key references Account(id),
 	fullName nvarchar(30),
 	numberId varchar(30),
-	userGender varchar(10),
 	startWork date,
 	birthday date,
 	userEmail varchar(30),
@@ -160,10 +159,10 @@ INSERT INTO Customer VALUES ('8798989787', N'Nguyen My My', 'Female', '08/21/199
 INSERT INTO Customer VALUES ('9898787877', N'Pham Van Toan', 'Male', '09/16/1989', '0976558669', N'Thang Binh, Quang Nam', '0');
 INSERT INTO Customer VALUES ('9898989789', N'Le Thi My Khanh', 'Female', '09/29/1998', '0966988979', N'Hai Chau Da, Nang', '0');
 
-INSERT INTO EmployeeInformation VALUES (1, 'Admin of Lotus Hotel', '0000000000','Female', '02/13/2022', '05/05/1991', 'lotus.info@gmail.com', '0905887889', 'Da Nang', '0' );
-INSERT INTO EmployeeInformation VALUES (2, 'Pham Phu Dien', '387684285','Male', '02/13/2022', '05/05/1991', 'phamphudien@gmail.com', '0353135698', 'Da Nang', '0' );
-INSERT INTO EmployeeInformation VALUES (3, 'Nguyen Si An', '125684255','Male', '02/13/2022', '05/06/1992', 'ngsian@gmail.com', '0353125698', 'Da Nang', '0' );
-INSERT INTO EmployeeInformation VALUES (4, 'Ton That Hao Phuc', '012583285', 'Male', '02/13/2022', '05/07/1993', 'tthphuc@gmail.com', '0353175698', 'Da Nang', '0' );
+INSERT INTO EmployeeInformation VALUES (1, 'Admin of Lotus Hotel', '0000000000', '02/13/2022', '05/05/1991', 'lotus.info@gmail.com', '0905887889', 'Da Nang', '0' );
+INSERT INTO EmployeeInformation VALUES (2, 'Pham Phu Dien', '387684285', '02/13/2022', '05/05/1991', 'phamphudien@gmail.com', '0353135698', 'Da Nang', '0' );
+INSERT INTO EmployeeInformation VALUES (3, 'Nguyen Si An', '125684255', '02/13/2022', '05/06/1992', 'ngsian@gmail.com', '0353125698', 'Da Nang', '0' );
+INSERT INTO EmployeeInformation VALUES (4, 'Ton That Hao Phuc', '012583285', '02/13/2022', '05/07/1993', 'tthphuc@gmail.com', '0353175698', 'Da Nang', '0' );
 
 INSERT INTO ServiceType VALUES ('Food Service')
 INSERT INTO ServiceType VALUES ('Sport - Entertainment Service')

@@ -38,12 +38,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import models.Room;
 import models.UsedServices;
-import tray.animations.AnimationType;
-import tray.notification.NotificationType;
-import tray.notification.TrayNotification;
 
 import java.awt.*;
 import java.io.File;
@@ -254,12 +250,6 @@ public class CheckoutController implements Initializable {
                     changeStatusDirtyRoom(roomNumber);
                     changeWasPayment(roomNumber);
                     addBill();
-                    TrayNotification tray = new TrayNotification();
-                    tray.setTitle("Checkout successful");
-                    tray.setMessage("Checkout successful and see you again!");
-                    tray.setNotificationType(NotificationType.SUCCESS);
-                    tray.setAnimationType(AnimationType.POPUP);
-                    tray.showAndDismiss(Duration.seconds(3));
                     String position = getAccountPosition();
                     if (position.equals("Employee")) {
                         showStaffDashboard();

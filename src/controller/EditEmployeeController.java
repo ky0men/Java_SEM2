@@ -1,18 +1,23 @@
 package controller;
 
-import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
@@ -61,15 +66,6 @@ public class EditEmployeeController implements Initializable {
 
     @FXML
     private Label lbEmailValidator;
-
-    @FXML
-    public JFXRadioButton radioMale;
-
-    @FXML
-    private ToggleGroup genderGroup;
-
-    @FXML
-    public JFXRadioButton radioFemale;
 
     public int id;
 
@@ -291,13 +287,12 @@ public class EditEmployeeController implements Initializable {
     private void UpdateTableProfile() {
         String fullName = txtFullName.getText();
         String numberId = txtNoID.getText();
-        String gender = ((RadioButton) genderGroup.getSelectedToggle()).getText();
         String birthday = dpBirthday.getValue().toString();
         String email = txtEmail.getText();
         String phone = txtPhoneNumber.getText();
         String address = txtAddress.getText();
         String query = "UPDATE EmployeeInformation SET fullName = N'" + fullName + "', numberId = '" + numberId + "'," +
-                "userGender = '"+ gender +"', birthday = '" + birthday + "', userEmail = '" + email + "', userPhone = '" + phone + "'," +
+                " birthday = '" + birthday + "', userEmail = '" + email + "', userPhone = '" + phone + "'," +
                 " userAddress = N'" + address + "' WHERE userID = '" + id + "'";
 
         DBConnect dbConnect = new DBConnect();

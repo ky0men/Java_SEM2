@@ -40,7 +40,7 @@ import java.util.ResourceBundle;
 import static controller.LoginController.stage;
 
 public class EmployeeController implements Initializable {
-    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Employee", "Front Office");
+    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office");
 
     @FXML
     private Button btnAddUser;
@@ -58,9 +58,6 @@ public class EmployeeController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> columnName = null;
-
-    @FXML
-    private TableColumn<?, ?> columnGender;
 
     @FXML
     private TableColumn<?, ?> columnPosition;
@@ -106,7 +103,7 @@ public class EmployeeController implements Initializable {
 
 
         //Add Employee
-        btnAddUser.setOnAction(event -> openScene("/resources/views/AddEmployee.fxml"));
+        btnAddUser.setOnAction(event -> openScene("/resources/views/AddUser.fxml"));
 
         //Refresh TableView
         btnRefresh.setOnAction(event -> {
@@ -168,11 +165,6 @@ public class EmployeeController implements Initializable {
                         editInformationController.txtPhoneNumber.setText(data.getPhoneNumber());
                         editInformationController.txtFullName.setText(data.getName());
                         editInformationController.dpBirthday.setValue(LocalDate.of(year, month, day));
-                        if(data.getGender().equals("Male")){
-                            editInformationController.radioMale.setSelected(true);
-                        }else if(data.getGender().equals("Female")){
-                            editInformationController.radioFemale.setSelected(true);
-                        }
                         editInformationController.txtAddress.setText(address);
                         editInformationController.cbPosition.setValue(data.getPosition());
                         editInformationController.cbPosition.setItems(positionList);
@@ -204,26 +196,29 @@ public class EmployeeController implements Initializable {
                 tray.setAnimationType(AnimationType.POPUP);
                 tray.showAndDismiss(Duration.seconds(3));
                 tray.showAndWait();
-            }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/DeleteEmployeeConfirm.fxml"));
-                Parent parent = null;
+            }else{
+                String email = data.getEmail();
+                String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '" + email + "'";
+
+                DBConnect dbConnect = new DBConnect();
+                dbConnect.readProperties();
+                Connection conn = dbConnect.getDBConnection();
                 try {
-                    parent = loader.load();
-                    DeleteEmployeeConfirmController deleteEmployeeConfirmController = loader.getController();
-                    deleteEmployeeConfirmController.lbFullname.setText(data.getName()) ;
-                    deleteEmployeeConfirmController.email = data.getEmail();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    Statement st = conn.createStatement();
+                    st.executeUpdate(query);
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
-                GaussianBlur blurEffect = new GaussianBlur(10);
-                stage.getScene().getRoot().setEffect(blurEffect);
-                Stage stage = new Stage();
-                Scene scene = new Scene(parent);
-                scene.setFill(Color.TRANSPARENT);
-                stage.setScene(scene);
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.showAndWait();
+                String name = data.getName();
+                String title = "Successfully deleted information";
+                String mess = "Employee " + name + " has successfully deleted the information";
+                TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                tray.setAnimationType(AnimationType.POPUP);
+                tray.showAndDismiss(Duration.seconds(3));
+                tray.showAndWait();
+                initLoadTable();
+                initTotalEmployee();
             }
         });
 
@@ -367,13 +362,11 @@ public class EmployeeController implements Initializable {
     public void setCellValue() {
         tableEmployee.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         columnName.setMaxWidth(1f * Integer.MAX_VALUE * 25);
-        columnGender.setMaxWidth(1f * Integer.MAX_VALUE * 10);
         columnPosition.setMaxWidth(1f * Integer.MAX_VALUE * 20);
-        columnEmail.setMaxWidth(1f * Integer.MAX_VALUE * 25);
-        columnPhoneNumber.setMaxWidth(1f * Integer.MAX_VALUE * 20);
+        columnEmail.setMaxWidth(1f * Integer.MAX_VALUE * 30);
+        columnPhoneNumber.setMaxWidth(1f * Integer.MAX_VALUE * 25);
 
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         columnPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
@@ -386,13 +379,13 @@ public class EmployeeController implements Initializable {
         dbConnect.readProperties();
         Connection conn = dbConnect.getDBConnection();
         Statement st = null;
-        String query = "SELECT EmployeeInformation.fullName, EmployeeInformation.userGender, Account.position, EmployeeInformation.userEmail, EmployeeInformation.userPhone FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE deleted = '0' AND username != 'admin'";
+        String query = "SELECT EmployeeInformation.fullName, Account.position, EmployeeInformation.userEmail, EmployeeInformation.userPhone FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE deleted = '0' AND username != 'admin'";
         try {
             st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             int i = 0;
             while (rs.next()) {
-                employeeLists.add(new EmployeeList(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+                employeeLists.add(new EmployeeList(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
                 i++;
             }
         } catch (SQLException throwables) {

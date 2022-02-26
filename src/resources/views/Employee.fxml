@@ -65,10 +65,9 @@
             <TableView fx:id="tableEmployee" layoutX="18.0" layoutY="11.0" prefHeight="429.0" prefWidth="700.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="150.39995956420898" text="Name" />
-                  <TableColumn fx:id="columnGender" prefWidth="92.0" text="Gender" />
-                <TableColumn fx:id="columnPosition" prefWidth="134.4000244140625" text="Position" />
-                  <TableColumn fx:id="columnEmail" prefWidth="121.60000610351562" text="Email" />
-                  <TableColumn fx:id="columnPhoneNumber" minWidth="0.0" prefWidth="200.79998779296875" text="Phone Number" />
+                <TableColumn fx:id="columnPosition" prefWidth="108.80006408691406" text="Position" />
+                  <TableColumn fx:id="columnEmail" prefWidth="145.60003662109375" text="Email" />
+                  <TableColumn fx:id="columnPhoneNumber" minWidth="0.0" prefWidth="292.8000183105469" text="Phone Number" />
               </columns>
             </TableView>
             <Button fx:id="btnEdit" layoutX="336.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="290.0">
