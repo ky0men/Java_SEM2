@@ -328,6 +328,29 @@ public class StaffDashboardController implements Initializable {
             }
         });
 
+        //About us button action
+        aboutUsBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/AboutUs.fxml"));
+                Parent parent = null;
+                try {
+                    parent = loader.load();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                GaussianBlur blurEffect = new GaussianBlur(10);
+                LoginController.stage.getScene().getRoot().setEffect(blurEffect);
+                Stage stage = new Stage();
+                Scene scene = new Scene(parent);
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+            }
+        });
+
         roomMapBtnClick();
         changeSceneWhenClickButton(bookingManageBtn, bookingManageIcon, hboxHome, hboxCustomer, "BookingManage.fxml");
         customerBtnClick();

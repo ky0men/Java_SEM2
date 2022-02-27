@@ -1,15 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="580.0" prefWidth="700.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="580.0" prefWidth="680.0" style="-fx-background-color: white; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StockManageController">
    <children>
-      <Label layoutX="173.0" layoutY="264.0" text="Stock Manage Content" textFill="#00699c">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="452.0" prefWidth="740.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefWidth="200.0">
+               <children>
+                  <Label text="Stock Management" textFill="#2979af" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="17.0" prefWidth="680.0" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxHeight="80.0" prefHeight="60.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-view-in-ar" iconSize="45" />
+                        <VBox prefHeight="60.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="211.0" text="Current Stock" textFill="#474787">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="thisMonthRevenueLabel" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="295.0" text="645 Units" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxHeight="80.0" prefHeight="74.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-attach-money" iconSize="42" />
+                        <VBox prefHeight="74.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="229.0" text="Stock Value" textFill="#474787">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="thisYearRevenue" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="355.0" text="5,250,000" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="390.0" layoutY="10.0" maxHeight="80.0" prefHeight="74.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-archive" iconSize="42" />
+                        <VBox prefHeight="74.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="229.0" text="Stock In" textFill="#474787">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="thisYearRevenue1" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="355.0" text="685 Units" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="550.0" layoutY="10.0" maxHeight="80.0" prefWidth="170.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-open-in-browser" iconSize="42" />
+                        <VBox prefHeight="74.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="229.0" text="Stock Out" textFill="#474787">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="thisYearRevenue11" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="355.0" text="40 Units" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="295.0" prefWidth="740.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <BarChart fx:id="barChart" prefHeight="295.0" prefWidth="691.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="20.0">
+               <children>
+                  <JFXButton fx:id="checkinBtn" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="checkinBtn1" layoutX="520.0" layoutY="40.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="   Edit   " textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="cancelBtn" layoutX="712.0" layoutY="10.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" top="30.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>
