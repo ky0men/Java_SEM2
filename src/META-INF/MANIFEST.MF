@@ -1,8 +1,13 @@
 Manifest-Version: 1.0
 Main-Class: App
-Class-Path: lib/jfoenix-9.0.10.jar lib/TrayTester.jar lib/ikonli-core-12
- .2.0.jar lib/ikonli-javafx-12.2.0.jar lib/ikonli-material-pack-12.2.0.j
- ar lib/mssql-jdbc-9.2.0.jre15.jar lib/javafx-swt.jar lib/javafx.base.ja
- r lib/javafx.controls.jar lib/javafx.fxml.jar lib/javafx.graphics.jar l
- ib/javafx.media.jar lib/javafx.swing.jar lib/javafx.web.jar
+Class-Path: lib/mail.jar lib/activation.jar lib/javafx-swt.jar lib/javaf
+ x.web.jar lib/TrayTester.jar lib/javafx.base.jar lib/javafx.fxml.jar li
+ b/javafx.media.jar lib/javafx.swing.jar lib/jfoenix-9.0.10.jar lib/com.
+ sun.net.ssl.jar lib/itext7-io-7.0.2.jar lib/javafx.controls.jar lib/jav
+ afx.graphics.jar lib/slf4j-api-1.7.35.jar lib/itext7-hyph-7.0.2.jar lib
+ /itext7-pdfa-7.0.2.jar lib/itext7-sign-7.0.2.jar lib/ikonli-core-12.2.0
+ .jar lib/itext7-forms-7.0.2.jar lib/itext7-kernel-7.0.2.jar lib/itext7-
+ layout-7.0.2.jar lib/ikonli-javafx-12.2.0.jar lib/itext7-pdftest-7.0.2.
+ jar lib/itext7-barcodes-7.0.2.jar lib/mssql-jdbc-9.2.0.jre15.jar lib/it
+ ext7-font-asian-7.0.2.jar lib/ikonli-material-pack-12.2.0.jar
 

@@ -328,7 +328,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="nameEmployee" layoutX="26.0" layoutY="15.0" prefHeight="20.0" prefWidth="198.0" text="Admin" textFill="WHITE">
+                  <Label fx:id="nameEmployee" layoutX="26.0" layoutY="15.0" prefHeight="20.0" prefWidth="198.0" text="Admin" textFill="#f7d80a">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -351,10 +351,13 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="aboutUsBtn" text="About Us" textFill="WHITE">
+                  <JFXButton fx:id="aboutUsBtn" text="About Us" textFill="#f7d80a">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                </children>
             </HBox>

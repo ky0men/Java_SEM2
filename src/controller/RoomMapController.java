@@ -102,8 +102,8 @@ public class RoomMapController implements Initializable {
     final double SPEED = 0.01;
 
 
-    private String allRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID Where isDeleteRoom=0";
-    private String availableRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Available' AND  isDeleteRoom=0";
+    private String allRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID";
+    private String availableRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Available'";
     private String rentedRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Rented'";
     private String dirtyRoomSql = "SELECT R.roomName, R.roomStatus, RT.roomTypeName FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID WHERE R.roomStatus = 'Dirty'";
 

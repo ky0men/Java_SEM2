@@ -102,12 +102,12 @@
             </HBox>
             <HBox prefHeight="239.0" prefWidth="740.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="tableRevenue" prefHeight="585.0" prefWidth="720.0" stylesheets="@../styles/Employee.css" HBox.hgrow="ALWAYS">
+                  <TableView fx:id="tableRevenue" prefHeight="585.0" prefWidth="5000.0" stylesheets="@../styles/TableView.css" HBox.hgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="noCol" prefWidth="49.0" text="No." />
                         <TableColumn fx:id="customerCol" prefWidth="277.0" text="Customer" />
                         <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="128.0" text="Date" />
-                        <TableColumn fx:id="revenueCol" editable="false" minWidth="-Infinity" prefWidth="265.0" sortable="false" text="Revenue" />
+                        <TableColumn fx:id="revenueCol" editable="false" minWidth="0.0" prefWidth="265.0" sortable="false" text="Revenue" />
                     </columns>
                   </TableView>
                </children>
