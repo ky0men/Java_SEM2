@@ -2,8 +2,6 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import dao.DBConnect;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -50,6 +48,7 @@ public class DeleteCustomerConfirmController implements Initializable {
             titleBar.getScene().getWindow().setY(event.getScreenY() - y);
         });
 
+        //Set Action for Yes Button
         confirmBtn.setOnAction(event -> {
             String query = "UPDATE Customer SET cusDeleted = '1' WHERE cusIdentityNumber = '" + idNumber + "'";
 
@@ -76,6 +75,7 @@ public class DeleteCustomerConfirmController implements Initializable {
             LoginController.stage.getScene().getRoot().setEffect(blur);
         });
 
+        //Set Action for No Button
         cancelBtn.setOnAction(event -> {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();

@@ -1,24 +1,16 @@
 package controller;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.kordamp.ikonli.javafx.FontIcon;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
@@ -148,6 +140,7 @@ public class ChangePasswordController implements Initializable {
             }
         });
 
+        //Close Window
         btnCancel.setOnAction(event -> {
             Node node = (Node)event.getSource();
             Stage stage = (Stage)node.getScene().getWindow();
@@ -157,6 +150,7 @@ public class ChangePasswordController implements Initializable {
         });
     }
 
+    //Check Confirm Password
     private boolean checkPassword(){
         boolean flag = false;
         String password = txtPassword.getText();
@@ -178,6 +172,7 @@ public class ChangePasswordController implements Initializable {
         return flag;
     }
 
+    //Get Username
     private String getUsername(){
         String userName = null;
         String query = "SELECT username FROM Account join EmployeeInformation on Account.id = EmployeeInformation.userID WHERE userEmail = '"+ email +"'";
@@ -198,9 +193,10 @@ public class ChangePasswordController implements Initializable {
         return userName;
     }
 
+    //Send New Password
     private void sendAccount() throws MessagingException {
         String host = "smtp.gmail.com";
-        String user ="sem2.batch165@gmail.com";
+        String user ="lotushotel.infor@gmail.com";
         String pass="165165165";
         String to = email;
         String subject="Lotus Hotel - Change Password";

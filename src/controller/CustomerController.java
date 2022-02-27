@@ -173,6 +173,7 @@ public class CustomerController implements Initializable {
             }
         });
 
+        //Set Action for Delete Button
         btnDelete.setOnAction(event -> {
             data = tableCustomer.getSelectionModel().getSelectedItem();
             if(data == null){

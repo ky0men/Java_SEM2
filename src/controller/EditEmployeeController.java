@@ -188,7 +188,7 @@ public class EditEmployeeController implements Initializable {
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
                 String title = "Successfully changed information";
-                String mess = "Employee " + txtFullName.getText() + " has successfully \n changed information";
+                String mess = "Employee " + txtFullName.getText() + " has successfully changed ";
                 TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
                 tray.setAnimationType(AnimationType.POPUP);
                 tray.showAndDismiss(Duration.seconds(3));
@@ -198,6 +198,7 @@ public class EditEmployeeController implements Initializable {
             }
         });
 
+        //Close Window
         btnCancel.setOnAction(event -> {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
@@ -207,6 +208,7 @@ public class EditEmployeeController implements Initializable {
         });
     }
 
+    //Check Exist Email
     private boolean emailIsExist() {
         boolean flag = false;
         String email = txtEmail.getText();
@@ -239,6 +241,7 @@ public class EditEmployeeController implements Initializable {
         return flag;
     }
 
+    //Check Exist Phone Number
     private boolean phoneNumberIsExist() {
         boolean flag = false;
         String phoneNumber = txtPhoneNumber.getText();
@@ -272,6 +275,7 @@ public class EditEmployeeController implements Initializable {
         return flag;
     }
 
+    //Update table Account
     private void UpdateTableAccount() {
         String position = cbPosition.getSelectionModel().getSelectedItem();
         String query = "UPDATE Account SET position = '" + position + "' WHERE id = " + id + "";
@@ -288,6 +292,7 @@ public class EditEmployeeController implements Initializable {
         }
     }
 
+    //Update table Profile
     private void UpdateTableProfile() {
         String fullName = txtFullName.getText();
         String numberId = txtNoID.getText();

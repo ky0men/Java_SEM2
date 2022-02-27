@@ -15,17 +15,17 @@
 
 <AnchorPane prefHeight="616.0" prefWidth="740.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
    <children>
-      <TableView fx:id="tableCustomer" layoutX="25.0" layoutY="122.0" prefHeight="424.0" prefWidth="700.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="122.0">
+      <TableView fx:id="tableCustomer" layoutX="25.0" layoutY="122.0" prefHeight="437.0" prefWidth="720.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="122.0">
          <columns>
             <TableColumn fx:id="columnName" prefWidth="184.80005264282227" text="Name" />
             <TableColumn fx:id="columnGender" prefWidth="111.199951171875" text="Gender" />
             <TableColumn fx:id="columnPhoneNumber" minWidth="0.0" prefWidth="205.60006713867188" text="Phone Number" />
-            <TableColumn fx:id="columnNumberID" prefWidth="194.4000244140625" text="ID Number" />
+            <TableColumn fx:id="columnNumberID" prefWidth="216.0" text="ID Number" />
          </columns>
       </TableView>
       <AnchorPane prefHeight="126.0" prefWidth="745.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="btnRefresh" layoutX="550.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="120.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0">
+            <Button fx:id="btnRefresh" layoutX="550.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="120.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
                </graphic>
@@ -36,12 +36,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="txtSearch" layoutX="370.0" layoutY="73.0" prefHeight="38.0" prefWidth="348.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="20.0">
+            <TextField fx:id="txtSearch" layoutX="370.0" layoutY="73.0" prefHeight="38.0" prefWidth="348.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="10.0">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </TextField>
-            <HBox alignment="CENTER_LEFT" layoutX="23.0" layoutY="31.0" prefHeight="83.0" prefWidth="198.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" AnchorPane.leftAnchor="20.0">
+            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="21.0" prefHeight="83.0" prefWidth="198.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" AnchorPane.leftAnchor="14.0">
                <children>
                   <FontIcon iconColor="#2980b9" iconLiteral="gmi-supervised-user-circle" iconSize="40" text="" wrappingWidth="50.39999008178711" />
                   <VBox prefHeight="83.0" prefWidth="140.0">
@@ -68,7 +68,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <Button fx:id="btnAddCustomer" layoutX="25.0" layoutY="564.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add Customer" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+      <Button fx:id="btnAddCustomer" layoutX="25.0" layoutY="564.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add Customer" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
          </graphic>
@@ -79,7 +79,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnEdit" layoutX="353.0" layoutY="564.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="130.0">
+      <Button fx:id="btnEdit" layoutX="353.0" layoutY="564.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="130.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
          </graphic>
@@ -90,7 +90,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnDelete" layoutX="625.0" layoutY="564.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <Button fx:id="btnDelete" layoutX="625.0" layoutY="564.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
          </graphic>

@@ -2,8 +2,6 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import dao.DBConnect;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -54,6 +52,7 @@ public class DeleteEmployeeConfirmController implements Initializable {
             titleBar.getScene().getWindow().setY(event.getScreenY() - y);
         });
 
+        //Set Action for Yes Button
         confirmBtn.setOnAction(event -> {
             String query = "UPDATE EmployeeInformation SET deleted = '1'WHERE userEmail = '" + email + "'";
 
@@ -80,6 +79,7 @@ public class DeleteEmployeeConfirmController implements Initializable {
             LoginController.stage.getScene().getRoot().setEffect(blur);
         });
 
+        //Set Action for No Button
         cancelBtn.setOnAction(event -> {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
