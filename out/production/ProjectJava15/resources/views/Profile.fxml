@@ -9,17 +9,20 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="740.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeProfileController">
+<AnchorPane fx:id="titleBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="650.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #474787; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeProfileController">
    <children>
-      <Label fx:id="lbFullName" layoutX="50.0" layoutY="80.0" text="Ton That Hao Phuc" textFill="#474787" AnchorPane.leftAnchor="50.0">
+      <Label fx:id="lbFullName" layoutX="41.0" layoutY="68.0" text="Ton That Hao Phuc" textFill="#474787" AnchorPane.leftAnchor="40.0">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>
       </Label>
-      <GridPane layoutX="50.0" layoutY="173.0" prefHeight="270.0" prefWidth="374.0">
+      <GridPane layoutX="20.0" layoutY="140.0" prefHeight="270.0" prefWidth="374.0" AnchorPane.leftAnchor="40.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="157.4000244140625" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="584.8000106811523" minWidth="10.0" prefWidth="216.5999755859375" />
@@ -106,12 +109,12 @@
             </Label>
          </children>
       </GridPane>
-      <Label fx:id="lbPosition" layoutX="50.0" layoutY="52.0" prefHeight="18.0" prefWidth="130.0" text="Front Office">
+      <Label fx:id="lbPosition" layoutX="41.0" layoutY="64.0" prefHeight="18.0" prefWidth="130.0" text="Front Office" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="40.0">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnEdit" layoutX="283.0" layoutY="527.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit Information" textFill="WHITE" AnchorPane.bottomAnchor="50.60000000000002" AnchorPane.rightAnchor="320.0">
+      <Button fx:id="btnEdit" layoutX="283.0" layoutY="527.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit Information" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="300.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
          </graphic>
@@ -122,7 +125,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnChangePassword" layoutX="445.0" layoutY="527.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Change Password" textFill="WHITE" AnchorPane.bottomAnchor="50.60000000000002" AnchorPane.rightAnchor="150.0">
+      <Button fx:id="btnChangePassword" layoutX="445.0" layoutY="527.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Change Password" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="135.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
          </graphic>
@@ -133,7 +136,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnRefresh" layoutX="40.0" layoutY="503.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
+      <Button fx:id="btnRefresh" layoutX="50.0" layoutY="480.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
          </graphic>
@@ -144,12 +147,35 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fx:id="imgAvatar" fitHeight="280.0" fitWidth="280.0" layoutX="410.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="80.0" />
-      <Button fx:id="btnCancel" layoutX="612.0" layoutY="527.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel" AnchorPane.rightAnchor="50.0">
+      <ImageView fx:id="imgAvatar" fitHeight="226.771" fitWidth="151.181" layoutX="396.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="102.81900024414062" />
+      <Button fx:id="btnCancel" layoutX="612.0" layoutY="527.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Close" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="gmi-close" iconSize="17" />
+         </graphic>
       </Button>
+      <Button fx:id="btnLoadAvatar" layoutX="406.0" layoutY="398.0" mnemonicParsing="false" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Upload Avatar">
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.99210524559021" green="0.99210524559021" blue="0.99210524559021" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="gmi-upload-file" iconSize="17" />
+         </graphic></Button>
    </children>
    <opaqueInsets>
       <Insets />

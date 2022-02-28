@@ -195,6 +195,7 @@ public class EmployeeController implements Initializable {
             }
         });
 
+        //Set Action Delete Button
         btnDelete.setOnAction(event -> {
             data = tableEmployee.getSelectionModel().getSelectedItem();
             if(data == null){
@@ -227,6 +228,7 @@ public class EmployeeController implements Initializable {
             }
         });
 
+        //Set Action Change Password Button
         btnChangePassword.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

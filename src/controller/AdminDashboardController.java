@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -315,8 +316,8 @@ public class AdminDashboardController implements Initializable {
                 String email = null;
                 String phoneNumber = null;
                 String address = null;
-                String query = "SELECT * FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID " +
-                        "WHERE EmployeeInformation.fullName = '" + fullName + "'";
+                String query = "SELECT * FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID" +
+                        " WHERE EmployeeInformation.fullName = '" + fullName + "'";
 
                 DBConnect dbConnect = new DBConnect();
                 dbConnect.readProperties();
@@ -335,6 +336,7 @@ public class AdminDashboardController implements Initializable {
                         email = rs.getString("userEmail");
                         phoneNumber = rs.getString("userPhone");
                         address = rs.getString("userAddress");
+
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -348,6 +350,8 @@ public class AdminDashboardController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                //Set Values
                 EmployeeProfileController employeeProfileController = loader.getController();
                 employeeProfileController.id = id;
                 employeeProfileController.lbFullName.setText(fullName);
@@ -360,8 +364,30 @@ public class AdminDashboardController implements Initializable {
                 employeeProfileController.lbPhoneNumber.setText(phoneNumber);
                 employeeProfileController.lbAddress.setText(address);
 
-                GaussianBlur blurEffect = new GaussianBlur(10);
-                LoginController.stage.getScene().getRoot().setEffect(blurEffect);
+                //Set Avatar
+                String getAvatarQuery = "SELECT avatar FROM EmployeeAvatar WHERE userID = "+ id +"";
+                try {
+                    Statement st = conn.createStatement();
+                    ResultSet rs = st.executeQuery(getAvatarQuery);
+                    if (rs.next()) {
+                        InputStream is = rs.getBinaryStream("avatar");
+                        OutputStream os = new FileOutputStream(new File("avatar.jpg"));
+                        byte[] contents = new byte[1024];
+                        int size = 0;
+                        while( (size = is.read(contents)) != -1) {
+                            os.write(contents, 0, size);
+                        }
+                        Image image = new Image("file:avatar.jpg", employeeProfileController.imgAvatar.getFitHeight(), employeeProfileController.imgAvatar.getFitHeight(), true, true);
+                        employeeProfileController.imgAvatar.setImage(image);
+                    }else {
+                        Image image = new Image("/resources/images/lotus-logo.png");
+                        employeeProfileController.imgAvatar.setImage(image);
+                    }
+                } catch (SQLException | IOException throwables) {
+                    throwables.printStackTrace();
+                }
+
+
                 Stage stage = new Stage();
                 Scene scene = new Scene(parent);
                 scene.setFill(Color.TRANSPARENT);

@@ -30,7 +30,10 @@ CREATE TABLE EmployeeInformation(
 	primary key (userID)
 )
 
-
+CREATE TABLE EmployeeAvatar(
+	userID int foreign key references Account(id),
+	avatar image
+)
 
 CREATE TABLE RoomType(
     roomTypeID INT IDENTITY (1,1) PRIMARY KEY,

@@ -29,12 +29,12 @@
       </HBox>
       <ButtonBar layoutX="565.0" layoutY="286.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add">
+            <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel">
+            <Button fx:id="btnCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

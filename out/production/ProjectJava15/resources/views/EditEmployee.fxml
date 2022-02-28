@@ -148,11 +148,11 @@
       </GridPane>
       <ButtonBar layoutX="561.0" layoutY="355.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button fx:id="btnSave" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit">
+            <Button fx:id="btnSave" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btnCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel">
+            <Button fx:id="btnCancel" mnemonicParsing="false" prefHeight="26.0" prefWidth="73.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

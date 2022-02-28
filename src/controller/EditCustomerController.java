@@ -4,14 +4,11 @@ import com.jfoenix.controls.*;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -144,7 +141,7 @@ public class EditCustomerController implements Initializable {
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
                 String title = "Successfully changed information";
-                String mess = "Customer " + txtFullName.getText() + " has successfully \n changed information";
+                String mess = "Customer " + txtFullName.getText() + " has successfully changed";
                 TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
                 tray.setAnimationType(AnimationType.POPUP);
                 tray.showAndDismiss(Duration.seconds(3));
@@ -154,6 +151,7 @@ public class EditCustomerController implements Initializable {
             }
         });
 
+        //Close Window
         btnCancel.setOnAction(event -> {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
@@ -163,6 +161,7 @@ public class EditCustomerController implements Initializable {
         });
     }
 
+    //Check Exist ID Number
     private boolean idNumberIsExist() {
         boolean flag = false;
         String idNumber = txtNoID.getText();
@@ -195,6 +194,7 @@ public class EditCustomerController implements Initializable {
         return flag;
     }
 
+    //Update table Customer
     private void updateTableCustomer() {
         String fullName = txtFullName.getText();
         String numberId = txtNoID.getText();

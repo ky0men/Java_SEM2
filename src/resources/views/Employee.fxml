@@ -17,7 +17,7 @@
    <children>
       <AnchorPane prefHeight="106.0" prefWidth="740.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="btnRefresh" layoutX="550.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="120.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="20.0">
+            <Button fx:id="btnRefresh" layoutX="550.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="120.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
                </graphic>
@@ -28,7 +28,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="27.0" prefHeight="83.0" prefWidth="190.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" AnchorPane.leftAnchor="20.0">
+            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="83.0" prefWidth="190.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" AnchorPane.leftAnchor="10.0">
                <children>
                   <FontIcon iconColor="#2980b9" iconLiteral="gmi-supervised-user-circle" iconSize="40" text="" wrappingWidth="50.39999008178711" />
                   <VBox prefHeight="74.0" prefWidth="114.0">
@@ -53,7 +53,7 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <TextField fx:id="txtSearch" layoutX="370.0" layoutY="73.0" prefHeight="38.0" prefWidth="348.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="22.0">
+            <TextField fx:id="txtSearch" layoutX="370.0" layoutY="73.0" prefHeight="38.0" prefWidth="348.0" promptText="Search here" style="-fx-border-color: #474787; -fx-border-radius: 10; -fx-background-radius: 10;" AnchorPane.rightAnchor="10.0">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
@@ -62,7 +62,7 @@
       </AnchorPane>
       <AnchorPane layoutY="107.0" prefHeight="509.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0">
          <children>
-            <TableView fx:id="tableEmployee" layoutX="18.0" layoutY="11.0" prefHeight="429.0" prefWidth="700.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+            <TableView fx:id="tableEmployee" layoutX="18.0" layoutY="11.0" prefHeight="440.0" prefWidth="720.0" stylesheets="@../styles/Employee.css" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
               <columns>
                 <TableColumn fx:id="columnName" prefWidth="150.39995956420898" text="Name" />
                   <TableColumn fx:id="columnGender" prefWidth="92.0" text="Gender" />
@@ -71,7 +71,7 @@
                   <TableColumn fx:id="columnPhoneNumber" minWidth="0.0" prefWidth="200.79998779296875" text="Phone Number" />
               </columns>
             </TableView>
-            <Button fx:id="btnEdit" layoutX="336.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="290.0">
+            <Button fx:id="btnEdit" layoutX="336.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Edit" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="290.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
                </graphic>
@@ -82,7 +82,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnDelete" layoutX="620.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <Button fx:id="btnDelete" layoutX="620.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Delete" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
                </graphic>
@@ -93,7 +93,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnChangePassword" layoutX="460.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Change Password" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="130.0">
+            <Button fx:id="btnChangePassword" layoutX="460.0" layoutY="450.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Change Password" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="125.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-refresh" iconSize="17" />
                </graphic>
@@ -104,7 +104,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnAddUser" layoutX="20.0" layoutY="476.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new employee" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+            <Button fx:id="btnAddUser" layoutX="20.0" layoutY="476.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="168.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add new employee" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="gmi-add" iconSize="17" />
                </graphic>

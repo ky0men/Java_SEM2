@@ -11,23 +11,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import static controller.LoginController.stage;
 
@@ -71,20 +77,32 @@ public class EmployeeProfileController implements Initializable {
     @FXML
     private Button btnCancel;
 
+    @FXML
+    private Button btnLoadAvatar;
 
     @FXML
-    private ImageView imgAvatar;
+    public ImageView imgAvatar;
+
+    @FXML
+    private AnchorPane titleBar;
 
     public int id;
 
-    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Front Office");
+    private double x, y;
 
+    ObservableList<String> positionList = FXCollections.observableArrayList("Manager", "Employee", "Front Office");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Set Image
-        Image avt = new Image("resources/images/lotus-logo.png");
-        imgAvatar.setImage(avt);
+        //Window move action
+        titleBar.setOnMousePressed(event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
+        });
+        titleBar.setOnMouseDragged(event -> {
+            titleBar.getScene().getWindow().setX(event.getScreenX() - x);
+            titleBar.getScene().getWindow().setY(event.getScreenY() - y);
+        });
 
         //Style Button
         ImageView editImg = new ImageView("/resources/images/edit.png");
@@ -165,46 +183,150 @@ public class EmployeeProfileController implements Initializable {
             }
         });
 
-        btnRefresh.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String query = "SELECT * FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE Account.id = '" + id + "'";
-                DBConnect dbConnect = new DBConnect();
-                dbConnect.readProperties();
-                Connection conn = dbConnect.getDBConnection();
+        btnRefresh.setOnAction(event -> {
+            String query = "SELECT * FROM Account JOIN EmployeeInformation ON Account.id = EmployeeInformation.userID WHERE Account.id = '" + id + "'";
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
 
-                try {
-                    Statement st = conn.createStatement();
-                    ResultSet rs = st.executeQuery(query);
-                    while (rs.next()) {
-                        id = rs.getInt("id");
-                        lbFullName.setText(rs.getString("fullName"));
-                        lbPosition.setText(rs.getString("position"));
-                        lbGender.setText(rs.getString("userGender"));
-                        lbIdNumber.setText(rs.getString("numberId"));
-                        lbBirthday.setText(rs.getString("birthday"));
-                        lbEmail.setText(rs.getString("userEmail"));
-                        lbPhoneNumber.setText(rs.getString("userPhone"));
-                        lbAddress.setText(rs.getString("userAddress"));
-                    }
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+            try {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()) {
+                    id = rs.getInt("id");
+                    lbFullName.setText(rs.getString("fullName"));
+                    lbPosition.setText(rs.getString("position"));
+                    lbGender.setText(rs.getString("userGender"));
+                    lbIdNumber.setText(rs.getString("numberId"));
+                    lbBirthday.setText(rs.getString("birthday"));
+                    lbEmail.setText(rs.getString("userEmail"));
+                    lbPhoneNumber.setText(rs.getString("userPhone"));
+                    lbAddress.setText(rs.getString("userAddress"));
                 }
-
-
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
+
+
         });
 
-        btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                stage.close();
-                GaussianBlur blur = new GaussianBlur(0);
-                LoginController.stage.getScene().getRoot().setEffect(blur);
+        btnCancel.setOnAction(event -> {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+            GaussianBlur blur = new GaussianBlur(0);
+            LoginController.stage.getScene().getRoot().setEffect(blur);
+        });
+
+        btnLoadAvatar.setOnAction(event -> {
+            DBConnect dbConnect = new DBConnect();
+            dbConnect.readProperties();
+            Connection conn = dbConnect.getDBConnection();
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choose Picture");
+            fileChooser.setInitialDirectory(
+                    new File(System.getProperty("user.home"))
+            );
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*")
+            );
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                //Change ImageView
+                String fileName = null;
+                try {
+                    fileName = file.toURI().toURL().toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                Image avatar = new Image(fileName);
+                imgAvatar.setImage(avatar);
+
+                //Convert Image
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    if(!avatarIsNull()){
+                        String query = "INSERT INTO EmployeeAvatar VALUES (?, ?)";
+                        try {
+                            PreparedStatement pst = conn.prepareStatement(query);
+                            pst.setInt(1, getID());
+                            pst.setBinaryStream(2,(InputStream) fileInputStream, (int) file.length());
+                            pst.execute();
+                            pst.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        String title = "Successfully Update Avatar";
+                        String mess = "Your avatar has been changed successfully";
+                        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                        tray.setAnimationType(AnimationType.POPUP);
+                        tray.showAndDismiss(Duration.seconds(3));
+                        tray.showAndWait();
+                    }else{
+                        String query = "UPDATE EmployeeAvatar SET avatar = ? WHERE userID = ?";
+                        try {
+                            PreparedStatement pst = conn.prepareStatement(query);
+                            pst.setBinaryStream(1,(InputStream) fileInputStream, (int) file.length());
+                            pst.setInt(2, getID());
+                            pst.execute();
+                            pst.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        String title = "Successfully Update Avatar";
+                        String mess = "Your avatar has been changed successfully";
+                        TrayNotification tray = new TrayNotification(title, mess, NotificationType.SUCCESS);
+                        tray.setAnimationType(AnimationType.POPUP);
+                        tray.showAndDismiss(Duration.seconds(3));
+                        tray.showAndWait();
+                    }
+
+                } catch (IOException | SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
+
+    //Check status Avatar
+    private boolean avatarIsNull() throws SQLException {
+        String query = "SELECT avatar FROM EmployeeAvatar WHERE userID = "+ getID() +"";
+
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        return rs.next();
+    }
+
+    //Get ID
+    private int getID(){
+        int userID = 0;
+        String query = "SELECT Account.id FROM Account JOIN EmployeeInformation " +
+                "ON Account.id = EmployeeInformation.userID WHERE EmployeeInformation.userEmail = '"+ lbEmail.getText() +"'";
+
+        DBConnect dbConnect = new DBConnect();
+        dbConnect.readProperties();
+        Connection conn = dbConnect.getDBConnection();
+
+        Statement st = null;
+        try {
+            st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while(rs.next()){
+                userID = rs.getInt("id");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userID;
+    }
+
+
 }

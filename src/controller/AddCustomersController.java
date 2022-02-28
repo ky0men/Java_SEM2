@@ -4,16 +4,11 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import dao.DBConnect;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -26,7 +21,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddCustomersController implements Initializable {
@@ -123,6 +117,7 @@ public class AddCustomersController implements Initializable {
             }
         });
 
+        //Add Customer
         btnAdd.setOnAction(event -> {
             if (txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
                     txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)) {
@@ -149,6 +144,7 @@ public class AddCustomersController implements Initializable {
             }
         });
 
+        //Close Window
         btnCancel.setOnAction(event -> {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
@@ -158,6 +154,7 @@ public class AddCustomersController implements Initializable {
         });
     }
 
+    //Add Customer to DB
     private void AddTableCustomer() {
         String fullName = txtFullName.getText();
         String numberId = txtNoID.getText();
@@ -179,6 +176,7 @@ public class AddCustomersController implements Initializable {
         }
     }
 
+    //Check Exist ID Number
     private boolean idNumberIsExist() {
         boolean flag = false;
         String idNumber = txtNoID.getText();
