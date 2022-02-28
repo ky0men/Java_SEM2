@@ -371,13 +371,13 @@ public class AdminDashboardController implements Initializable {
                     ResultSet rs = st.executeQuery(getAvatarQuery);
                     if (rs.next()) {
                         InputStream is = rs.getBinaryStream("avatar");
-                        OutputStream os = new FileOutputStream(new File("photo.jpg"));
+                        OutputStream os = new FileOutputStream(new File("avatar.jpg"));
                         byte[] contents = new byte[1024];
                         int size = 0;
                         while( (size = is.read(contents)) != -1) {
                             os.write(contents, 0, size);
                         }
-                        Image image = new Image("file:photo.jpg", employeeProfileController.imgAvatar.getFitHeight(), employeeProfileController.imgAvatar.getFitHeight(), true, true);
+                        Image image = new Image("file:avatar.jpg", employeeProfileController.imgAvatar.getFitHeight(), employeeProfileController.imgAvatar.getFitHeight(), true, true);
                         employeeProfileController.imgAvatar.setImage(image);
                     }else {
                         Image image = new Image("/resources/images/lotus-logo.png");
