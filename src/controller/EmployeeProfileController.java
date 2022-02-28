@@ -225,13 +225,14 @@ public class EmployeeProfileController implements Initializable {
             Connection conn = dbConnect.getDBConnection();
 
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("View Pictures");
+            fileChooser.setTitle("Choose Picture");
             fileChooser.setInitialDirectory(
                     new File(System.getProperty("user.home"))
             );
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                    new FileChooser.ExtensionFilter("PNG", "*.png")
+                    new FileChooser.ExtensionFilter("PNG", "*.png"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*")
             );
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
