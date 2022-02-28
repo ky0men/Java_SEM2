@@ -164,15 +164,21 @@ public class AddEmployeeController implements Initializable {
         txtPhoneNumber.getValidators().add(phoneNumberValidation);
         phoneNumberValidation.setMessage("Phone Number is required!");
 
+        RegexValidator userRegexValidation = new RegexValidator();
+        String regexUsername = "^[a-zA-Z]([._](?![._])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
+        userRegexValidation.setRegexPattern(regexUsername);
+        userRegexValidation.setMessage("Your Username is not valid");
+        txtUserName.getValidators().add(userRegexValidation);
+
         RegexValidator emailRegexValidator = new RegexValidator();
-        String RegexEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        emailRegexValidator.setRegexPattern(RegexEmail);
+        String regexEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        emailRegexValidator.setRegexPattern(regexEmail);
         emailRegexValidator.setMessage("Your Email is not valid");
         txtEmail.getValidators().add(emailRegexValidator);
 
         RegexValidator phoneRegexValidator = new RegexValidator();
-        String RegexPhone = "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
-        phoneRegexValidator.setRegexPattern(RegexPhone);
+        String regexPhone = "(84|0[3|5|7|8|9])+([0-9]{8})\\b";
+        phoneRegexValidator.setRegexPattern(regexPhone);
         phoneRegexValidator.setMessage("Your Phone Number is not valid");
         txtPhoneNumber.getValidators().add(phoneRegexValidator);
 
@@ -231,10 +237,10 @@ public class AddEmployeeController implements Initializable {
 
         //Add Employee
         btnAdd.setOnAction(event -> {
-            if (txtUserName.getText().equals("") || txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("") ||
+            if (txtUserName.getText().equals("") || !txtUserName.getText().matches(regexUsername) || txtPassword.getText().equals("") || txtReEnterPassword.getText().equals("") ||
                     txtFullName.getText().equals("") || txtNoID.getText().equals("") || txtAddress.getText().equals("") ||
-                    txtEmail.getText().equals("") || !txtEmail.getText().matches(RegexEmail) ||
-                    txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(RegexPhone)) {
+                    txtEmail.getText().equals("") || !txtEmail.getText().matches(regexEmail) ||
+                    txtPhoneNumber.getText().equals("") || !txtPhoneNumber.getText().matches(regexPhone)) {
                 txtUserName.validate();
                 txtPassword.validate();
                 txtReEnterPassword.validate();
@@ -248,8 +254,8 @@ public class AddEmployeeController implements Initializable {
             checkPassword();
             emailIsExist();
             phoneNumberIsExist();
-            if (!userNameisExist() && checkPassword() && txtEmail.getText().matches(RegexEmail) && !emailIsExist() &&
-                    txtPhoneNumber.getText().matches(RegexPhone) && !phoneNumberIsExist()) {
+            if (!userNameisExist() && txtUserName.getText().matches(regexUsername) && checkPassword() && txtEmail.getText().matches(regexEmail) && !emailIsExist() &&
+                    txtPhoneNumber.getText().matches(regexPhone) && !phoneNumberIsExist()) {
                 addTableAccount();
                 addTableProfile();
 
