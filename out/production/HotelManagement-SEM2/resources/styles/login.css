@@ -1,0 +1,36 @@
+.main-pane{
+    -fx-background-color: transparent;
+}
+.left-pane{
+    -fx-background-color: linear-gradient(to right bottom, #070537, #003c74, #0074a6, #00afc8, #12ebd8);
+    -fx-background-radius: 16;
+}
+.right-pane{
+    -fx-background-radius: 16;
+    -fx-background-color: white;
+}
+.login-btn{
+    -fx-background-color: linear-gradient(to right bottom, #070537, #003c74, #0074a6, #00afc8, #12ebd8);
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+.login-btn:hover{
+    -fx-background-color: linear-gradient(to left top, #070537, #003c74, #0074a6, #00afc8, #12ebd8);
+
+}
+.close-btn:hover{
+    -fx-fill: red;
+}
+.minimize-btn:hover{
+    -fx-fill: green;
+}
+
+.forgot-pass-btn{
+    -fx-background-color: linear-gradient(to right bottom, #0665a1, #8161b1, #d05497, #f75e5f, #eb8c12);
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+.forgot-pass-btn:hover{
+    -fx-background-color: linear-gradient(to left top, #0665a1, #8161b1, #d05497, #f75e5f, #eb8c12);
+
+}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="main-pane" stylesheets="@../styles/CheckinRoom.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddServiceController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox fx:id="titleBar" alignment="CENTER" prefHeight="30.0" prefWidth="200.0" styleClass="title-name">
+               <children>
+                  <Label text="Add Service" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox layoutX="20.0" layoutY="160.0" prefHeight="290.0" prefWidth="778.0" spacing="30.0" styleClass="information-box">
+               <children>
+                  <HBox prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label style="-fx-background-color: white;" text="Service Information" textFill="#00699c">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="-20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <VBox prefHeight="62.0" prefWidth="777.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                           <children>
+                              <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxWidth="120.0" prefHeight="20.0" prefWidth="92.0" text="Service Name: ">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="tfName" focusColor="#00699c" prefHeight="30.0" prefWidth="630.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXTextField>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <Label fx:id="svNameValidation" prefHeight="34.0" prefWidth="348.0">
+                           <VBox.margin>
+                              <Insets left="132.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="52.0" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxWidth="100.0" prefWidth="100.0" text="Type of Service">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <JFXComboBox fx:id="cmbType" prefHeight="26.0" prefWidth="201.0" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxWidth="120.0" prefHeight="20.0" prefWidth="120.0" text="Price">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextField fx:id="tfPrice" focusColor="#00699c" prefHeight="30.0" prefWidth="169.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <Label prefHeight="17.0" prefWidth="38.0" text="VND" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="52.0" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefWidth="400.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxWidth="100.0" prefWidth="100.0" text="Unit">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <JFXComboBox fx:id="cmbUnit" prefHeight="26.0" prefWidth="200.0" />
+                           </children>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="20.0">
+               <children>
+                  <JFXButton fx:id="btnAdd" prefHeight="38.0" prefWidth="70.0" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Add" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="btnCancel" layoutX="712.0" layoutY="10.0" onAction="#CancelAction" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Cancel" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets right="30.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
