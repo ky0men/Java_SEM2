@@ -211,7 +211,7 @@
                                         padding-right: 0px;
                                         padding-left: 0px;
                                       " align="center">
-                                    <img align="center" border="0" src="https://lh3.googleusercontent.com/um1kIB-ebMKOZnvfo-jEpsU6kxfjH1801m6S3adjJE0sz2NxmBDpL5Z3jGdvocXl4z66BSGknb2x9CZOh9YE3gn3HWQOjX6a1CtFJ4IdVOtc8GTJsO2Fmi6AH05SFw8tkQO-jEQZBqidL8uUdz-D7CisN8b2Xp-lOXh11vcPeqNrwXbnJY0Nomg92BvAtLgkPb2nLjLNMlgIxYHdDNN2KYSjnbCt_lGy9QbCVkoi-vd_xB68JMAJfUAZKh3iDZDcFC3iYHVB_11qlMeaftFGPnEQBfkcHWYePyl4ubinq5poCmfKFb2XbTjMCV4DYlfOmLHxt0Pj0OqtX0gDpF0kg05TlSYDeZJcaeQK_GVgxVJVVtC67zi4q8IS0ZO--Afn50KPANxXHKxaG_tZs7RZEccE7H_LqOZlAt8KIsHNY-gX1M4oDAEIUMzsRApBSm_9M_MNVScsVyFmNuoUzhRHmlNidh2e0B73brbpHcsMcqCbIfBoxiswNqPIupJ2DdWUgm_5bRnVCxLLfGFqwreaiX5TLEMuGrCpC0ubDODbHp5V4OGVuQCX_2c2wWm1R4IayIqRjUDgpeEg9933yVGr8aD4_32z0Niie8An8jgxiazCEFbiue-UHrIGvuX3j9OBFMhDfiElsWJcbyB3kwFW_H5YA6wdgrNP0cbD2Iv0VI0zfgQaMYFM0-RpfEhWoKdRo2aPchwNBkJRU8Pb91U5J4E=w454-h293-no?authuser=3" alt="Logo" title="Logo"
+                                    <img align="center" border="0" src="https://raw.githubusercontent.com/ky0men/Java_SEM2/main/src/resources/images/lotus-logo.png" alt="Logo" title="Logo"
                                       style="
                                           outline: none;
                                           text-decoration: none;
@@ -293,7 +293,7 @@
                                         padding-right: 0px;
                                         padding-left: 0px;
                                       " align="center">
-                                    <img align="center" border="0" src="https://lh3.googleusercontent.com/i-YXiq9fixLV03HKuz8wTP-X31lt04PFgPbih2J5z38fS4a6YLpDcblHH5HjDUrwkEa8TTVrinTm21K8Z2EgWW83N3ebwnmQ7kls_NwGxu4ytjJs_wBD8CCq7MbQum-rc0bJyhf0n_szO3B3cqXs61a_-d_o5N3oSOvG2pQrnfRaSIDNGcW6GVAU31VkepdrRdgqkKFFTv4c7OtYdWleezJKm6PwBzRyYbo6hunJMa_1_m6VgVGCo0uH97uzLQykSFhw5HnBcRvTAkVlR4WWBcCtujarx2Unx2g3fcFRrJEX9y_JoXVfnKJbrZfGTRONpeOI5zxOTWS0pSuQfFVvQUXwXJlgo-ga2ZkT5o86PE90t-NmlEfYdM5MJGmWFwo0maWYaJnMyXCYVj-S9xBJzEC6hTKXmK8ceEGkII90rOzg2KW98JXEl_rBWlsgkptWKHNGRJYgrprblJhg4D4ZqFZgi1UVNa6nXgWdpWb9O0ZXdogvCt4rvxgnwc301J3VktMz-rv9mAzsy0pMHxFKoUGyYvPrY87vt33az4QS2fpdDfSRiCuYZp2GhHrAIJaSnQsnr62a1Hv1tDSRsBieN3OLUbtRapl2pSEKVB8PjTFr0q11YK5p9irySJXu7KbjuTf4OSN-zOYcD1Z-CFFioGLfr0DFq8yDqLihXIGhq3fJIFCCrsZrarVD6AuM2c5ObwKSQ3x4e2w4Jbtp5tLFfEs=w630-h629-no?authuser=3" alt="Tick Icon"
+                                    <img align="center" border="0" src="https://raw.githubusercontent.com/ky0men/Aptech-HTML/master/tick-icon.png" alt="Tick Icon"
                                       title="Tick Icon" style="
                                           outline: none;
                                           text-decoration: none;
@@ -505,7 +505,7 @@
                                               vertical-align: top;
                                             ">
                                           <a href="https://facebook.com/" title="Facebook" target="_blank">
-                                            <img src="https://lh3.googleusercontent.com/g1UQDwkvc13BDcpO0yB4OZLIOXrZWB2Qje0JgxPwZRTBqR2WREtIVtMskIAUso5vgPbIrrtyPtxbUI46BUwdF_raEPsI_hsDadtROutbhxv6Ld24DiyQ0Fnivaf9VDHBT-bH_oYMgRO9o-rZuZPDiFR-oZ_MsfdAvprhpCpHyTNVO2N1_KVBdAaQ6GVN7W2RAFxenDt7QEise-nN7IAZE_bNux8gqK4Y2NYN6IpPcmUFzK9CvKCeDcPifvPRbNwpEY137BL0eAeYts6JN7yO7fo0zEoclLUPdhEs-tPt1npQzKszwIT70cdAlpKrlFbfP4b9NEYGxpieURMXIzgAcYs0zZ1ibCVvD1PW7NGJ5B6x8jZLNBSnN4TKcAanLxWi8MPsmDXSsFwM2ZYHzUFRtBR721qzDgFREMRyaIcCkmBg1LXWpYFrTc0O4pRXHp7q7Ck4GyOGf_L7BMdk907WXWC1w59mhrqiYstmWwOHQgBBlin7yYLtFwaY5gJQjpC48UFN5PkKYFg1PYR8q2Y1NWhkS_aZ_NBGYGQlEIBZwuQvHARjvWCcCJkt7JbJeU9VGJGW-NoKK7AKCtstEp4bB5kOs03KoPjiFmggezFDpc8bdtT5IKToNPP3TFd-Vjx9tdzSfXEz8FJIKgEde84NYXSWnt-uzDhIUbNtW6zKMbJvWmW_PTPlzvtA-QA3audmWMWusimgnUHGESRPZqmp6Hs=s144-no?authuser=3" alt="Facebook" title="Facebook" width="32"
+                                            <img src="https://raw.githubusercontent.com/ky0men/Aptech-HTML/master/facebook.png" alt="Facebook" title="Facebook" width="32"
                                               style="
                                                   outline: none;
                                                   text-decoration: none;
@@ -540,7 +540,7 @@
                                               vertical-align: top;
                                             ">
                                           <a href="https://twitter.com/" title="Twitter" target="_blank">
-                                            <img src="https://lh3.googleusercontent.com/B6sfMEeieg_QazRllDiTOgZXawSS5tVBlAOwi5IvxY6n_c5C8_yqX_RrxUk0QNtA2dbVSXCEtE6uEoU-NsIIuC_oKrxpVZ0fGir6fgk5u94fd1M6ljAaPpS0VIb1xiTsw1rdsy3yn1tO9aK2LydiNYyPIo5tZVsVFGgbtF8F4eDwkr-sfGtEGMqvNvqaoNqY9tYgBpbRm2kuBAKWodxuExi4hTiXOMh-ajxd5l_Q9FLBhqi3fS6vFpkBXg0bHXKRpTV8Sw7PTbgWkwjmIjXOaKIUams3p-jxiPoG8ucxgDXhlndDlL_S5m1cOPufDjUEHpjQSZU7i9XBS_pPz1aDJvp-T2kw4KPKgIKZ1N_hgDdFYgEidVM8hRJqcU6Hfgqs6121dFmHgz6ip1ir4gQQYD2zN6APYLw0WLtVjNhckMMzLU-WHtOBTByKZMUNzOpNwW649el820NW-V3Yi5EFyTNDpapCRi_DSsZGLtPE3iNyo9BO22v93U5jFOXn6CCn0nYf6Ewqt-MejBwvtubBsG9e67MVWKbdp1bl2ZGwF4jXQbdMTkTndp_HBGbMpyYB7sOylnT5nr7cFyj1iB0Jm2UYk94QXfhOA4WCgiCrgekLsW6L_qf5YcRaU24es6U_ASBWD1OzxoYPxKRofbw91NPma1lH1KObA0RzqGUJxU4zgHcqKlk7oLacXbmCAPOFy3THcYOkT2SRRDM14yyXEPI=s144-no?authuser=3" alt="Twitter" title="Twitter" width="32"
+                                            <img src="https://raw.githubusercontent.com/ky0men/Aptech-HTML/master/twitter.png" alt="Twitter" title="Twitter" width="32"
                                               style="
                                                   outline: none;
                                                   text-decoration: none;
@@ -575,7 +575,7 @@
                                               vertical-align: top;
                                             ">
                                           <a href="https://instagram.com/" title="Instagram" target="_blank">
-                                            <img src="https://lh3.googleusercontent.com/-30oskUwybCF7PDqobrtNcKmS_5oDEUR7mEmuv11bSbz7U-R-fjde-pcYw3716Hsk-JNbHIbmWKfr4vQrOUHadTs1u2E9OJgK3hrfBfsQMCW2IwOF1BhxRMqK8B8mUCgsnosuyP1M5aJbvuilrRNTRHhrrofJ4XcE21V-SbRN9L-fRztkQ9fnaC_bwQKH0CXgTmJ1XbpO3gA2WPaIHBnWY7IF9hKKF0GHhwufMuYUH2B5njHiqPnUSXRtwLSrKJtd1bOeZmyZbyaJO6s9lRMhLdu5SCDRaJ584K_WFdeoulC8-3BLrGfYDECKrcq5VuiWOox2YLg7W12vYZf5Sky_WdMG51Te6-xEu7J0stmKBpDZKelV_JPRNlUpNfCPeuORIPsBNEy79NzvwL7zI6RjWJI1VA1W1Iq4KtdgWRghfmHMu7KKEzeaGAS9HKoSWrzc8OivJEGmtW20CJIpJJVT309SOsEVftN9psZf8VmAEMutTp_WSDccPiWd0O_102EJxvWtRFwaqGdqhLZWJAoebxUfieEqnzdyMx3bxNXFxW_bxiTUSargzC06qjLq8xOvXek4fIcEcSBj1B6JenpQXtS92pftbpD6JQtDWj5jjeEuSu8zN8Ntowyr1tvvo_m53F3KKp_mAszLZb-OU7PIqrcO_0fHJoi6MVRAwQZLJQOYEFVRst1LRSlXtKWj6X80ZUFF2BviVMDfQ1oHKGuCbY=s144-no?authuser=3" alt="Instagram" title="Instagram" width="32"
+                                            <img src="https://raw.githubusercontent.com/ky0men/Aptech-HTML/master/instagram.png" alt="Instagram" title="Instagram" width="32"
                                               style="
                                                   outline: none;
                                                   text-decoration: none;
@@ -610,7 +610,7 @@
                                               vertical-align: top;
                                             ">
                                           <a href="https://linkedin.com/" title="LinkedIn" target="_blank">
-                                            <img src="https://lh3.googleusercontent.com/Iy7c7B6eM47Q-1tFAimKgdEsyz9iyDQCTQ83HZ1LbYbeyG8OVwwuzjy7lKkSVAjhtKsY0viGOZv9GFTDYmISGBC2rtKNDsVRTkTLZwdhYgpC6sVxG2S_GLC0Q4J9uUctn5zpXH6dcivizAGDxOYV1JlODkkfPZH2qMh3w_uB8jnTpn0zjAMjgey2Yie_itHt3vCCujYLyd_21SCVBRpvLZT1uP5j-_DOnmY4v0q6yW2jpMLH0bjvpfbj2iLwJ3A5GarFraJuGd9M4cfBcKFULGq8-Tr0Wc-y0VmABcpdqbEr98aNhWTJASpC3jyXbsuwhpmf93EecNIjZ3idfJGYFMBLVn2TEee6MaHBQqoIYfCosZ1VLjI3Fx3toh4zq4I_Hq7CsTZarQW6MJ_W9ZLaVuEdmxM3FSnv8NZebOEXvHwfdbVX2bA1nyu4I4ACdS9Hwd6ji5yNWA9iHztA_BHuTCJ79eRbrmd7dzAuRtTeQ9cOVexM0y5StnJ-WKIliPsxn2UAKqnrCG1VKv76QKCyZFcbpOk5TpR3fQFNyIMs0tb3uyZHUv7LfZp-u8COKP1mRJubJ4UY5bfWICPP_c21t_nXcIi8K3sVd7w7gvHyThr9XQ5LOMHfUqYFa4_4pAxQZd1lRyDKxuNMGzyepttfQzLyhysvu9SqOfDJNCOoXBowcUINnRKqWLI4QpPgWsNkItG11AlEeboB2jMWmotH1eg=s144-no?authuser=3" alt="LinkedIn" title="LinkedIn" width="32"
+                                            <img src="https://raw.githubusercontent.com/ky0men/Aptech-HTML/master/linkedin.png" alt="LinkedIn" title="LinkedIn" width="32"
                                               style="
                                                   outline: none;
                                                   text-decoration: none;
