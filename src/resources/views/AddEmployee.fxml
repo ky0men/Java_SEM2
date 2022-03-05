@@ -214,8 +214,8 @@
                </padding>
             </JFXTextField>
             <DatePicker fx:id="dpBirthday" prefHeight="30.0" prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label fx:id="lbPhoneValidator" prefHeight="18.0" prefWidth="210.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <Label fx:id="lbEmailValidator" prefHeight="18.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="lbPhoneValidator" prefHeight="18.0" prefWidth="210.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="lbEmailValidator" prefHeight="18.0" prefWidth="266.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
             <Label alignment="CENTER_RIGHT" text="Gender:" GridPane.columnIndex="2">
                <font>
                   <Font size="14.0" />
