@@ -31,14 +31,22 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class ResetPasswordController implements Initializable {
 
@@ -253,16 +261,69 @@ public class ResetPasswordController implements Initializable {
             InternetAddress [] address = {new InternetAddress(to)};
             msg.setRecipients (Message. RecipientType.TO, address);
             msg.setSubject (subject);
-            msg.setText (message);
+//            msg.setText (message);
+//            Transport transport = mailSession.getTransport ("smtp");
+//            transport.connect (host, user, pass);
+//            transport.sendMessage (msg, msg.getAllRecipients());
+//            transport.close ();
+//            System.out.println("Send Code");
+            //ReplaceString HTML File
+            String h1 = "Reset Password Successfully";
+            String title = "Your new password";
+            String content = "Password: "+ randomCode;
+            replaceString("thisIsYourH1", h1);
+            replaceString("thisIsYourTitle", title);
+            replaceString("thisIsYourContent" , content);
+
+            //Set Content Email
+            msg.setContent(readFileHTMLToString(), "text/html; charset=UTF-8");
             Transport transport = mailSession.getTransport ("smtp");
             transport.connect (host, user, pass);
             transport.sendMessage (msg, msg.getAllRecipients());
             transport.close ();
-            System.out.println("Send Code");
+
+            //Default HTML File
+            replaceString(h1,"thisIsYourH1");
+            replaceString(title,"thisIsYourTitle");
+            replaceString(content,"thisIsYourContent");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
 
+    }
+    //HTML Template config
+    private void replaceString(String oldValue, String newValue){
+        Path path = Paths.get("email-template/email-template.txt");
+        Charset charset = StandardCharsets.UTF_8;
+
+        String content = null;
+        try {
+            content = Files.readString(path, charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        content = content.replaceAll(oldValue, newValue);
+        try {
+            Files.writeString(path, content, charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String readFileHTMLToString(){
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("email-template/email-template.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        StringBuilder sb = new StringBuilder();
+        while(scanner.hasNextLine()) {
+            sb.append(scanner.nextLine());
+        }
+
+        String body = sb.toString();
+        return body;
     }
 
     public void changePasswordInDB(Connection conn, int randomCode, String username){
