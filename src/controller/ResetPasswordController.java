@@ -241,7 +241,7 @@ public class ResetPasswordController implements Initializable {
         String user ="lotushotel.infor@gmail.com";
         String pass="165165165";
         String to = emailLabel.getText();
-        String subject="Project Sem2 - Reseting Code";
+        String subject="Lotus Hotel-Reset Password";
         String message = "Your reset code is "+ randomCode;
         boolean sessionDebug = false;
         Properties prop = System.getProperties ();
