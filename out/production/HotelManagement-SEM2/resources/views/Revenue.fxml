@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="740.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RevenueController">
+   <children>
+      <AnchorPane layoutY="274.0" prefHeight="342.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="274.0" />
+      <VBox prefHeight="452.0" prefWidth="740.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefWidth="200.0">
+               <children>
+                  <Label text="Revenue And History Report" textFill="#2979af" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="65.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="190.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-account-balance-wallet" iconSize="45" />
+                        <VBox prefHeight="60.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="211.0" text="This Month" textFill="#474787">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="thisMonthRevenueLabel" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="295.0" text="120" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="74.0" prefWidth="190.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-featured-play-list" iconSize="42" />
+                        <VBox prefHeight="74.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="35.0" prefWidth="229.0" text="This Year" textFill="#474787">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="thisYearRevenue" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="355.0" text="120" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefWidth="200.0" spacing="20.0" stylesheets="@../styles/ChoiceBox.css">
+               <children>
+                  <Label text="Filter by:" />
+                  <ChoiceBox fx:id="choiceTimeOption" prefHeight="30.0" prefWidth="95.0" />
+                  <Label layoutX="78.0" layoutY="17.0" text="Year:" />
+                  <ChoiceBox fx:id="choiceYear" layoutX="250.0" layoutY="10.0" prefHeight="30.0" prefWidth="100.0" />
+                  <Label layoutX="257.0" layoutY="17.0" text="Month:" />
+                  <ChoiceBox fx:id="choiceMonth" layoutX="130.0" layoutY="10.0" prefHeight="30.0" prefWidth="59.0" />
+                  <Label layoutX="424.0" layoutY="17.0" text="Day: " />
+                  <ChoiceBox fx:id="choiceDay" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="70.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="239.0" prefWidth="740.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TableView fx:id="tableRevenue" prefHeight="585.0" prefWidth="5000.0" stylesheets="@../styles/TableView.css" HBox.hgrow="ALWAYS">
+                    <columns>
+                      <TableColumn fx:id="noCol" prefWidth="49.0" text="No." />
+                        <TableColumn fx:id="customerCol" prefWidth="277.0" text="Customer" />
+                        <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="128.0" text="Date" />
+                        <TableColumn fx:id="revenueCol" editable="false" minWidth="0.0" prefWidth="265.0" sortable="false" text="Revenue" />
+                    </columns>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <padding>
+                  <Insets bottom="10.0" right="10.0" />
+               </padding>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="346.0" style="-fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom, #1dbbdd44, #93f9b944);; -fx-background-radius: 10;">
+                     <children>
+                        <FontIcon iconColor="#2979af" iconLiteral="gmi-local-atm" iconSize="42" />
+                        <VBox prefHeight="74.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="6.0">
+                                 <children>
+                                    <Label alignment="TOP_CENTER" prefHeight="35.0" text="Total" textFill="#474787">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="typeRevenueLabel" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="35.0" text="day" textFill="#474787">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="totalRevenue" alignment="TOP_LEFT" prefHeight="29.0" prefWidth="355.0" text="120" textFill="#2c3e50">
+                                 <font>
+                                    <Font name="Calibri Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="6.0" left="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

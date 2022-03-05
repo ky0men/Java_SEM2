@@ -197,6 +197,7 @@ public class RoomSettingController implements Initializable {
                     String rp = roomPrice.getText();
                     String ph = pricePerHours.getText();
                     String rn = roomNumber.getText();
+                    String rn1 = table.getSelectionModel().getSelectedItem().getNumber();
                     int type = 0;
                     String roomType = comboBox.getSelectionModel().getSelectedItem();
                     ResultSet rs1 = conn.createStatement().executeQuery("select * from RoomType where isDeleteType=0");
@@ -206,11 +207,26 @@ public class RoomSettingController implements Initializable {
                             type=rs1.getInt(1);
                         }
                     }
+                    int flag =0;
+                    int id = 0;
+                    ResultSet rs = conn.createStatement().executeQuery("select * from Room");
+                    while(rs.next()){
+                        if(rn1.trim().equals(rs.getString("roomName"))){
+                            id = rs.getInt(1);
+                            flag++;
+
+                        }
+
+                    }
+
                     if(fieldBool()){
                         int f =0;
                         int c=0;
                         ResultSet rs2 = conn.createStatement().executeQuery("select * from Room");
                         while (rs2.next()){
+                            if(flag!=0&&rn.trim().equals(rs2.getString("roomName"))&&!rn.trim().equals(rn1.trim())){
+                                flag=0;
+                            }
                             if(rn.equals(rs2.getString(2))){
                                 f++;
                                 if(f!=0&&rs2.getInt("isDeleteRoom")==1){
@@ -218,36 +234,34 @@ public class RoomSettingController implements Initializable {
                                 }
                             }
                         }
-                        if(f==1&&c==0){
-                            int flag =0;
-                            String rn1 = table.getSelectionModel().getSelectedItem().getNumber();
-                            int id = 0;
-                            ResultSet rs = conn.createStatement().executeQuery("select * from Room");
-                            while(rs.next()){
-                                if(rn1.equals(rs.getString("roomName"))){
-                                    id = rs.getInt(1);
-                                    flag++;
-                                }
-                            }
-                            if (flag != 0){
+                        if(flag ==1){
+                            if(c==0){
                                 conn.createStatement().executeUpdate("UPDATE Room SET roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomID ='"+ id+"'");
 
                                 reloadTable();
                                 sucNotify("Edit Success","Room has been edited");
-                            }else {
-                                failNotify("Invalid Room","Room doesn't exits");
+                            } else if (c==1){
+                                conn.createStatement().executeUpdate("UPDATE Room SET isDeleteRoom = 0 ,roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomID ='"+ id+"'");
+                                reloadTable();
+
                             }
-                        }else if(c==1){
-                            conn.createStatement().executeUpdate("UPDATE Room SET isDeleteRoom = 0 ,roomName = '"+rn + "' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomID ='"+ id+"'");
-                        }else {
+                        } else if (flag==0&&c==1){
+                            conn.createStatement().executeUpdate("Delete Room where roomName = '"+rn+"'");
+                            conn.createStatement().executeUpdate("UPDATE Room SET isDeleteRoom = 0 ,roomName = '"+rn+"' ,roomTypeID =" + type +",roomPrice = "+ rp +",roomFloor ="+rf+",roomTimePrice ="+ph+" WHERE roomID ="+ id);
+                            reloadTable();
+                            sucNotify("Edit Success","Room has been edited");
+                        } else {
                             failNotify("Edit Failed","Room name already exits");
                         }
+                        
+
+
 
                     }else{
                         requireAdd();
                     }
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         });

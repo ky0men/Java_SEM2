@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ProjectJava15_jar</output-path>
     <root id="root">
       <element id="archive" name="ProjectJava15.jar">
-        <element id="module-output" name="ProjectJava15" />
+        <element id="module-output" name="HotelManagement-SEM2" />
         <element id="file-copy" path="C:/javafx-sdk-15.0.1/bin/api-ms-win-core-console-l1-1-0.dll" />
         <element id="file-copy" path="C:/javafx-sdk-15.0.1/bin/api-ms-win-core-console-l1-2-0.dll" />
         <element id="file-copy" path="C:/javafx-sdk-15.0.1/bin/api-ms-win-core-datetime-l1-1-0.dll" />

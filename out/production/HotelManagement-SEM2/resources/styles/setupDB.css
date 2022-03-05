@@ -1,0 +1,43 @@
+.title-pane{
+    /*-fx-background-color: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);*/
+    -fx-background-color: linear-gradient(to right bottom, #070537, #003c74, #0074a6, #00afc8, #12ebd8);
+    -fx-background-radius: 10 10 0 0;
+}
+.main-pane{
+    -fx-background-color: #E8F0F2;
+    -fx-background-radius: 14 14 10 10;
+}
+.connect-btn{
+    /*-fx-background-color: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);*/
+    -fx-background-color: linear-gradient(to right top, #070537, #003c74, #0074a6, #00afc8, #12ebd8);
+}
+.connect-btn:hover{
+    /*-fx-background-color: linear-gradient(to left bottom, #051937, #004d7a, #008793, #00bf72, #a8eb12);*/
+    -fx-background-color: linear-gradient(to left bottom, #070537, #003c74, #0074a6, #00afc8, #12ebd8);
+    -mfx-button-type: FLAT;
+}
+.title-close-btn{
+    -fx-background-color: #ee6a5f;
+    -fx-background-radius: 20;
+}
+.title-close-btn:hover .title-close-btn-icon{
+    -fx-fill: black;
+}
+.title-minimize-btn{
+    -fx-background-color: #61c454;
+    -fx-background-radius: 20;
+}
+.title-minimize-btn:hover .title-minimize-btn-icon{
+    -fx-fill: black;
+}
+.alert-title-bar{
+    -fx-background-color: linear-gradient(to right top, #082032, #333263, #843179, #d32165, #ff4c29);
+    -fx-background-radius: 10 10 0 0;
+}
+.alert-ok-btn{
+    -fx-background-color: linear-gradient(to right top, #082032, #333263, #843179, #d32165, #ff4c29);
+}
+.alert-ok-btn:hover{
+    -fx-background-color: linear-gradient(to left bottom, #082032, #333263, #843179, #d32165, #ff4c29);
+    -mfx-button-type: FLAT;
+}

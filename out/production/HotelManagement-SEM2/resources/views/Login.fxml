@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="main-pane" stylesheets="@../styles/login.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <Pane layoutX="351.0" layoutY="34.0" prefHeight="400.0" prefWidth="390.0" styleClass="right-pane" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0">
+         <children>
+            <FontIcon fx:id="closeBtn" iconColor="#7b7b7b" iconLiteral="gmi-close" iconSize="20" layoutX="365.0" layoutY="24.0" styleClass="close-btn">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontIcon>
+            <FontIcon fx:id="minimizeBtn" iconColor="#7b7b7b" iconLiteral="gmi-minimize" iconSize="20" layoutX="340.0" layoutY="20.0" styleClass="minimize-btn">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontIcon>
+            <Label layoutX="201.0" layoutY="47.0" text="Login">
+               <font>
+                  <Font name="Ubuntu Bold" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="messLabel" layoutX="122.0" layoutY="264.0" maxWidth="220.0" />
+            <JFXTextField fx:id="txtUsername" labelFloat="true" layoutX="122.0" layoutY="130.0" prefHeight="25.0" prefWidth="252.0" promptText="Username">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField fx:id="txtPassword" labelFloat="true" layoutX="122.0" layoutY="198.0" prefHeight="25.0" prefWidth="252.0" promptText="Password">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXPasswordField>
+            <Button fx:id="loginBtn" defaultButton="true" layoutX="303.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginBtnAction" styleClass="set-type2-btn" stylesheets="@../styles/setButton.css" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="forgotPassBtn" layoutX="152.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginBtnAction" styleClass="set-btn" stylesheets="@../styles/setButton.css" text="Forgot Password" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children></Pane>
+      <Pane layoutX="14.0" layoutY="42.0" prefHeight="400.0" prefWidth="280.0" styleClass="left-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="12.0" layoutY="57.0" maxWidth="240.0" text="Welcom to" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Ubuntu Bold" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="65.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/users-min.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="40.0" layoutY="295.0" text="Management System" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Ubuntu Bold" size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+            <Label layoutX="117.0" layoutY="42.0" maxWidth="240.0" text="Lotus Hotel" textAlignment="CENTER" textFill="#ff008e" wrapText="true">
+               <font>
+                  <Font name="Segoe Print Bold" size="28.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

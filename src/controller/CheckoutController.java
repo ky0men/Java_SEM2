@@ -194,7 +194,7 @@ public class CheckoutController implements Initializable {
             }
         });
         roomNumber = getRoomName();
-        System.out.println(roomNumber);
+//        System.out.println(roomNumber);
 
         //Connect to database
         DBConnect dbConnect = new DBConnect();
@@ -795,7 +795,7 @@ public class CheckoutController implements Initializable {
             document.add(new Paragraph("\n\n"));
             document.add(signTable);
             document.close();
-            System.out.println("PDF Created");
+//            System.out.println("PDF Created");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
