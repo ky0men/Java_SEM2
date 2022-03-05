@@ -240,7 +240,7 @@ public class ChangePasswordController implements Initializable {
     }
 
     private void replaceString(String oldValue, String newValue){
-        Path path = Paths.get("src/resources/html/EmailTemplate.txt");
+        Path path = Paths.get("email-template/email-template.txt");
         Charset charset = StandardCharsets.UTF_8;
 
         String content = null;
@@ -260,7 +260,7 @@ public class ChangePasswordController implements Initializable {
     private String readFileHTMLToString(){
         Scanner scanner = null;
         try {
-            scanner = new Scanner(new File("src/resources/html/EmailTemplate.txt"));
+            scanner = new Scanner(new File("email-template/email-template.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
