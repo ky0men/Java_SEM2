@@ -33,5 +33,12 @@ For example: replace $PATH_TO_YOUR_JAVAFX_SDK$ to C:/javafx-sdk-15.0.1/lib
 You can download javafx-sdk-15.0.1 here: https://drive.google.com/file/d/1_EB8l6xNwQJOwR6zk_EKzJyRtVL0f4LW/view?usp=sharing
 
 #UPDATE
+
 EXE Done Built: https://drive.google.com/file/d/1sVKyAKRbTloyKorwHEI9R5RgUTD2uNQS/view?usp=sharing
 
+#Image Demo
+
+<img src="https://raw.githubusercontent.com/ky0men/Java1_2/main/hotel-1.png" alt="..." width="100%" />
+<img src="https://raw.githubusercontent.com/ky0men/Java1_2/main/checkin.png" alt="..." width="100%" />
+<img src="https://raw.githubusercontent.com/ky0men/Java1_2/main/hotel-2.png" alt="..." width="100%" />
+<img src="https://raw.githubusercontent.com/ky0men/Java1_2/main/hotel-3.png" alt="..." width="100%" />
